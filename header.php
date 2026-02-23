@@ -1,6 +1,6 @@
 <?php
 // Define the base URL to avoid path issues between admin and public folders
-$base_url = "http://localhost/vehicle_app/";
+$base_url = "http://192.168.17.207/vehicle_app/";
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">

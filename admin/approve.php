@@ -13,8 +13,8 @@ vehicle_id='$vehicle_id',
 remark='$_POST[remark]'
 WHERE id='$id'");
 
-$conn->query("UPDATE drivers SET status='Assigned' WHERE id='$driver_id'");
-$conn->query("UPDATE vehicles SET status='Assigned' WHERE id='$vehicle_id'");
+// $conn->query("UPDATE drivers SET status='Assigned' WHERE id='$driver_id'");
+// $conn->query("UPDATE vehicles SET status='Assigned' WHERE id='$vehicle_id'");
 
 header("location:dashboard_super.php");
 }

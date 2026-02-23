@@ -1,35 +1,90 @@
 <?php include("../config/db.php"); ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Check Status</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check Vehicle Application Status</title>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #4e73df, #1cc88a);
+    min-height: 100vh;
+    padding-bottom: 40px;
+}
+
+.card {
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.card-header {
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-radius: 20px 20px 0 0;
+}
+
+.section-title {
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #4e73df;
+}
+
+input, button {
+    border-radius: 10px;
+}
+
+input.form-control {
+    height: 45px;
+}
+
+button.btn-primary {
+    font-weight: 600;
+}
+
+.badge-status {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 12px;
+}
+
+@media (max-width: 768px){
+    .card-columns {
+        flex-direction: column;
+    }
+}
+</style>
 </head>
-<body class="bg-light">
-    <?php include('../header.php'); ?>
+<body>
+<?php include('../header.php'); ?>
 
 <div class="container mt-5">
 <div class="card shadow p-4">
 
-<h4 class="mb-3">Check Vehicle Application Status</h4>
+<h4 class="mb-4 text-center text-primary fw-bold">
+<i class="bi bi-clipboard-check"></i> Check Vehicle Application Status
+</h4>
 
-<form method="POST">
-<div class="row">
+<form method="POST" class="row g-2 mb-4">
 <div class="col-md-9">
 <input type="text" name="mobile" class="form-control" placeholder="Enter Mobile Number" required>
 </div>
-<div class="col-md-3">
-<button class="btn btn-primary w-100">Check Status</button>
-</div>
+<div class="col-md-3 d-grid">
+<button class="btn btn-primary"><i class="bi bi-search"></i> Check Status</button>
 </div>
 </form>
 
 <?php
 if(isset($_POST['mobile'])){
-
 $mobile = $_POST['mobile'];
 
-$res=$conn->query("
+$res = $conn->query("
 SELECT va.*, 
 d.driver_name, d.driver_mob,
 v.vehicle_type, v.vehicle_name, v.vehicle_no,
@@ -42,92 +97,96 @@ WHERE va.mobile='$mobile'
 ORDER BY va.created_at DESC
 ");
 
-if($res->num_rows > 0){
-
+if($res && $res->num_rows > 0){
 while($row=$res->fetch_assoc()){
 ?>
 
 <div class="card mt-4 border-primary">
-<div class="card-header bg-primary text-white">
-Application ID: <?= $row['id'] ?> | Status: <?= $row['status'] ?>
+<div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+<span><i class="bi bi-file-earmark-text"></i> Application ID: <?= $row['id'] ?></span>
+<?php
+$status = $row['status'];
+$badgeClass = "secondary";
+
+if($status=="Pending") $badgeClass="warning text-dark";
+elseif($status=="Recommended") $badgeClass="info";
+elseif($status=="Approved") $badgeClass="success";
+elseif($status=="Rejected") $badgeClass="danger";
+elseif($status=="Completed") $badgeClass="primary";
+elseif($status=="Cancelled") $badgeClass="dark";
+
+echo "<span class='badge badge-status bg-$badgeClass'>$status</span>";
+?>
 </div>
 
 <div class="card-body">
 
-<h5 class="text-success">Applicant Details</h5>
+<!-- Main two-column layout -->
+<div class="row card-columns g-4">
+
+<!-- LEFT COLUMN: Applicant + Co-Travelers -->
+<div class="col-md-6">
+<h6 class="section-title"><i class="bi bi-person-circle"></i> Applicant Details</h6>
 <p>
 <b>Name:</b> <?= $row['applicant_name'] ?><br>
 <b>Mobile:</b> <?= $row['mobile'] ?><br>
-<b>Email:</b> <?= $row['email'] ?>
+<b>Email:</b> <?= $row['email'] ?><br>
+<b>Purpose:</b> <?= $row['purpose'] ?>
 </p>
 
-<hr>
+<h6 class="section-title"><i class="bi bi-people-fill"></i> Co-Travelers</h6>
+<ul>
+<?php
+$hasCoTravelers = false;
+for($i=1;$i<=4;$i++){
+if(!empty($row["cotraveler$i"])){
+$hasCoTravelers = true;
+echo "<li>".$row["cotraveler$i"]."</li>";
+}
+}
+if(!$hasCoTravelers){ echo "<li class='text-muted'>No Co-Travelers</li>"; }
+?>
+</ul>
+</div>
 
-<h5 class="text-success">Journey Details</h5>
+<!-- RIGHT COLUMN: Journey + Assignment + Forwarded + Remarks -->
+<div class="col-md-6">
+<h6 class="section-title"><i class="bi bi-geo-alt-fill"></i> Journey Details</h6>
 <p>
 <b>Vehicle Required:</b> <?= $row['vehicle_required'] ?><br>
 <b>Date & Time From:</b> <?= $row['datetime_from'] ?><br>
 <b>Date & Time To:</b> <?= $row['datetime_to'] ?><br>
-<b>Place of Visit:</b> <?= $row['place_of_visit'] ?><br>
-<b>Purpose:</b> <?= $row['purpose'] ?>
+<b>Place of Visit:</b> <?= $row['place_of_visit'] ?>
 </p>
 
-<hr>
+<h6 class="section-title"><i class="bi bi-person-badge-fill"></i> Forwarded To</h6>
+<p><?= $row['forwarded_admin_name'] ?> (<?= $row['designation'] ?>)</p>
 
-<h5 class="text-success">Co-Travelers</h5>
-<ul>
-<?php
-for($i=1;$i<=4;$i++){
-if(!empty($row["cotraveler$i"])){
-echo "<li>".$row["cotraveler$i"]."</li>";
-}
-}
-?>
-</ul>
-
-<hr>
-
-<h5 class="text-success">Forwarded To</h5>
+<h6 class="section-title"><i class="bi bi-truck"></i> Assignment Details</h6>
+<?php if(in_array($row['status'], ['Approved','Completed','Cancelled'])){ ?>
 <p>
-<?= $row['forwarded_admin_name'] ?> (<?= $row['designation'] ?>)
+<b>Driver Assigned:</b> <?= $row['driver_name'] ? $row['driver_name']." (".$row['driver_mob'].")" : "Not Assigned Yet" ?><br>
+<b>Vehicle Assigned:</b> <?= $row['vehicle_name'] ? $row['vehicle_type']." - ".$row['vehicle_name']." (".$row['vehicle_no'].")" : "Not Assigned Yet" ?>
 </p>
-
-<hr>
-
-<h5 class="text-success">Approval & Assignment Details</h5>
-
-<?php if($row['status']=="Approved" || $row['status']=="Completed" || $row['status']=="Cancelled"){ ?>
-
-<p>
-<b>Driver Assigned:</b> 
-<?= $row['driver_name'] ? $row['driver_name']." (".$row['driver_mob'].")" : "Not Assigned Yet" ?><br>
-
-<b>Vehicle Assigned:</b> 
-<?= $row['vehicle_name'] ? $row['vehicle_type']." - ".$row['vehicle_name']." (".$row['vehicle_no'].")" : "Not Assigned Yet" ?>
-</p>
-
 <?php } else { ?>
-<p class="text-warning">Driver & Vehicle not assigned yet.</p>
+<p class="text-warning"><i class="bi bi-exclamation-triangle-fill"></i> Driver & Vehicle not assigned yet.</p>
 <?php } ?>
 
-<hr>
-
-<h5 class="text-success">Remarks</h5>
+<h6 class="section-title"><i class="bi bi-chat-left-text-fill"></i> Remarks</h6>
 <p><?= $row['remark'] ? $row['remark'] : "No Remarks" ?></p>
 
-<hr>
+<p class="text-muted"><b>Application Submitted On:</b> <?= $row['created_at'] ?></p>
+</div>
 
-<p class="text-muted">
-<b>Application Submitted On:</b> <?= $row['created_at'] ?>
-</p>
+</div> <!-- end row -->
 
 </div>
 </div>
 
 <?php
 }
-}else{
-echo "<div class='alert alert-danger mt-4'>No application found for this mobile number.</div>";
+} else {
+echo "<div class='alert alert-danger mt-4'><i class='bi bi-x-circle-fill'></i> No application found for this mobile number.</div>";
 }
 }
 ?>
@@ -135,5 +194,6 @@ echo "<div class='alert alert-danger mt-4'>No application found for this mobile 
 </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
