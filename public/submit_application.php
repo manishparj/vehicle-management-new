@@ -2,6 +2,7 @@
 include("../config/db.php");
 
 // Collect form data safely
+$staff_type       = $_POST['staff_type'];
 $applicant_name   = $_POST['applicant_name'];
 $vehicle_required = $_POST['vehicle_required'];
 $datetime_from    = $_POST['datetime_from'];
@@ -56,14 +57,17 @@ if ($tour_approved == 1 && isset($_FILES['tour_order_pdf']) && $_FILES['tour_ord
 
 // ================= INSERT DATA (PREPARED STATEMENT) =================
 
+// ================= INSERT DATA (PREPARED STATEMENT) =================
+
 $stmt = $conn->prepare("INSERT INTO vehicle_applications
-(applicant_name, vehicle_required, datetime_from, datetime_to, place_of_visit, purpose,
+(staff_type, applicant_name, vehicle_required, datetime_from, datetime_to, place_of_visit, purpose,
 cotraveler1, cotraveler2, cotraveler3, cotraveler4,
 mobile, email, forwarded_to, tour_approved, tour_order_pdf)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 $stmt->bind_param(
-    "sssssssssssssis",
+    "sssssssssssssiis",
+    $staff_type,
     $applicant_name,
     $vehicle_required,
     $datetime_from,

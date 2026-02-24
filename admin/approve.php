@@ -68,7 +68,7 @@ body{
 <select name="driver_id" class="form-select" required>
 <option value="">-- Select Available Driver --</option>
 <?php
-$d = $conn->query("SELECT * FROM drivers WHERE status='Available'");
+$d = $conn->query("SELECT * FROM drivers");
 while($row=$d->fetch_assoc()){
 echo "<option value='".$row['id']."'>".$row['driver_name']." (".$row['driver_mob'].")</option>";
 }
@@ -81,7 +81,7 @@ echo "<option value='".$row['id']."'>".$row['driver_name']." (".$row['driver_mob
 <select name="vehicle_id" class="form-select" required>
 <option value="">-- Select Available Vehicle --</option>
 <?php
-$v = $conn->query("SELECT * FROM vehicles WHERE status='Available'");
+$v = $conn->query("SELECT * FROM vehicles");
 while($row=$v->fetch_assoc()){
 echo "<option value='".$row['id']."'>".$row['vehicle_type']." - ".$row['vehicle_name']." (".$row['vehicle_no'].")</option>";
 }

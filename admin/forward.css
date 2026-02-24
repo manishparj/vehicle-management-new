@@ -4,51 +4,85 @@ body{
     min-height:100vh;
 }
 
-/* Header Card */
+/* Glass Header */
 .dashboard-header{
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.15);
     backdrop-filter: blur(12px);
-    border-radius:15px;
-    padding:15px 20px;
+    border-radius:20px;
+    padding:18px 25px;
     color:white;
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
 }
 
-/* Application Card */
+/* Card */
 .app-card{
-    border-radius:18px;
     border:none;
-    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
     transition:0.3s ease;
+    overflow:hidden;
 }
 
 .app-card:hover{
-    transform:translateY(-5px);
+    transform:translateY(-4px);
 }
 
+/* Card Header */
 .card-header{
-    border-radius:18px 18px 0 0 !important;
+    border-radius:20px 20px 0 0 !important;
+    font-weight:600;
 }
 
-.section-title{
+/* Info Box */
+.info-box{
+    background:#f8f9fc;
+    padding:15px;
+    border-radius:15px;
+    box-shadow:0 5px 12px rgba(0,0,0,0.05);
+}
+
+/* Titles */
+.info-box h6{
     font-weight:600;
     margin-bottom:10px;
-    color:#4e73df;
 }
 
-.badge{
-    font-size:13px;
-    padding:6px 10px;
-}
-
-textarea{
-    border-radius:12px;
-}
-
+/* Buttons */
 .btn{
-    border-radius:12px;
+    border-radius:30px;
     font-weight:500;
 }
 
 .logout-btn{
     border-radius:30px;
+}
+
+/* Badges */
+.badge{
+    font-size:12px;
+    padding:6px 10px;
+}
+
+/* Mobile Optimization */
+@media (max-width:768px){
+
+    .dashboard-header{
+        flex-direction:column;
+        text-align:center;
+        gap:10px;
+    }
+
+    .card-header{
+        flex-direction:column;
+        text-align:center;
+        gap:8px;
+    }
+
+    .info-box{
+        padding:12px;
+    }
+
+    .btn{
+        font-size:12px;
+    }
 }

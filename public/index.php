@@ -32,17 +32,33 @@
                         <div class="row g-3">
 
                             <div class="col-md-6">
+                                <label class="form-label fw-semibold">Full Name</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-person"></i></span>
                                     <input type="text" name="applicant_name" class="form-control"
-                                        placeholder="Full Name" required>
+                                        placeholder="Enter Full Name" required>
                                 </div>
                             </div>
+                            <!-- Staff Type -->
+                           <div class="col-md-3">
+    <label class="form-label fw-semibold">Staff Type</label>
+    <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-briefcase"></i></span>
+        <select name="staff_type" id="staff_type" class="form-select" required>
+            <option value="" disabled selected>Staff Type</option>
+            <option value="Permanent">Permanent</option>
+            <option value="Temporary">Temporary</option>
+        </select>
+    </div>
+</div>
 
-                            <div class="col-md-6">
+                            <!-- Vehicle Required -->
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold">Vehicle Required</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-truck"></i></span>
-                                    <select name="vehicle_required" class="form-select">
+                                    <select name="vehicle_required" class="form-select" required>
+                                        <option value="" disabled selected>Vehicle Type</option>
                                         <option value="Car">🚗 Car</option>
                                         <option value="Bus">🚌 Bus</option>
                                     </select>
@@ -55,12 +71,8 @@
                                     <span class="input-group-text">
                                         <i class="bi bi-calendar-event"></i>
                                     </span>
-                                    <input type="text"
-                                        id="datetime_from"
-                                        name="datetime_from"
-                                        class="form-control"
-                                        placeholder="dd/mm/yyyy 24h format"
-                                        required>
+                                    <input type="text" id="datetime_from" name="datetime_from" class="form-control"
+                                        placeholder="dd/mm/yyyy 24h format" required>
                                 </div>
                             </div>
 
@@ -70,12 +82,8 @@
                                     <span class="input-group-text">
                                         <i class="bi bi-calendar-check"></i>
                                     </span>
-                                    <input type="text"
-                                        id="datetime_to"
-                                        name="datetime_to"
-                                        class="form-control"
-                                        placeholder="dd/mm/yyyy 24h format"
-                                        required>
+                                    <input type="text" id="datetime_to" name="datetime_to" class="form-control"
+                                        placeholder="dd/mm/yyyy 24h format" required>
                                 </div>
                             </div>
 
@@ -133,18 +141,14 @@
                             </div>
 
                             <div class="col-12">
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-person-check"></i></span>
-                                    <select name="forwarded_to" class="form-select">
-                                        <?php
-                                            $result = $conn->query("SELECT * FROM users WHERE role='forwarded_admin'");
-                                            while ($row = $result->fetch_assoc()) {
-                                                echo "<option value='" . $row['id'] . "'>" . $row['name'] . ' (' . $row['designation'] . ')</option>';
-                                            }
-                                            ?>
-                                    </select>
-                                </div>
-                            </div>
+    <label class="form-label fw-semibold">Forward To</label>
+    <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-person-check"></i></span>
+        <select name="forwarded_to" id="forwarded_to" class="form-select" required>
+            <option value="">Select Staff Type First</option>
+        </select>
+    </div>
+</div>
 
                         </div>
 
@@ -154,18 +158,15 @@
                         <div class="toggle-card mb-3">
 
                             <div class="form-check form-switch mb-3">
-    <!-- Hidden field ensures 0 is sent if unchecked -->
+                                <!-- Hidden field ensures 0 is sent if unchecked -->
 
-    <input class="form-check-input"
-       type="checkbox"
-       id="tourApproved"
-       name="tour_approved"
-       value="1">
+                                <input class="form-check-input" type="checkbox" id="tourApproved" name="tour_approved"
+                                    value="1">
 
-    <label class="form-check-label fw-semibold">
-        Tour Approved?
-    </label>
-</div>
+                                <label class="form-check-label fw-semibold">
+                                    Tour Approved?
+                                </label>
+                            </div>
 
                             <div id="tourUploadSection" style="display:none;">
 
@@ -252,23 +253,40 @@
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-<script>
-flatpickr("#datetime_from", {
-    enableTime: true,
-    altInput: true,
-    altFormat: "d/m/Y H:i",   // what user sees
-    dateFormat: "Y-m-d H:i:S", // what DB receives
-    time_24hr: true,
-    minDate: "today"
-});
+    <script>
+    flatpickr("#datetime_from", {
+        enableTime: true,
+        altInput: true,
+        altFormat: "d/m/Y H:i", // what user sees
+        dateFormat: "Y-m-d H:i:S", // what DB receives
+        time_24hr: true,
+        minDate: "today"
+    });
 
-flatpickr("#datetime_to", {
-    enableTime: true,
-    altInput: true,
-    altFormat: "d/m/Y H:i",
-    dateFormat: "Y-m-d H:i:S",
-    time_24hr: true,
-    minDate: "today"
+    flatpickr("#datetime_to", {
+        enableTime: true,
+        altInput: true,
+        altFormat: "d/m/Y H:i",
+        dateFormat: "Y-m-d H:i:S",
+        time_24hr: true,
+        minDate: "today"
+    });
+    </script>
+
+    <script>
+document.getElementById("staff_type").addEventListener("change", function() {
+
+    var staffType = this.value;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "../admin/get_users.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    xhr.onload = function () {
+        document.getElementById("forwarded_to").innerHTML = this.responseText;
+    };
+
+    xhr.send("staff_type=" + staffType);
 });
 </script>
 
