@@ -1,0 +1,97 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f4f6f9;
+}
+
+/* Main Card */
+.glass-card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Section Title */
+.section-title {
+    font-weight: 600;
+    font-size: 16px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    border-left: 4px solid #0d6efd;
+    padding-left: 10px;
+}
+
+/* Input Styling */
+.form-control,
+.form-select {
+    border-radius: 10px;
+    padding: 10px 14px;
+    border: 1px solid #dee2e6;
+}
+
+.form-control:focus,
+.form-select:focus {
+    box-shadow: none;
+    border-color: #0d6efd;
+}
+
+.input-group-text {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+}
+
+/* Button */
+.btn-custom {
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: 500;
+    font-size: 15px;
+    background: #0d6efd;
+    border: none;
+    transition: 0.2s ease;
+}
+
+.btn-custom:hover {
+    background: #0b5ed7;
+}
+
+/* Toggle Card */
+.toggle-card {
+    background: #f8f9fa;
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid #dee2e6;
+}
+
+/* Upload Box */
+.upload-box {
+    border: 2px dashed #0d6efd;
+    padding: 25px;
+    text-align: center;
+    border-radius: 12px;
+    cursor: pointer;
+    background: #ffffff;
+    transition: 0.2s;
+}
+
+.upload-box:hover {
+    background: #f0f6ff;
+}
+
+.upload-box i {
+    font-size: 32px;
+    color: #0d6efd;
+}
+
+/* Modal */
+.modal-content {
+    border-radius: 12px;
+}
+
+@media (max-width: 576px) {
+    .glass-card {
+        padding: 20px !important;
+    }
+}

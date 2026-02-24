@@ -1,0 +1,54 @@
+body{
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg,#4e73df,#1cc88a);
+    min-height:100vh;
+}
+
+/* Header Card */
+.dashboard-header{
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(12px);
+    border-radius:15px;
+    padding:15px 20px;
+    color:white;
+}
+
+/* Application Card */
+.app-card{
+    border-radius:18px;
+    border:none;
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+    transition:0.3s ease;
+}
+
+.app-card:hover{
+    transform:translateY(-5px);
+}
+
+.card-header{
+    border-radius:18px 18px 0 0 !important;
+}
+
+.section-title{
+    font-weight:600;
+    margin-bottom:10px;
+    color:#4e73df;
+}
+
+.badge{
+    font-size:13px;
+    padding:6px 10px;
+}
+
+textarea{
+    border-radius:12px;
+}
+
+.btn{
+    border-radius:12px;
+    font-weight:500;
+}
+
+.logout-btn{
+    border-radius:30px;
+}
