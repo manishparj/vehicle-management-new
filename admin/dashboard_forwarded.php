@@ -74,6 +74,7 @@ $res = $conn->query("
             $status = $row['status'];
             $badge="secondary";
 
+            if($status=="Draft") $badge="warning";
             if($status=="Pending") $badge="warning";
             if($status=="Recommended") $badge="success";
             if($status=="Not Recommended") $badge="danger";
@@ -179,7 +180,7 @@ $res = $conn->query("
         </div>
 
         <!-- Action Buttons -->
-        <?php if($row['status']=="Pending"){ ?>
+        <?php if($row['status']=="Pending" || $row['status']=="Draft"){ ?>
             <div class="row g-2 mt-3">
                 <div class="col-12 col-md-4">
                     <form method="POST" action="recommend.php?id=<?= $row['id'] ?>">

@@ -556,6 +556,68 @@ if(!$res){
                 </button>
             </div>
         </td>
+         <!-- MODAL -->
+                    <div class="modal fade" id="approveModal<?= $row['id'] ?>">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <form method="POST">
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title"><i class="bi bi-check2-square"></i> Approve /
+                                            Reject Request</h5>
+                                        <button type="button" class="btn-close btn-close-white"
+                                            data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <input type="hidden" name="app_id" value="<?= $row['id'] ?>">
+
+                                        <div class="mb-3">
+                                            <label class="form-label"><i class="bi bi-person-badge"></i> Select
+                                                Driver</label>
+                                            <select name="driver_id" class="form-select">
+                                                <option value="">-- Available Drivers --</option>
+                                                <?php
+                                    $d = $conn->query("SELECT * FROM drivers");
+                                    while($dr=$d->fetch_assoc()){
+                                        echo "<option value='".$dr['id']."'>".$dr['driver_name']." (".$dr['driver_mob'].")</option>";
+                                    }
+                                    ?>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label"><i class="bi bi-truck"></i> Select
+                                                Vehicle</label>
+                                            <select name="vehicle_id" class="form-select">
+                                                <option value="">-- Available Vehicles --</option>
+                                                <?php
+                                    $v = $conn->query("SELECT * FROM vehicles");
+                                    while($vh=$v->fetch_assoc()){
+                                        echo "<option value='".$vh['id']."'>".$vh['vehicle_type']." - ".$vh['vehicle_name']." (".$vh['vehicle_no'].")</option>";
+                                    }
+                                    ?>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label"><i class="bi bi-chat-dots"></i>
+                                                Remark</label>
+                                            <textarea name="remark" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button name="approve" class="btn btn-success"><i
+                                                class="bi bi-check-circle-fill"></i> Approve</button>
+                                        <button name="reject" class="btn btn-danger"><i class="bi bi-x-circle-fill"></i>
+                                            Reject</button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
     </tr>
     <?php } } else { ?>
     <tr>
