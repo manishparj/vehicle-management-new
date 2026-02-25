@@ -77,10 +77,6 @@ $res = $conn->query("
             if($status=="Pending") $badge="warning";
             if($status=="Recommended") $badge="success";
             if($status=="Not Recommended") $badge="danger";
-            if($status=="Approved") $badge="primary";
-            if($status=="Rejected") $badge="danger";
-            if($status=="Completed") $badge="success";
-            if($status=="Cancelled") $badge="dark";
             ?>
 
             <span class="badge bg-<?= $badge ?> px-3 py-2">

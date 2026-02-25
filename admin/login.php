@@ -9,14 +9,21 @@ if(isset($_POST['login'])){
     $pass = md5($_POST['password']);
 
     $res = $conn->query("SELECT * FROM users WHERE email='$email' AND password='$pass'");
+
     if($res->num_rows > 0){
         $row = $res->fetch_assoc();
         $_SESSION['user'] = $row;
 
-        if($row['role'] == "forwarded_admin")
-            header("location:dashboard_forwarded.php");
-        else
-            header("location:dashboard_super.php");
+        if($row['role'] == "forwarded_admin"){
+            header("location: dashboard_forwarded.php");
+        }
+        elseif($row['role'] == "security_admin"){
+            header("location: security_dashboard.php");
+        }
+        else{
+            header("location: dashboard_super.php");
+        }
+
         exit();
     } else {
         $error = "Invalid Email or Password!";

@@ -232,333 +232,337 @@ if(!$res){
                         <th><i class="bi bi-person-fill"></i> Applicant</th>
                         <th><i class="bi bi-geo-alt-fill"></i> Journey</th>
                         <th><i class="bi bi-person-lines-fill"></i> Assignment</th>
+                        <th><i class="bi bi-shield-lock"></i> Security Movement</th> <!-- New Column -->
                         <th><i class="bi bi-flag-fill"></i> Status</th>
                         <th class="text-center"><i class="bi bi-gear-fill"></i> Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
-                                    $i=1;
-                                    if($res && $res->num_rows > 0){
-                                        while($row = $res->fetch_assoc()){ 
+    <?php 
+    $i=1;
+    if($res && $res->num_rows > 0){
+        while($row = $res->fetch_assoc()){ 
 
-                                            // Get driver & vehicle info
-                                            $driver = ($row['driver_id']) ? $conn->query("SELECT * FROM drivers WHERE id='".$row['driver_id']."'")->fetch_assoc() : null;
-                                            $vehicle = ($row['vehicle_id']) ? $conn->query("SELECT * FROM vehicles WHERE id='".$row['vehicle_id']."'")->fetch_assoc() : null;
+            // Get driver & vehicle info
+            $driver = ($row['driver_id']) ? $conn->query("SELECT * FROM drivers WHERE id='".$row['driver_id']."'")->fetch_assoc() : null;
+            $vehicle = ($row['vehicle_id']) ? $conn->query("SELECT * FROM vehicles WHERE id='".$row['vehicle_id']."'")->fetch_assoc() : null;
 
-                                            // Co-travelers
-                                            $coTrav = implode(", ", array_filter([
-                                                $row['cotraveler1'] ?? null,
-                                                $row['cotraveler2'] ?? null,
-                                                $row['cotraveler3'] ?? null,
-                                                $row['cotraveler4'] ?? null
-                                            ]));
+            // Co-travelers
+            $coTrav = implode(", ", array_filter([
+                $row['cotraveler1'] ?? null,
+                $row['cotraveler2'] ?? null,
+                $row['cotraveler3'] ?? null,
+                $row['cotraveler4'] ?? null
+            ]));
 
-                                            $forwardedName = $row['forwarded_admin_name'] ?? "N/A";
-                                            $designation = $row['designation'] ?? "";
-                                            $forwardedTo = $forwardedName . ($designation ? " ($designation)" : "");
-                                    ?>
-                    <tr data-cotraveler="<?= htmlspecialchars($coTrav) ?>"
-                        data-forwarded="<?= htmlspecialchars($forwardedTo) ?>"
-                        data-remark="<?= htmlspecialchars($row['remark']) ?>"
-                        data-submitted="<?= htmlspecialchars($row['created_at']) ?>">
-                        <td data-label="ID"><?= $i++ ?></td>
+            $forwardedName = $row['forwarded_admin_name'] ?? "N/A";
+            $designation = $row['designation'] ?? "";
+            $forwardedTo = $forwardedName . ($designation ? " ($designation)" : "");
+            
+            // Calculate total hours if not set
+            $totalHours = $row['total_hours'];
+            if(empty($totalHours) && !empty($row['out_datetime']) && !empty($row['in_datetime'])) {
+                $outTime = strtotime($row['out_datetime']);
+                $inTime = strtotime($row['in_datetime']);
+                $diffSeconds = $inTime - $outTime;
+                $totalHours = round($diffSeconds / 3600, 2);
+            }
+    ?>
+    <tr data-cotraveler="<?= htmlspecialchars($coTrav) ?>"
+        data-forwarded="<?= htmlspecialchars($forwardedTo) ?>"
+        data-remark="<?= htmlspecialchars($row['remark']) ?>"
+        data-submitted="<?= htmlspecialchars($row['created_at']) ?>"
+        data-out-datetime="<?= htmlspecialchars($row['out_datetime'] ?? '') ?>"
+        data-in-datetime="<?= htmlspecialchars($row['in_datetime'] ?? '') ?>"
+        data-km-out="<?= htmlspecialchars($row['km_out'] ?? '') ?>"
+        data-km-in="<?= htmlspecialchars($row['km_in'] ?? '') ?>"
+        data-total-km="<?= htmlspecialchars($row['total_km'] ?? '') ?>"
+        data-total-hours="<?= htmlspecialchars($totalHours ?? '') ?>"
+        data-security-guard="<?= htmlspecialchars($row['security_guard_name'] ?? '') ?>">
+        
+        <td data-label="ID"><?= $i++ ?></td>
 
-                        <td data-label="Applicant" data-name="<?= htmlspecialchars($row['applicant_name']) ?>"
-                            data-mobile="<?= htmlspecialchars($row['mobile']) ?>"
-                            data-email="<?= htmlspecialchars($row['email']) ?>">
-
-                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2">
-
-                                <!-- Applicant Info -->
-                                <div>
-                                    <div class="fw-semibold">
-                                        <i class="bi bi-person-fill text-primary"></i>
-                                        <?= $row['applicant_name'] ?>
-                                    </div>
-                                    <!-- Staff Badge -->
-                                    <div>
-                                        <?php
-                $staffType = $row['staff_type'];
-                $staffBadge = ($staffType == "Permanent") ? "primary" : "warning text-dark";
-                echo "<span class='badge bg-$staffBadge px-3 py-2'>$staffType</span>";
-            ?>
-                                    </div>
-
-                                    <div class="small text-muted mt-1">
-                                        <i class="bi bi-phone"></i> <?= $row['mobile'] ?><br>
-                                        <i class="bi bi-envelope"></i> <?= $row['email'] ?><br>
-
-                                    </div>
-                                </div>
-
-
-
-                            </div>
-                        </td>
-                        <td data-label="Tour Details" data-tour="<?= $row['tour_approved'] == 1 ? 'Attached' : 'N.A' ?>"
-                            data-from="<?= htmlspecialchars(date('d/m/Y H:i', strtotime($row['datetime_from']))) ?>"
-                            data-to="<?= htmlspecialchars(date('d/m/Y H:i', strtotime($row['datetime_to']))) ?>"
-                            data-place="<?= htmlspecialchars($row['place_of_visit']) ?>"
-                            data-forwarded="<?= htmlspecialchars($row['forwarded_admin_name']) ?>"
-                            data-purpose="<?= htmlspecialchars($row['purpose']) ?>"
-                            data-date="<?= strtotime($row['datetime_from']) ?>">
-
-                            <div class="p-3 rounded-3 shadow-sm bg-white small">
-
-                                <!-- TOUR ORDER -->
-                                <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-2">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <i class="bi bi-file-earmark-check-fill text-primary"></i>
-                                        <span class="fw-semibold">Tour Order:</span>
-                                    </div>
-
-                                    <?php if($row['tour_approved'] == 1 && !empty($row['tour_order_pdf'])){ ?>
-                                    <a href="view_tour_pdf.php?file=<?= urlencode($row['tour_order_pdf']) ?>"
-                                        target="_blank" class="btn btn-sm btn-outline-primary">
-                                        <i class="bi bi-eye-fill"></i> View
-                                    </a>
-                                    <?php } else { ?>
-                                    <span class="badge bg-secondary">
-                                        <i class="bi bi-x-circle-fill"></i> N/A
-                                    </span>
-                                    <?php } ?>
-                                </div>
-
-
-                                <!-- JOURNEY -->
-                                <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
-                                    <i class="bi bi-calendar-event text-primary"></i>
-                                    <span class="fw-semibold">Journey:</span>
-                                    <span>
-                                        <?= date("d/m/Y H:i", strtotime($row['datetime_from'])) ?>
-                                        →
-                                        <?= date("d/m/Y H:i", strtotime($row['datetime_to'])) ?>
-                                    </span>
-                                </div>
-
-
-                                <!-- FORWARDED -->
-                                <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
-                                    <i class="bi bi-share-fill text-secondary"></i>
-                                    <span class="fw-semibold">Forwarded:</span>
-                                    <span><?= $row['forwarded_admin_name'] ?></span>
-                                </div>
-
-
-                                <!-- DESTINATION -->
-                                <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
-                                    <i class="bi bi-geo-alt-fill text-success"></i>
-                                    <span class="fw-semibold">Destination:</span>
-                                    <span><?= $row['place_of_visit'] ?></span>
-                                </div>
-
-
-                                <!-- PURPOSE -->
-                                <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
-                                    <i class="bi bi-chat-left-text text-info"></i>
-                                    <span class="fw-semibold">Purpose:</span>
-                                    <span><?= $row['purpose'] ?></span>
-                                </div>
-
-
-                                <!-- CO-TRAVELERS -->
-                                <div class="d-flex align-items-center gap-2 flex-wrap">
-                                    <i class="bi bi-people-fill text-warning"></i>
-                                    <span class="fw-semibold">Co-Travelers:</span>
-
-                                    <?php 
-                if(!empty($coTrav)) { 
-                    $coList = explode(", ", $coTrav);
-                    foreach($coList as $ct){
-                        echo "<span class='badge bg-secondary me-1'>".$ct."</span>";
-                    }
-                } else { 
-            ?>
-                                    <span class="text-muted">None</span>
-                                    <?php } ?>
-                                </div>
-
-                            </div>
-
-                        </td>
-                        <td data-label="Assignment" data-driver="<?= htmlspecialchars($driver['driver_name'] ?? '') ?>"
-                            data-driver-mobile="<?= htmlspecialchars($driver['driver_mob'] ?? '') ?>"
-                            data-vehicle-type="<?= htmlspecialchars($vehicle['vehicle_type'] ?? '') ?>"
-                            data-vehicle-name="<?= htmlspecialchars($vehicle['vehicle_name'] ?? '') ?>"
-                            data-vehicle-no="<?= htmlspecialchars($vehicle['vehicle_no'] ?? '') ?>">
-
-                            <?php if($driver || $vehicle){ ?>
-
-                            <div class="small border rounded p-2 bg-light">
-
-                                <!-- DRIVER SECTION -->
-                                <div class="mb-2">
-                                    <div class="fw-semibold text-primary">
-                                        <i class="bi bi-person-badge-fill"></i> Driver
-                                    </div>
-
-                                    <?php if($driver){ ?>
-                                    <div>
-                                        <?= $driver['driver_name'] ?><br>
-                                        <i class="bi bi-phone text-muted"></i>
-                                        <span class="text-muted"><?= $driver['driver_mob'] ?></span>
-                                    </div>
-                                    <?php } else { ?>
-                                    <span class="text-muted">Not Assigned</span>
-                                    <?php } ?>
-                                </div>
-
-                                <!-- VEHICLE SECTION -->
-                                <div>
-                                    <div class="fw-semibold text-success">
-                                        <i class="bi bi-truck"></i> Vehicle
-                                    </div>
-
-                                    <?php if($vehicle){ ?>
-                                    <div>
-                                        <?= $vehicle['vehicle_type'] ?> - <?= $vehicle['vehicle_name'] ?><br>
-                                        <i class="bi bi-hash text-muted"></i>
-                                        <span class="text-muted"><?= $vehicle['vehicle_no'] ?></span>
-                                    </div>
-                                    <?php } else { ?>
-                                    <span class="text-muted">Not Assigned</span>
-                                    <?php } ?>
-                                </div>
-
-                            </div>
-
-                            <?php } else { ?>
-
-                            <span class="text-muted">Not Assigned</span>
-
-                            <?php } ?>
-
-                        </td>
-
-                        <td>
-                            <?php
-                        $status = $row['status'];
-                        $badgeClass="secondary"; $icon="info-circle";
-                        switch($status){
-                            case "Pending": $badgeClass="secondary"; $icon="hourglass-split"; break;
-                            case "Recommended": $badgeClass="warning text-dark"; $icon="hand-thumbs-up"; break;
-                            case "Not Recommended": $badgeClass="danger"; $icon="hand-thumbs-down"; break;
-                            case "Approved": $badgeClass="success"; $icon="check-circle"; break;
-                            case "Rejected": $badgeClass="dark"; $icon="x-circle"; break;
-                            case "Completed": $badgeClass="primary"; $icon="flag"; break;
-                            case "Cancelled": $badgeClass="danger"; $icon="slash-circle"; break;
-                        }
-                        echo "<span class='badge bg-$badgeClass'><i class='bi bi-$icon'></i> $status</span>";
-                        ?>
-                        </td>
-
-                        <td class="text-center">
-                            <div class="d-flex justify-content-center justify-content-md-center gap-2 flex-wrap">
-
-                                <?php 
-                                    $staffType = $row['staff_type'];
-                                    $showAction = false;
-
-                                    // 🔵 Permanent Staff → Always show action (if not final status)
-                                    if($staffType == "Permanent" && 
-                                        $status != "Approved" && 
-                                        $status != "Rejected") {
-                                        $showAction = true;
-                                    }
-
-                                    // 🟡 Temporary Staff → Show only if Recommended
-                                    if($staffType == "Temporary" && $status == "Recommended") {
-                                        $showAction = true;
-                                    }
-
-                                    if($showAction){ ?>
-
-                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#approveModal<?= $row['id'] ?>">
-                                    <i class="bi bi-pencil-square"></i> Action
-                                </button>
-
-                                <?php } ?>
-
-                                <!-- Export Always Available -->
-                                <button class="btn btn-sm btn-dark exportRow" data-id="<?= $row['id'] ?>">
-                                    <i class="bi bi-file-earmark-pdf"></i>
-                                </button>
-
-                            </div>
-                        </td>
-                    </tr>
-
-                    <!-- MODAL -->
-                    <div class="modal fade" id="approveModal<?= $row['id'] ?>">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <form method="POST">
-
-                                    <div class="modal-header">
-                                        <h5 class="modal-title"><i class="bi bi-check2-square"></i> Approve /
-                                            Reject Request</h5>
-                                        <button type="button" class="btn-close btn-close-white"
-                                            data-bs-dismiss="modal"></button>
-                                    </div>
-
-                                    <div class="modal-body">
-                                        <input type="hidden" name="app_id" value="<?= $row['id'] ?>">
-
-                                        <div class="mb-3">
-                                            <label class="form-label"><i class="bi bi-person-badge"></i> Select
-                                                Driver</label>
-                                            <select name="driver_id" class="form-select">
-                                                <option value="">-- Available Drivers --</option>
-                                                <?php
-                                    $d = $conn->query("SELECT * FROM drivers");
-                                    while($dr=$d->fetch_assoc()){
-                                        echo "<option value='".$dr['id']."'>".$dr['driver_name']." (".$dr['driver_mob'].")</option>";
-                                    }
-                                    ?>
-                                            </select>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label class="form-label"><i class="bi bi-truck"></i> Select
-                                                Vehicle</label>
-                                            <select name="vehicle_id" class="form-select">
-                                                <option value="">-- Available Vehicles --</option>
-                                                <?php
-                                    $v = $conn->query("SELECT * FROM vehicles");
-                                    while($vh=$v->fetch_assoc()){
-                                        echo "<option value='".$vh['id']."'>".$vh['vehicle_type']." - ".$vh['vehicle_name']." (".$vh['vehicle_no'].")</option>";
-                                    }
-                                    ?>
-                                            </select>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label class="form-label"><i class="bi bi-chat-dots"></i>
-                                                Remark</label>
-                                            <textarea name="remark" class="form-control"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button name="approve" class="btn btn-success"><i
-                                                class="bi bi-check-circle-fill"></i> Approve</button>
-                                        <button name="reject" class="btn btn-danger"><i class="bi bi-x-circle-fill"></i>
-                                            Reject</button>
-                                    </div>
-
-                                </form>
-                            </div>
-                        </div>
+        <!-- Applicant Column (unchanged) -->
+        <td data-label="Applicant" data-name="<?= htmlspecialchars($row['applicant_name']) ?>"
+            data-mobile="<?= htmlspecialchars($row['mobile']) ?>"
+            data-email="<?= htmlspecialchars($row['email']) ?>">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2">
+                <div>
+                    <div class="fw-semibold">
+                        <i class="bi bi-person-fill text-primary"></i>
+                        <?= $row['applicant_name'] ?>
                     </div>
+                    <div>
+                        <?php
+                        $staffType = $row['staff_type'];
+                        $staffBadge = ($staffType == "Permanent") ? "primary" : "warning text-dark";
+                        echo "<span class='badge bg-$staffBadge px-3 py-2'>$staffType</span>";
+                        ?>
+                    </div>
+                    <div class="small text-muted mt-1">
+                        <i class="bi bi-phone"></i> <?= $row['mobile'] ?><br>
+                        <i class="bi bi-envelope"></i> <?= $row['email'] ?><br>
+                    </div>
+                </div>
+            </div>
+        </td>
 
-                    <?php } } else { ?>
-                    <tr>
-                        <td colspan="7" class="text-center text-white py-3">No applications found</td>
-                    </tr>
+        <!-- Journey Column (unchanged) -->
+        <td data-label="Tour Details" data-tour="<?= $row['tour_approved'] == 1 ? 'Attached' : 'N.A' ?>"
+            data-from="<?= htmlspecialchars(date('d/m/Y H:i', strtotime($row['datetime_from']))) ?>"
+            data-to="<?= htmlspecialchars(date('d/m/Y H:i', strtotime($row['datetime_to']))) ?>"
+            data-place="<?= htmlspecialchars($row['place_of_visit']) ?>"
+            data-forwarded="<?= htmlspecialchars($row['forwarded_admin_name']) ?>"
+            data-purpose="<?= htmlspecialchars($row['purpose']) ?>"
+            data-date="<?= strtotime($row['datetime_from']) ?>">
+            <div class="p-3 rounded-3 shadow-sm bg-white small">
+                <!-- TOUR ORDER -->
+                <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-file-earmark-check-fill text-primary"></i>
+                        <span class="fw-semibold">Tour Order:</span>
+                    </div>
+                    <?php if($row['tour_approved'] == 1 && !empty($row['tour_order_pdf'])){ ?>
+                    <a href="view_tour_pdf.php?file=<?= urlencode($row['tour_order_pdf']) ?>"
+                        target="_blank" class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-eye-fill"></i> View
+                    </a>
+                    <?php } else { ?>
+                    <span class="badge bg-secondary">
+                        <i class="bi bi-x-circle-fill"></i> N/A
+                    </span>
                     <?php } ?>
-                </tbody>
+                </div>
+
+                <!-- JOURNEY -->
+                <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                    <i class="bi bi-calendar-event text-primary"></i>
+                    <span class="fw-semibold">Journey:</span>
+                    <span>
+                        <?= date("d/m/Y H:i", strtotime($row['datetime_from'])) ?>
+                        →
+                        <?= date("d/m/Y H:i", strtotime($row['datetime_to'])) ?>
+                    </span>
+                </div>
+
+                <!-- FORWARDED -->
+                <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                    <i class="bi bi-share-fill text-secondary"></i>
+                    <span class="fw-semibold">Forwarded:</span>
+                    <span><?= $row['forwarded_admin_name'] ?></span>
+                </div>
+
+                <!-- DESTINATION -->
+                <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                    <i class="bi bi-geo-alt-fill text-success"></i>
+                    <span class="fw-semibold">Destination:</span>
+                    <span><?= $row['place_of_visit'] ?></span>
+                </div>
+
+                <!-- PURPOSE -->
+                <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                    <i class="bi bi-chat-left-text text-info"></i>
+                    <span class="fw-semibold">Purpose:</span>
+                    <span><?= $row['purpose'] ?></span>
+                </div>
+
+                <!-- CO-TRAVELERS -->
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <i class="bi bi-people-fill text-warning"></i>
+                    <span class="fw-semibold">Co-Travelers:</span>
+                    <?php 
+                    if(!empty($coTrav)) { 
+                        $coList = explode(", ", $coTrav);
+                        foreach($coList as $ct){
+                            echo "<span class='badge bg-secondary me-1'>".$ct."</span>";
+                        }
+                    } else { 
+                    ?>
+                    <span class="text-muted">None</span>
+                    <?php } ?>
+                </div>
+            </div>
+        </td>
+
+        <!-- Assignment Column (unchanged) -->
+        <td data-label="Assignment" data-driver="<?= htmlspecialchars($driver['driver_name'] ?? '') ?>"
+            data-driver-mobile="<?= htmlspecialchars($driver['driver_mob'] ?? '') ?>"
+            data-vehicle-type="<?= htmlspecialchars($vehicle['vehicle_type'] ?? '') ?>"
+            data-vehicle-name="<?= htmlspecialchars($vehicle['vehicle_name'] ?? '') ?>"
+            data-vehicle-no="<?= htmlspecialchars($vehicle['vehicle_no'] ?? '') ?>">
+            <?php if($driver || $vehicle){ ?>
+            <div class="small border rounded p-2 bg-light">
+                <!-- DRIVER SECTION -->
+                <div class="mb-2">
+                    <div class="fw-semibold text-primary">
+                        <i class="bi bi-person-badge-fill"></i> Driver
+                    </div>
+                    <?php if($driver){ ?>
+                    <div>
+                        <?= $driver['driver_name'] ?><br>
+                        <i class="bi bi-phone text-muted"></i>
+                        <span class="text-muted"><?= $driver['driver_mob'] ?></span>
+                    </div>
+                    <?php } else { ?>
+                    <span class="text-muted">Not Assigned</span>
+                    <?php } ?>
+                </div>
+                <!-- VEHICLE SECTION -->
+                <div>
+                    <div class="fw-semibold text-success">
+                        <i class="bi bi-truck"></i> Vehicle
+                    </div>
+                    <?php if($vehicle){ ?>
+                    <div>
+                        <?= $vehicle['vehicle_type'] ?> - <?= $vehicle['vehicle_name'] ?><br>
+                        <i class="bi bi-hash text-muted"></i>
+                        <span class="text-muted"><?= $vehicle['vehicle_no'] ?></span>
+                    </div>
+                    <?php } else { ?>
+                    <span class="text-muted">Not Assigned</span>
+                    <?php } ?>
+                </div>
+            </div>
+            <?php } else { ?>
+            <span class="text-muted">Not Assigned</span>
+            <?php } ?>
+        </td>
+
+        <!-- NEW: Security Movement Column -->
+        <td data-label="Security Movement">
+            <div class="security-movement-card small">
+                <?php if(!empty($row['out_datetime']) || !empty($row['in_datetime']) || !empty($row['km_out']) || !empty($row['km_in']) || !empty($row['total_km']) || !empty($totalHours) || !empty($row['security_guard_name'])): ?>
+                    
+                    <!-- Out Time -->
+                    <?php if(!empty($row['out_datetime'])): ?>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-box-arrow-right text-warning"></i>
+                        <span class="fw-semibold">Out:</span>
+                        <span><?= date('d/m/Y H:i', strtotime($row['out_datetime'])) ?></span>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <!-- In Time -->
+                    <?php if(!empty($row['in_datetime'])): ?>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-box-arrow-in-left text-info"></i>
+                        <span class="fw-semibold">In:</span>
+                        <span><?= date('d/m/Y H:i', strtotime($row['in_datetime'])) ?></span>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <!-- KM Out -->
+                    <?php if(!empty($row['km_out'])): ?>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-speedometer2 text-success"></i>
+                        <span class="fw-semibold">KM Out:</span>
+                        <span><?= $row['km_out'] ?></span>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <!-- KM In -->
+                    <?php if(!empty($row['km_in'])): ?>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-speedometer2 text-danger"></i>
+                        <span class="fw-semibold">KM In:</span>
+                        <span><?= $row['km_in'] ?></span>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <!-- Total KM -->
+                    <?php if(!empty($row['total_km'])): ?>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-graph-up-arrow text-primary"></i>
+                        <span class="fw-semibold">Total KM:</span>
+                        <span class="badge bg-primary"><?= $row['total_km'] ?></span>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <!-- Total Hours -->
+                    <?php if(!empty($totalHours)): ?>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-clock-history text-secondary"></i>
+                        <span class="fw-semibold">Total Hours:</span>
+                        <span class="badge bg-secondary"><?= $totalHours ?></span>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <!-- Security Guard -->
+                    <?php if(!empty($row['security_guard_name'])): ?>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-shield-lock-fill text-dark"></i>
+                        <span class="fw-semibold">Guard:</span>
+                        <span><?= $row['security_guard_name'] ?></span>
+                    </div>
+                    <?php endif; ?>
+                    
+                <?php else: ?>
+                    <span class="text-muted fst-italic">
+                        <i class="bi bi-dash-circle"></i> Not Completed
+                    </span>
+                <?php endif; ?>
+            </div>
+        </td>
+
+        <!-- Status Column (unchanged) -->
+        <td>
+            <?php
+            $status = $row['status'];
+            $badgeClass="secondary"; $icon="info-circle";
+            switch($status){
+                case "Pending": $badgeClass="secondary"; $icon="hourglass-split"; break;
+                case "Recommended": $badgeClass="warning text-dark"; $icon="hand-thumbs-up"; break;
+                case "Not Recommended": $badgeClass="danger"; $icon="hand-thumbs-down"; break;
+                case "Approved": $badgeClass="success"; $icon="check-circle"; break;
+                case "Rejected": $badgeClass="dark"; $icon="x-circle"; break;
+                case "Completed": $badgeClass="primary"; $icon="flag"; break;
+                case "Cancelled": $badgeClass="danger"; $icon="slash-circle"; break;
+            }
+            echo "<span class='badge bg-$badgeClass'><i class='bi bi-$icon'></i> $status</span>";
+            ?>
+        </td>
+
+        <!-- Action Column (unchanged) -->
+        <td class="text-center">
+            <div class="d-flex justify-content-center justify-content-md-center gap-2 flex-wrap">
+                <?php 
+                $staffType = $row['staff_type'];
+                $showAction = false;
+
+                if($staffType == "Permanent" && 
+                    $status != "Approved" && 
+                    $status != "Rejected") {
+                    $showAction = true;
+                }
+
+                if($staffType == "Permanent" && 
+                    $status == "Completed") {
+                    $showAction = false;
+                }
+
+                if($staffType == "Temporary" && $status == "Recommended") {
+                    $showAction = true;
+                }
+
+                if($showAction){ ?>
+                <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#approveModal<?= $row['id'] ?>">
+                    <i class="bi bi-pencil-square"></i> Action
+                </button>
+                <?php } ?>
+
+                <button class="btn btn-sm btn-dark exportRow" data-id="<?= $row['id'] ?>">
+                    <i class="bi bi-file-earmark-pdf"></i>
+                </button>
+            </div>
+        </td>
+    </tr>
+    <?php } } else { ?>
+    <tr>
+        <td colspan="7" class="text-center text-white py-3">No applications found</td>
+    </tr>
+    <?php } ?>
+</tbody>
             </table>
         </div>
         <nav class="mt-3">
@@ -573,221 +577,229 @@ if(!$res){
 
     <script>
         document.getElementById("exportAllCSV").addEventListener("click", function () {
+    let csvHeader = [
+        "Application ID",
+        "Applicant Name",
+        "Mobile",
+        "Email",
+        "Staff Type",
+        "Journey From",
+        "Journey To",
+        "Place of Visit",
+        "Purpose",
+        "Forwarded To",
+        "Co-Travelers",
+        "Driver Assigned",
+        "Driver Mobile",
+        "Vehicle Type",
+        "Vehicle Name",
+        "Vehicle No",
+        "Tour Order Attached",
+        "Out Date Time",
+        "In Date Time",
+        "KM Out",
+        "KM In",
+        "Total KM",
+        "Total Hours",
+        "Security Guard",
+        "Remark",
+        "Status",
+        "Submitted On"
+    ];
 
-        let csvHeader = [
-            "Application ID",
-            "Applicant Name",
-            "Mobile",
-            "Email",
-            "Staff Type",
+    let csv = csvHeader.join(",") + "\n";
 
-            "Journey From",
-            "Journey To",
-            "Place of Visit",
-            "Purpose",
-            "Forwarded To",
-            "Co-Travelers",
+    document.querySelectorAll("tbody tr").forEach(tr => {
+        const tds = tr.querySelectorAll("td");
+        if (tds.length < 7) return;
 
-            "Driver Assigned",
-            "Driver Mobile",
-            "Vehicle Type",
-            "Vehicle Name",
-            "Vehicle No",
-
-            "Tour Order Attached",
-            "Remark",
-            "Status",
-            "Submitted On"
+        let row = [
+            // ID
+            tds[0].innerText.trim(),
+            
+            // Applicant
+            tds[1].getAttribute("data-name") || "",
+            tds[1].getAttribute("data-mobile") || "",
+            tds[1].getAttribute("data-email") || "",
+            tds[1].innerText.includes("Permanent") ? "Permanent" : "Temporary",
+            
+            // Journey
+            tds[2].getAttribute("data-from") || "",
+            tds[2].getAttribute("data-to") || "",
+            tds[2].getAttribute("data-place") || "",
+            tds[2].getAttribute("data-purpose") || "",
+            tr.getAttribute("data-forwarded") || "",
+            tr.getAttribute("data-cotraveler") || "",
+            
+            // Assignment
+            tds[3].getAttribute("data-driver") || "",
+            tds[3].getAttribute("data-driver-mobile") || "",
+            tds[3].getAttribute("data-vehicle-type") || "",
+            tds[3].getAttribute("data-vehicle-name") || "",
+            tds[3].getAttribute("data-vehicle-no") || "",
+            
+            // Tour Order
+            tds[2].getAttribute("data-tour") || "",
+            
+            // Security Movement (NEW)
+            tr.getAttribute("data-out-datetime") || "",
+            tr.getAttribute("data-in-datetime") || "",
+            tr.getAttribute("data-km-out") || "",
+            tr.getAttribute("data-km-in") || "",
+            tr.getAttribute("data-total-km") || "",
+            tr.getAttribute("data-total-hours") || "",
+            tr.getAttribute("data-security-guard") || "",
+            
+            // Extra
+            tr.getAttribute("data-remark") || "",
+            tds[5].innerText.trim(), // Status (index changed due to new column)
+            tr.getAttribute("data-submitted") || ""
         ];
 
-        let csv = csvHeader.join(",") + "\n";
+        row = row.map(item => `"${item}"`).join(",");
+        csv += row + "\n";
+    });
 
-        document.querySelectorAll("tbody tr").forEach(tr => {
-
-            const tds = tr.querySelectorAll("td");
-            if (tds.length < 6) return; // must match 6-column table
-
-            let row = [
-
-                // 0 ID
-                tds[0].innerText.trim(),
-
-                // 1 Applicant
-                tds[1].getAttribute("data-name") || "",
-                tds[1].getAttribute("data-mobile") || "",
-                tds[1].getAttribute("data-email") || "",
-                tds[1].innerText.includes("Permanent") ? "Permanent" : "Temporary",
-
-                // 2 Journey (Merged)
-                tds[2].getAttribute("data-from") || "",
-                tds[2].getAttribute("data-to") || "",
-                tds[2].getAttribute("data-place") || "",
-                tds[2].getAttribute("data-purpose") || "",
-                tr.getAttribute("data-forwarded") || "",
-                tr.getAttribute("data-cotraveler") || "",
-
-                // 3 Assignment (Merged)
-                tds[3].getAttribute("data-driver") || "",
-                tds[3].getAttribute("data-driver-mobile") || "",
-                tds[3].getAttribute("data-vehicle-type") || "",
-                tds[3].getAttribute("data-vehicle-name") || "",
-                tds[3].getAttribute("data-vehicle-no") || "",
-
-                // 2 also has tour info
-                tds[2].getAttribute("data-tour") || "",
-
-                // Extra
-                tr.getAttribute("data-remark") || "",
-                tds[4].innerText.trim(), // Status
-                tr.getAttribute("data-submitted") || ""
-            ];
-
-            row = row.map(item => `"${item}"`).join(",");
-            csv += row + "\n";
-        });
-
-        let blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        let link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "vehicle_applications.csv";
-        link.click();
-        });
+    let blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "vehicle_applications.csv";
+    link.click();
+});
 
 // ---------------- Export Single Row PDF ----------------
-        document.addEventListener("click", function (e) {
-            console.log('>>>>>>>>>>>>>>>');
+       document.addEventListener("click", function (e) {
+    const btn = e.target.closest(".exportRow");
+    if (!btn) return;
 
-            const btn = e.target.closest(".exportRow");
-            if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
 
-            e.preventDefault(); // VERY IMPORTANT
-            e.stopPropagation();
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'pt', 'a4');
 
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF('p', 'pt', 'a4');
+    const tr = btn.closest("tr");
+    if (!tr) {
+        alert("Row not found");
+        return;
+    }
 
-            const tr = btn.closest("tr");
-            if (!tr) {
-                alert("Row not found");
-                return;
-            }
+    const tds = tr.querySelectorAll("td");
+    if (tds.length < 7) {
+        alert("Table structure mismatch");
+        return;
+    }
 
-            const tds = tr.querySelectorAll("td");
-            if (tds.length < 5) {
-                alert("Table structure mismatch");
-                return;
-            }
+    const pageWidth = doc.internal.pageSize.getWidth();
 
-            const pageWidth = doc.internal.pageSize.getWidth();
+    doc.setFontSize(18);
+    doc.setFont("helvetica", "bold");
+    doc.text(`Vehicle Application ID: ${tds[0].innerText.trim()}`, pageWidth / 2, 40, { align: "center" });
 
-            doc.setFontSize(18);
-            doc.setFont("helvetica", "bold");
-            doc.text(`Vehicle Application ID: ${tds[0].innerText.trim()}`, pageWidth / 2, 40, { align: "center" });
-            
+    const getAttr = (el, attr) => el?.getAttribute(attr) || "";
 
-            const getAttr = (el, attr) => el?.getAttribute(attr) || "";
+    const data = [
+        ["Applicant", getAttr(tds[1], "data-name")],
+        ["Mobile", getAttr(tds[1], "data-mobile")],
+        ["Email", getAttr(tds[1], "data-email")],
+        ["Journey From", getAttr(tds[2], "data-from")],
+        ["Journey To", getAttr(tds[2], "data-to")],
+        ["Place", getAttr(tds[2], "data-place")],
+        ["Purpose", getAttr(tds[2], "data-purpose")],
+        ["Tour Order", getAttr(tds[2], "data-tour")],
+        ["Forwarded To", tr.getAttribute("data-forwarded") || ""],
+        ["Co-Travelers", tr.getAttribute("data-cotraveler") || ""],
+        ["Driver", getAttr(tds[3], "data-driver")],
+        ["Driver Mobile", getAttr(tds[3], "data-driver-mobile")],
+        ["Vehicle Type", getAttr(tds[3], "data-vehicle-type")],
+        ["Vehicle Name", getAttr(tds[3], "data-vehicle-name")],
+        ["Vehicle No", getAttr(tds[3], "data-vehicle-no")],
+        // Security Movement Details (NEW)
+        ["Out Date Time", tr.getAttribute("data-out-datetime") || ""],
+        ["In Date Time", tr.getAttribute("data-in-datetime") || ""],
+        ["KM Out", tr.getAttribute("data-km-out") || ""],
+        ["KM In", tr.getAttribute("data-km-in") || ""],
+        ["Total KM", tr.getAttribute("data-total-km") || ""],
+        ["Total Hours", tr.getAttribute("data-total-hours") || ""],
+        ["Security Guard", tr.getAttribute("data-security-guard") || ""],
+        ["Remark", tr.getAttribute("data-remark") || ""],
+        ["Status", tds[5].innerText.trim()],
+        ["Submitted On", tr.getAttribute("data-submitted") || ""]
+    ];
 
-            
+    doc.autoTable({
+        startY: 70,
+        head: [["Field", "Details"]],
+        body: data,
+        theme: "grid",
+        styles: { fontSize: 10, cellPadding: 5 },
+        headStyles: { fillColor: [41, 128, 185], textColor: 255 }
+    });
 
-            const data = [
-                ["Applicant", getAttr(tds[1], "data-name")],
-                ["Mobile", getAttr(tds[1], "data-mobile")],
-                ["Email", getAttr(tds[1], "data-email")],
-                ["Journey From", getAttr(tds[2], "data-from")],
-                ["Journey To", getAttr(tds[2], "data-to")],
-                ["Place", getAttr(tds[2], "data-place")],
-                ["Purpose", getAttr(tds[2], "data-purpose")],
-                ["Tour Order", getAttr(tds[2], "data-tour")],
-                ["Forwarded To", tr.getAttribute("data-forwarded") || ""],
-                ["Co-Travelers", tr.getAttribute("data-cotraveler") || ""],
-                ["Driver", getAttr(tds[3], "data-driver")],
-                ["Driver Mobile", getAttr(tds[3], "data-driver-mobile")],
-                ["Vehicle Type", getAttr(tds[3], "data-vehicle-type")],
-                ["Vehicle Name", getAttr(tds[3], "data-vehicle-name")],
-                ["Vehicle No", getAttr(tds[3], "data-vehicle-no")],
-                ["Remark", tr.getAttribute("data-remark") || ""],
-                ["Status", tds[4].innerText.trim()],
-                ["Submitted On", tr.getAttribute("data-submitted") || ""]
-            ];
-            
-
-            doc.autoTable({
-                startY: 70,
-                head: [["Field", "Details"]],
-                body: data,
-                theme: "grid"
-            });
-        
-            
-
-            doc.save(`application_${tds[0].innerText.trim()}.pdf`);
-        });
+    doc.save(`application_${tds[0].innerText.trim().replace('#', '')}.pdf`);
+});
         // ---------------- Export All PDF ----------------
-        document.getElementById("exportAllPDF").addEventListener("click", function() {
+      document.getElementById("exportAllPDF").addEventListener("click", function() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'pt', 'a4');
+    const pageWidth = doc.internal.pageSize.getWidth();
 
-            const {
-                jsPDF
-            } = window.jspdf;
-            const doc = new jsPDF('p', 'pt', 'a4');
-            const pageWidth = doc.internal.pageSize.getWidth();
+    let startY = 40;
+    let firstRecord = true;
 
-            let startY = 40;
-            let firstRecord = true;
+    document.querySelectorAll("tbody tr").forEach((tr, index) => {
+        const tds = tr.querySelectorAll("td");
+        if (tds.length < 7) return;
 
-            document.querySelectorAll("tbody tr").forEach((tr, index) => {
+        if (!firstRecord) {
+            doc.addPage();
+            startY = 40;
+        }
+        firstRecord = false;
 
-                const tds = tr.querySelectorAll("td");
-                if (tds.length < 6) return;
+        doc.setFontSize(18);
+        doc.setTextColor(21, 101, 192);
+        doc.setFont("helvetica", "bold");
+        doc.text(`Vehicle Application ID: ${tds[0].innerText}`, pageWidth / 2, startY, {
+            align: "center"
+        });
 
-                // Add new page except first record
-                if (!firstRecord) {
-                    doc.addPage();
-                    startY = 40;
-                }
+        startY += 30;
 
-                firstRecord = false;
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(0, 0, 0);
 
-                // ======= HEADER =======
-                doc.setFontSize(18);
-                doc.setTextColor(21, 101, 192);
-                doc.setFont("helvetica", "bold");
-                doc.text(`Vehicle Application ID: ${tds[0].innerText}`, pageWidth / 2, startY, {
-                    align: "center"
-                });
+        const data = [
+            ["Applicant", tds[1].getAttribute("data-name") || ""],
+            ["Mobile", tds[1].getAttribute("data-mobile") || ""],
+            ["Email", tds[1].getAttribute("data-email") || ""],
+            ["Journey From", tds[2].getAttribute("data-from") || ""],
+            ["Journey To", tds[2].getAttribute("data-to") || ""],
+            ["Place", tds[2].getAttribute("data-place") || ""],
+            ["Purpose", tds[2].getAttribute("data-purpose") || ""],
+            ["Forwarded To", tr.getAttribute("data-forwarded") || "N/A"],
+            ["Co-Travelers", tr.getAttribute("data-cotraveler") || "None"],
+            ["Driver", tds[3].getAttribute("data-driver") || "Not Assigned"],
+            ["Driver Mobile", tds[3].getAttribute("data-driver-mobile") || ""],
+            ["Vehicle Type", tds[3].getAttribute("data-vehicle-type") || ""],
+            ["Vehicle Name", tds[3].getAttribute("data-vehicle-name") || ""],
+            ["Vehicle No", tds[3].getAttribute("data-vehicle-no") || ""],
+            ["Tour Order Attached", tds[2].getAttribute("data-tour") || ""],
+            // Security Movement Details (NEW)
+            ["Out Date Time", tr.getAttribute("data-out-datetime") || "N/A"],
+            ["In Date Time", tr.getAttribute("data-in-datetime") || "N/A"],
+            ["KM Out", tr.getAttribute("data-km-out") || "N/A"],
+            ["KM In", tr.getAttribute("data-km-in") || "N/A"],
+            ["Total KM", tr.getAttribute("data-total-km") || "N/A"],
+            ["Total Hours", tr.getAttribute("data-total-hours") || "N/A"],
+            ["Security Guard", tr.getAttribute("data-security-guard") || "N/A"],
+            ["Remark", tr.getAttribute("data-remark") || "None"],
+            ["Status", tds[5].innerText.trim() || ""],
+            ["Submitted On", tr.getAttribute("data-submitted") || "N/A"]
+        ];
 
-                startY += 30;
-
-                doc.setFontSize(12);
-                doc.setFont("helvetica", "normal");
-                doc.setTextColor(0, 0, 0);
-
-                const data = [
-
-                        ["Applicant", tds[1].getAttribute("data-name") || ""],
-                        ["Mobile", tds[1].getAttribute("data-mobile") || ""],
-                        ["Email", tds[1].getAttribute("data-email") || ""],
-
-                        ["Journey From", tds[2].getAttribute("data-from") || ""],
-                        ["Journey To", tds[2].getAttribute("data-to") || ""],
-                        ["Place", tds[2].getAttribute("data-place") || ""],
-                        ["Purpose", tds[2].getAttribute("data-purpose") || ""],
-                        ["Forwarded To", tr.getAttribute("data-forwarded") || "N/A"],
-                        ["Co-Travelers", tr.getAttribute("data-cotraveler") || "None"],
-
-                        ["Driver", tds[3].getAttribute("data-driver") || "Not Assigned"],
-                        ["Driver Mobile", tds[3].getAttribute("data-driver-mobile") || ""],
-                        ["Vehicle Type", tds[3].getAttribute("data-vehicle-type") || ""],
-                        ["Vehicle Name", tds[3].getAttribute("data-vehicle-name") || ""],
-                        ["Vehicle No", tds[3].getAttribute("data-vehicle-no") || ""],
-
-                        ["Tour Order Attached", tds[2].getAttribute("data-tour") || ""],
-
-                        ["Remark", tr.getAttribute("data-remark") || "None"],
-                        ["Status", tds[4].innerText.trim() || ""],
-                        ["Submitted On", tr.getAttribute("data-submitted") || "N/A"]
-                    ];
-
-                window.jspdf.jsPDF.API.autoTable.call(doc, {
+        window.jspdf.jsPDF.API.autoTable.call(doc, {
             startY: startY,
             head: [["Field", "Details"]],
             body: data,
@@ -807,11 +819,10 @@ if(!$res){
             theme: "grid",
             margin: { left: 40, right: 40 }
         });
+    });
 
-                    });
-
-                    doc.save("All_Vehicle_Applications.pdf");
-                });
+    doc.save("All_Vehicle_Applications.pdf");
+});
 
     </script>
     <script>

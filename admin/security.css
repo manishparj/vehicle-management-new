@@ -1,0 +1,692 @@
+/* dashboard.css - Professional Vehicle Management Dashboard Styles */
+
+/* ===== RESET & BASE ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #0d6efd;
+    --primary-dark: #0b5ed7;
+    --success: #198754;
+    --success-dark: #157347;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --info: #0dcaf0;
+    --dark: #212529;
+    --light: #f8f9fa;
+    --gray: #6c757d;
+    --border: #dee2e6;
+    --card-bg: #ffffff;
+    --shadow: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow-hover: 0 4px 8px rgba(0,0,0,0.15);
+    --transition: all 0.3s ease;
+}
+
+body {
+    background: #f0f2f5;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.5;
+}
+
+/* ===== DASHBOARD CONTAINER ===== */
+.dashboard-container {
+    max-width: 100%;
+    min-height: 100vh;
+    background: #f0f2f5;
+}
+
+/* ===== HEADER ===== */
+.dashboard-header {
+    background: white;
+    padding: 1rem 0;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.dashboard-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.dashboard-title i {
+    font-size: 1.75rem;
+    color: var(--primary);
+}
+
+.btn-logout {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    background: transparent;
+    border: 1.5px solid var(--danger);
+    border-radius: 50px;
+    color: var(--danger);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.btn-logout:hover {
+    background: var(--danger);
+    color: white;
+}
+
+.btn-logout i {
+    font-size: 1.25rem;
+}
+
+/* ===== PAGE TITLE ===== */
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary);
+    display: inline-block;
+}
+
+.page-title i {
+    color: var(--primary);
+    margin-right: 0.5rem;
+}
+
+/* ===== APPLICATIONS GRID ===== */
+.applications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1rem;
+}
+
+/* ===== APPLICATION CARD ===== */
+.application-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    height: fit-content;
+}
+
+.application-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+/* Card Header */
+.card-header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-id {
+    font-weight: 600;
+    color: white;
+    font-size: 1rem;
+}
+
+.status-badge {
+    padding: 0.35rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+}
+
+/* Card Body */
+.card-body {
+    padding: 1rem;
+}
+
+/* Info Sections */
+.info-section {
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px dashed var(--border);
+}
+
+.info-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.section-title i {
+    font-size: 1rem;
+}
+
+/* Info Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+}
+
+.info-item {
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-item.full-width {
+    grid-column: 1 / -1;
+}
+
+.info-label {
+    color: var(--gray);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.info-value {
+    color: var(--dark);
+    font-weight: 500;
+    word-break: break-word;
+}
+
+.info-value.vehicle-no {
+    font-family: monospace;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* Travelers List */
+.travelers-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.traveler-item {
+    background: var(--light);
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    color: var(--dark);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    border: 1px solid var(--border);
+}
+
+.traveler-item i {
+    color: var(--primary);
+    font-size: 0.8rem;
+}
+
+/* Security Grid */
+.security-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+}
+
+.security-item {
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.security-item.full-width {
+    grid-column: 1 / -1;
+}
+
+.security-label {
+    color: var(--gray);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+
+.security-value {
+    font-weight: 500;
+    color: var(--dark);
+}
+
+/* View PDF Button */
+.btn-view-pdf {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #dc3545;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: var(--transition);
+    width: 100%;
+    justify-content: center;
+}
+
+.btn-view-pdf:hover {
+    background: #bb2d3b;
+    color: white;
+}
+
+.btn-view-pdf i {
+    font-size: 1rem;
+}
+
+/* Created At */
+.created-at {
+    font-size: 0.7rem;
+    color: var(--gray);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px dotted var(--border);
+}
+
+.created-at i {
+    font-size: 0.7rem;
+}
+
+/* Action Button */
+.action-btn {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.action-btn i {
+    font-size: 1.1rem;
+}
+
+.btn-start {
+    background: var(--success);
+    color: white;
+}
+
+.btn-start:hover:not(:disabled) {
+    background: var(--success-dark);
+    transform: scale(1.02);
+}
+
+.btn-end {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-end:hover:not(:disabled) {
+    background: var(--primary-dark);
+    transform: scale(1.02);
+}
+
+.btn-disabled {
+    background: var(--gray);
+    color: white;
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.action-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ===== NO APPLICATIONS ===== */
+.no-applications {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    grid-column: 1 / -1;
+}
+
+.no-applications i {
+    font-size: 4rem;
+    color: var(--gray);
+    opacity: 0.5;
+    margin-bottom: 1rem;
+}
+
+.no-applications p {
+    font-size: 1.25rem;
+    color: var(--gray);
+    margin: 0;
+}
+
+/* ===== MODAL STYLES ===== */
+.modal-content {
+    border-radius: 16px;
+    overflow: hidden;
+    border: none;
+}
+
+.modal-header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    border: none;
+    padding: 1rem 1.5rem;
+}
+
+.modal-header .btn-close {
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+}
+
+.modal-header .btn-close:hover {
+    opacity: 1;
+}
+
+.modal-title {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-title i {
+    font-size: 1.5rem;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--dark);
+}
+
+.form-group .form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.form-group .form-control:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(13,110,253,0.1);
+}
+
+.form-group .form-control:read-only {
+    background: var(--light);
+    border-color: var(--border);
+}
+
+/* Modal Footer */
+.modal-footer {
+    padding: 1rem 1.5rem 1.5rem;
+    border: none;
+    display: flex;
+    gap: 0.75rem;
+}
+
+.btn-modal-cancel {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1.5px solid var(--border);
+    background: white;
+    border-radius: 8px;
+    font-weight: 600;
+    color: var(--gray);
+    transition: var(--transition);
+}
+
+.btn-modal-cancel:hover {
+    background: var(--light);
+    border-color: var(--gray);
+}
+
+.btn-modal-submit {
+    flex: 2;
+    padding: 0.75rem;
+    border: none;
+    background: var(--success);
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.btn-modal-submit:hover {
+    background: var(--success-dark);
+    transform: scale(1.02);
+}
+
+/* ===== RESPONSIVE STYLES ===== */
+@media (max-width: 768px) {
+    .applications-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .dashboard-title {
+        font-size: 1.1rem;
+    }
+    
+    .dashboard-title i {
+        font-size: 1.5rem;
+    }
+    
+    .btn-logout {
+        padding: 0.4rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .page-title {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+    
+    .application-card {
+        max-width: 100%;
+    }
+    
+    .card-header {
+        padding: 0.6rem 1rem;
+    }
+    
+    .app-id {
+        font-size: 0.9rem;
+    }
+    
+    .status-badge {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.6rem;
+    }
+    
+    .card-body {
+        padding: 0.9rem;
+    }
+    
+    .section-title {
+        font-size: 0.85rem;
+    }
+    
+    .info-item {
+        font-size: 0.8rem;
+    }
+    
+    .info-label {
+        font-size: 0.65rem;
+    }
+    
+    .security-item {
+        font-size: 0.8rem;
+    }
+    
+    .security-label {
+        font-size: 0.65rem;
+    }
+    
+    .action-btn {
+        padding: 0.7rem;
+        font-size: 0.85rem;
+    }
+    
+    /* Modal responsive */
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+    
+    .modal-body {
+        padding: 1rem;
+    }
+    
+    .form-group .form-control {
+        padding: 0.6rem;
+        font-size: 0.95rem;
+    }
+    
+    .modal-footer {
+        flex-direction: column;
+        padding: 1rem;
+    }
+    
+    .btn-modal-cancel,
+    .btn-modal-submit {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .applications-grid {
+        gap: 0.75rem;
+    }
+    
+    .card-body {
+        padding: 0.75rem;
+    }
+    
+    .info-grid {
+        gap: 0.4rem;
+    }
+    
+    .travelers-list {
+        gap: 0.35rem;
+    }
+    
+    .traveler-item {
+        padding: 0.2rem 0.6rem;
+        font-size: 0.75rem;
+    }
+    
+    .security-grid {
+        gap: 0.4rem;
+    }
+    
+    .btn-view-pdf {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+    
+    .created-at {
+        font-size: 0.65rem;
+    }
+    
+    /* Ensure all content is visible */
+    .info-value {
+        word-break: break-word;
+        white-space: normal;
+    }
+    
+    /* Adjust modal for very small screens */
+    .modal-dialog {
+        margin: 0.25rem;
+    }
+    
+    .modal-header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .modal-title {
+        font-size: 1rem;
+    }
+    
+    .form-group label {
+        font-size: 0.85rem;
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    .dashboard-header,
+    .action-btn,
+    .modal,
+    .btn-view-pdf {
+        display: none !important;
+    }
+    
+    .application-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+}
+
+/* ===== UTILITY CLASSES ===== */
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Status badge colors */
+.bg-success { background: var(--success); }
+.bg-warning { background: var(--warning); }
+.bg-primary { background: var(--primary); }
+.bg-info { background: var(--info); }
+.bg-danger { background: var(--danger); }
+.bg-secondary { background: var(--gray); }
+.text-dark { color: var(--dark) !important; }
