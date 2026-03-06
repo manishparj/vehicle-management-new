@@ -1464,7 +1464,7 @@ function getButtonConfig($status) {
                                 </div>
                                 <?php if ($row['tour_order_pdf']): ?>
                                 <div class="info-item full-width">
-                                    <a href="../uploads/<?= htmlspecialchars($row['tour_order_pdf']) ?>" target="_blank"
+                                    <a href="../uploads/tour_orders/<?= htmlspecialchars($row['tour_order_pdf']) ?>" target="_blank"
                                         class="btn-view-pdf">
                                         <i class="bi bi-file-pdf"></i> View Tour Order
                                     </a>
