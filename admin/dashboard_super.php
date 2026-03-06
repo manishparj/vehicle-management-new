@@ -286,7 +286,9 @@ if(!$res){
 <td data-label="Applicant" 
     data-name="<?= htmlspecialchars($row['applicant_name']) ?>"
     data-mobile="<?= htmlspecialchars($row['mobile']) ?>"
-    data-email="<?= htmlspecialchars($row['email']) ?>">
+    data-email="<?= htmlspecialchars($row['email']) ?>"
+    data-booking-for="<?= htmlspecialchars($row['booking_for']) ?>"
+    data-other-person="<?= htmlspecialchars($row['other_person_name'] ?? '') ?>">
 
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2">
         <div>
@@ -672,6 +674,8 @@ if(!$res){
         document.getElementById("exportAllCSV").addEventListener("click", function () {
     let csvHeader = [
         "Application ID",
+        "Booked For",
+        "Other Person Name",
         "Applicant Name",
         "Mobile",
         "Email",
@@ -709,6 +713,11 @@ if(!$res){
         let row = [
             // ID
             tds[0].innerText.trim(),
+
+             // Booking Info
+            tds[1].getAttribute("data-booking-for") || "",
+            tds[1].getAttribute("data-other-person") || "",
+
             
             // Applicant
             tds[1].getAttribute("data-name") || "",
@@ -792,6 +801,8 @@ if(!$res){
     const getAttr = (el, attr) => el?.getAttribute(attr) || "";
 
     const data = [
+         ["Booked For", getAttr(tds[1], "data-booking-for")],
+        ["Other Person Name", getAttr(tds[1], "data-other-person")],
         ["Applicant", getAttr(tds[1], "data-name")],
         ["Mobile", getAttr(tds[1], "data-mobile")],
         ["Email", getAttr(tds[1], "data-email")],
@@ -864,6 +875,8 @@ if(!$res){
         doc.setTextColor(0, 0, 0);
 
         const data = [
+             ["Booked For", tds[1].getAttribute("data-booking-for") || ""],
+            ["Other Person Name", tds[1].getAttribute("data-other-person") || ""],
             ["Applicant", tds[1].getAttribute("data-name") || ""],
             ["Mobile", tds[1].getAttribute("data-mobile") || ""],
             ["Email", tds[1].getAttribute("data-email") || ""],

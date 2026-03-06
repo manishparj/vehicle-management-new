@@ -301,7 +301,7 @@
         var staffType = this.value;
 
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "../admin/get_users.php", true);
+        xhr.open("POST", "./admin/get_users.php", true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
         xhr.onload = function() {

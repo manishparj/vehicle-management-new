@@ -1,33 +1,35 @@
 <?php
-include("../config/db.php");
-include("../config/email_config.php");
+include("./config/db.php");
+include("./config/email_config.php");
 
 // Include PHPMailer manually (if not using composer)
-require_once("../vendor/PHPMailer/src/PHPMailer.php");
-require_once("../vendor/phpmailer/src/SMTP.php");
-require_once("../vendor/phpmailer/src/Exception.php");
+require_once("./vendor/PHPMailer/src/PHPMailer.php");
+require_once("./vendor/phpmailer/src/SMTP.php");
+require_once("./vendor/phpmailer/src/Exception.php");
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-// Collect form data safely
-$booking_for = $_POST['booking_for'];
-$other_person_name = $_POST['other_person_name'] ?? '';
-$staff_type       = $_POST['staff_type'];
-$applicant_name   = $_POST['applicant_name'];
-$vehicle_required = $_POST['vehicle_required'];
-$datetime_from    = $_POST['datetime_from'];
-$datetime_to      = $_POST['datetime_to'];
-$place_of_visit   = $_POST['place_of_visit'];
-$purpose          = $_POST['purpose'];
-$cotraveler1      = $_POST['cotraveler1'] ?? '';
-$cotraveler2      = $_POST['cotraveler2'] ?? '';
-$cotraveler3      = $_POST['cotraveler3'] ?? '';
-$cotraveler4      = $_POST['cotraveler4'] ?? '';
-$mobile           = $_POST['mobile'];
-$email            = $_POST['email'];
-$forwarded_to     = $_POST['forwarded_to'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $booking_for       = $_POST['booking_for'] ?? '';
+    $other_person_name = $_POST['other_person_name'] ?? '';
+    $staff_type        = $_POST['staff_type'] ?? '';
+    $applicant_name    = $_POST['applicant_name'] ?? '';
+    $vehicle_required  = $_POST['vehicle_required'] ?? '';
+    $datetime_from     = $_POST['datetime_from'] ?? '';
+    $datetime_to       = $_POST['datetime_to'] ?? '';
+    $place_of_visit    = $_POST['place_of_visit'] ?? '';
+    $purpose           = $_POST['purpose'] ?? '';
+    $cotraveler1       = $_POST['cotraveler1'] ?? '';
+    $cotraveler2       = $_POST['cotraveler2'] ?? '';
+    $cotraveler3       = $_POST['cotraveler3'] ?? '';
+    $cotraveler4       = $_POST['cotraveler4'] ?? '';
+    $mobile            = $_POST['mobile'] ?? '';
+    $email             = $_POST['email'] ?? '';
+    $forwarded_to      = $_POST['forwarded_to'] ?? '';
+}
 
 // Boolean value (0 or 1)
 $tour_approved = (isset($_POST['tour_approved']) && $_POST['tour_approved'] == "1") ? 1 : 0;
@@ -38,7 +40,7 @@ $uploaded_file_path = NULL;
 // ================= FILE UPLOAD =================
 if ($tour_approved == 1 && isset($_FILES['tour_order_pdf']) && $_FILES['tour_order_pdf']['error'] == 0) {
 
-    $uploadDir = "../uploads/tour_orders/";
+    $uploadDir = "./uploads/tour_orders/";
 
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0777, true);
@@ -129,8 +131,8 @@ if ($stmt->execute()) {
             $mail->isSMTP();
             $mail->Host       = SMTP_HOST;
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'prajapatimanish.mp@gmail.com';
-            $mail->Password   = 'avvf cjyv fhto kcia';
+            $mail->Username   = 'vehiclemgmtncd@gmail.com';
+            $mail->Password   = 'segn gjke yxoy rabz';
             $mail->SMTPSecure = SMTP_ENCRYPTION;
             $mail->Port       = SMTP_PORT;
             $mail->CharSet    = 'UTF-8';

@@ -7,8 +7,8 @@ define('SMTP_PORT', 587);                      // Keep as is
 define('SMTP_ENCRYPTION', 'tls');              // Keep as is
 
 // YOUR PERSONAL GMAIL CREDENTIALS (used to SEND emails)
-define('SMTP_USERNAME', 'prajapatimanish.mp@gmail.com');  // 🔴 Your Gmail address that will send the emails
-define('SMTP_PASSWORD', 'avvf cjyv fhto kcia');        // 🔴 Your Gmail App Password (not regular password)
+define('SMTP_USERNAME', 'vehiclemgmtncd@gmail.com');  // 🔴 Your Gmail address that will send the emails
+define('SMTP_PASSWORD', 'segn gjke yxoy rabz');        // 🔴 Your Gmail App Password (not regular password)
 
 // SENDER INFORMATION (who the email appears to come from)
 define('SMTP_FROM_EMAIL', 'noreply@vehiclemanagement.com'); // 🔵 This can be any email, appears in "From" field
