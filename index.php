@@ -1,4 +1,4 @@
-<?php include ('../config/db.php'); ?>
+<?php include ('./config/db.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <?php include ('../header.php'); ?>
+    <?php include ('./header.php'); ?>
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-10 col-md-11 col-sm-12">
@@ -30,9 +30,31 @@
                         <h5 class="section-title"><i class="bi bi-person-fill"></i> Applicant Details</h5>
 
                         <div class="row g-3">
+                            <!-- Booking For -->
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold">Booking For</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                                    <select name="booking_for" id="booking_for" class="form-select" required>
+                                        <option value="" disabled selected>Select</option>
+                                        <option value="Self">Self</option>
+                                        <option value="Someone">Someone</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Other Person Name -->
+                            <div class="col-md-6" id="other_person_div" style="display:none;">
+                                <label class="form-label fw-semibold">Other Person Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                    <input type="text" name="other_person_name" id="other_person_name"
+                                        class="form-control" placeholder="Enter Person Name">
+                                </div>
+                            </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Full Name</label>
+                                <label class="form-label fw-semibold">Applicant Name</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-person"></i></span>
                                     <input type="text" name="applicant_name" class="form-control"
@@ -40,17 +62,17 @@
                                 </div>
                             </div>
                             <!-- Staff Type -->
-                           <div class="col-md-3">
-    <label class="form-label fw-semibold">Staff Type</label>
-    <div class="input-group">
-        <span class="input-group-text"><i class="bi bi-briefcase"></i></span>
-        <select name="staff_type" id="staff_type" class="form-select" required>
-            <option value="" disabled selected>Staff Type</option>
-            <option value="Permanent">Permanent</option>
-            <option value="Temporary">Temporary</option>
-        </select>
-    </div>
-</div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold">Staff Type</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-briefcase"></i></span>
+                                    <select name="staff_type" id="staff_type" class="form-select" required>
+                                        <option value="" disabled selected>Staff Type</option>
+                                        <option value="Permanent">Permanent</option>
+                                        <option value="Temporary">Temporary</option>
+                                    </select>
+                                </div>
+                            </div>
 
                             <!-- Vehicle Required -->
                             <div class="col-md-3">
@@ -141,14 +163,14 @@
                             </div>
 
                             <div class="col-12">
-    <label class="form-label fw-semibold">Forward To</label>
-    <div class="input-group">
-        <span class="input-group-text"><i class="bi bi-person-check"></i></span>
-        <select name="forwarded_to" id="forwarded_to" class="form-select" required>
-            <option value="">Select Staff Type First</option>
-        </select>
-    </div>
-</div>
+                                <label class="form-label fw-semibold">Forward To</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person-check"></i></span>
+                                    <select name="forwarded_to" id="forwarded_to" class="form-select" required>
+                                        <option value="">Select Staff Type First</option>
+                                    </select>
+                                </div>
+                            </div>
 
                         </div>
 
@@ -274,21 +296,38 @@
     </script>
 
     <script>
-document.getElementById("staff_type").addEventListener("change", function() {
+    document.getElementById("staff_type").addEventListener("change", function() {
 
-    var staffType = this.value;
+        var staffType = this.value;
 
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "../admin/get_users.php", true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "../admin/get_users.php", true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-    xhr.onload = function () {
-        document.getElementById("forwarded_to").innerHTML = this.responseText;
-    };
+        xhr.onload = function() {
+            document.getElementById("forwarded_to").innerHTML = this.responseText;
+        };
 
-    xhr.send("staff_type=" + staffType);
-});
-</script>
+        xhr.send("staff_type=" + staffType);
+    });
+    </script>
+    <script>
+    document.getElementById("booking_for").addEventListener("change", function() {
+
+        let otherDiv = document.getElementById("other_person_div");
+        let otherInput = document.getElementById("other_person_name");
+
+        if (this.value === "Someone") {
+            otherDiv.style.display = "block";
+            otherInput.required = true;
+        } else {
+            otherDiv.style.display = "none";
+            otherInput.required = false;
+            otherInput.value = "";
+        }
+
+    });
+    </script>
 
 </body>
 

@@ -62,7 +62,7 @@ body {
 
 <nav class="navbar navbar-expand-lg navbar-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="<?php echo $base_url; ?>public/index.php">
+    <a class="navbar-brand" href="<?php echo $base_url; ?>index.php">
        Vehicle App
     </a>
 
@@ -73,10 +73,10 @@ body {
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" href="<?php echo $base_url; ?>public/index.php">Home</a>
+          <a class="nav-link active" href="<?php echo $base_url; ?>index.php">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo $base_url; ?>public/check_status.php">Check Status</a>
+          <a class="nav-link" href="<?php echo $base_url; ?>/check_status.php">Check Status</a>
         </li>
         <li class="nav-item">
           <a class="nav-link btn btn-outline-info px-3 rounded-pill ms-lg-3" 

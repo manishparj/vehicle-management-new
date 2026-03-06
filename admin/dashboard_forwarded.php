@@ -40,37 +40,39 @@ $res = $conn->query("
 <body>
     <?php include ('../header.php'); ?>
 
- <div class="container py-3 py-md-4">
+    <div class="container py-3 py-md-4">
 
-    <!-- Header -->
-    <div class="dashboard-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 shadow p-3 rounded">
-        
-        <h5 class="mb-2 mb-md-0">
-            <i class="bi bi-speedometer2"></i> 
-            <span class="d-none d-sm-inline">Forwarded Requests Dashboard</span>
-            <span class="d-inline d-sm-none">Dashboard</span>
-        </h5>
+        <!-- Header -->
+        <div
+            class="dashboard-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 shadow p-3 rounded">
 
-        <a href="logout.php" class="btn btn-danger btn-sm">
-            <i class="bi bi-box-arrow-right"></i> Logout
-        </a>
-    </div>
+            <h5 class="mb-2 mb-md-0">
+                <i class="bi bi-speedometer2"></i>
+                <span class="d-none d-sm-inline">Forwarded Requests Dashboard</span>
+                <span class="d-inline d-sm-none">Dashboard</span>
+            </h5>
 
-<?php if($res->num_rows > 0){ ?>
-<?php while($row=$res->fetch_assoc()){ ?>
+            <a href="logout.php" class="btn btn-danger btn-sm">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+        </div>
 
-<div class="card app-card mb-4 shadow-sm">
+        <?php if($res->num_rows > 0){ ?>
+        <?php while($row=$res->fetch_assoc()){ ?>
 
-    <!-- Card Header -->
-    <div class="card-header bg-dark text-white">
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2">
-            
-            <span class="small">
-                <i class="bi bi-file-earmark-text"></i>
-                Application ID: <?= $row['id'] ?>
-            </span>
+        <div class="card app-card mb-4 shadow-sm">
 
-            <?php
+            <!-- Card Header -->
+            <div class="card-header bg-dark text-white">
+                <div
+                    class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2">
+
+                    <span class="small">
+                        <i class="bi bi-file-earmark-text"></i>
+                        Application ID: <?= $row['id'] ?>
+                    </span>
+
+                    <?php
             $status = $row['status'];
             $badge="secondary";
 
@@ -80,63 +82,88 @@ $res = $conn->query("
             if($status=="Not Recommended") $badge="danger";
             ?>
 
-            <span class="badge bg-<?= $badge ?> px-3 py-2">
-                <?= $status ?>
-            </span>
-        </div>
-    </div>
-
-    <div class="card-body">
-
-        <!-- Top Info Row -->
-        <div class="row g-3">
-
-            <!-- Applicant -->
-            <div class="col-12 col-md-6">
-                <div class="border rounded p-3 h-100">
-                    <h6 class="mb-3">
-                        <i class="bi bi-person-circle text-primary"></i> Applicant
-                    </h6>
-
-                    <p class="mb-1"><strong>Name:</strong> <?= $row['applicant_name'] ?></p>
-                    <p class="mb-1">
-                        <strong>Staff Type:</strong>
-                        <span class="badge bg-info text-dark">
-                            <?= $row['staff_type'] ?>
-                        </span>
-                    </p>
-                    <p class="mb-1"><strong>Mobile:</strong> <?= $row['mobile'] ?></p>
-                    <p class="mb-0"><strong>Email:</strong> <?= $row['email'] ?: 'N/A' ?></p>
+                    <span class="badge bg-<?= $badge ?> px-3 py-2">
+                        <?= $status ?>
+                    </span>
                 </div>
             </div>
 
-            <!-- Journey -->
-            <div class="col-12 col-md-6">
-                <div class="border rounded p-3 h-100">
+            <div class="card-body">
+
+                <!-- Top Info Row -->
+                <div class="row g-3">
+
+                    <!-- Applicant -->
+                    <div class="col-12 col-md-6">
+                        <div class="border rounded p-3 h-100">
+                            <h6 class="mb-3">
+                                <i class="bi bi-person-circle text-primary"></i> Applicant
+                            </h6>
+
+                            <p class="mb-1">
+                                <strong>Booking For:</strong>
+                                <span class="badge bg-secondary">
+                                    <?= $row['booking_for'] ?>
+                                </span>
+                            </p>
+
+                            <?php if($row['booking_for']=="Someone" && !empty($row['other_person_name'])){ ?>
+
+                            <p class="mb-1">
+                                <strong>Person Name:</strong> <?= $row['other_person_name'] ?>
+                            </p>
+
+                            <p class="mb-1">
+                                <strong>Applicant Name:</strong> <?= $row['applicant_name'] ?>
+                            </p>
+
+                            <?php } else { ?>
+
+                            <p class="mb-1">
+                                <strong>Name:</strong> <?= $row['applicant_name'] ?>
+                            </p>
+
+                            <?php } ?>
+                            <p class="mb-1">
+                                <strong>Staff Type:</strong>
+                                <span class="badge bg-info text-dark">
+                                    <?= $row['staff_type'] ?>
+                                </span>
+                            </p>
+                            <p class="mb-1"><strong>Mobile:</strong> <?= $row['mobile'] ?></p>
+                            <p class="mb-0"><strong>Email:</strong> <?= $row['email'] ?: 'N/A' ?></p>
+                        </div>
+                    </div>
+
+                    <!-- Journey -->
+                    <div class="col-12 col-md-6">
+                        <div class="border rounded p-3 h-100">
+                            <h6 class="mb-3">
+                                <i class="bi bi-geo-alt-fill text-success"></i> Journey
+                            </h6>
+
+                            <p class="mb-1"><strong>Vehicle:</strong> <?= $row['vehicle_required'] ?></p>
+                            <p class="mb-1"><strong>From:</strong>
+                                <?= date("d M Y, h:i A", strtotime($row['datetime_from'])) ?></p>
+                            <p class="mb-1"><strong>To:</strong>
+                                <?= date("d M Y, h:i A", strtotime($row['datetime_to'])) ?></p>
+                            <p class="mb-1"><strong>Place:</strong> <?= $row['place_of_visit'] ?></p>
+                            <p class="mb-0"><strong>Purpose:</strong> <?= $row['purpose'] ?></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <!-- Co Travelers -->
+                <div class="mb-3">
                     <h6 class="mb-3">
-                        <i class="bi bi-geo-alt-fill text-success"></i> Journey
+                        <i class="bi bi-people-fill text-warning"></i> Co-Travelers
                     </h6>
 
-                    <p class="mb-1"><strong>Vehicle:</strong> <?= $row['vehicle_required'] ?></p>
-                    <p class="mb-1"><strong>From:</strong> <?= date("d M Y, h:i A", strtotime($row['datetime_from'])) ?></p>
-                    <p class="mb-1"><strong>To:</strong> <?= date("d M Y, h:i A", strtotime($row['datetime_to'])) ?></p>
-                    <p class="mb-1"><strong>Place:</strong> <?= $row['place_of_visit'] ?></p>
-                    <p class="mb-0"><strong>Purpose:</strong> <?= $row['purpose'] ?></p>
-                </div>
-            </div>
-
-        </div>
-
-        <hr>
-
-        <!-- Co Travelers -->
-        <div class="mb-3">
-            <h6 class="mb-3">
-                <i class="bi bi-people-fill text-warning"></i> Co-Travelers
-            </h6>
-
-            <div class="row g-2">
-                <?php
+                    <div class="row g-2">
+                        <?php
                 $has=false;
                 for($i=1;$i<=4;$i++){
                     if(!empty($row["cotraveler$i"])){
@@ -152,73 +179,70 @@ $res = $conn->query("
                     echo "<p class='text-muted'>No Co-Travelers</p>";
                 }
                 ?>
-            </div>
-        </div>
+                    </div>
+                </div>
 
-        <hr>
+                <hr>
 
-        <!-- Tour Order -->
-        <div class="mb-3">
-            <h6 class="mb-3">
-                <i class="bi bi-file-earmark-pdf text-danger"></i> Tour Order
-            </h6>
-            <?php if($row['tour_approved'] == 1){ ?>
-                <?php if(!empty($row['tour_order_pdf'])){ ?>
+                <!-- Tour Order -->
+                <div class="mb-3">
+                    <h6 class="mb-3">
+                        <i class="bi bi-file-earmark-pdf text-danger"></i> Tour Order
+                    </h6>
+                    <?php if($row['tour_approved'] == 1){ ?>
+                    <?php if(!empty($row['tour_order_pdf'])){ ?>
                     <div>
-                        <a href="view_tour_pdf.php?file=<?= $row['tour_order_pdf'] ?>"
-                           target="_blank"
-                           class="btn btn-outline-primary btn-sm w-100 w-md-auto">
+                        <a href="view_tour_pdf.php?file=<?= $row['tour_order_pdf'] ?>" target="_blank"
+                            class="btn btn-outline-primary btn-sm w-100 w-md-auto">
                             View Tour Order
                         </a>
                     </div>
+                    <?php } ?>
+                    <?php } else { ?>
+                    <span class="badge bg-secondary">
+                        Not Attached
+                    </span>
+                    <?php } ?>
+                </div>
+
+                <!-- Action Buttons -->
+                <?php if($row['status']=="Pending" || $row['status']=="Draft"){ ?>
+                <div class="row g-2 mt-3">
+                    <div class="col-12 col-md-4">
+                        <form method="POST" action="recommend.php?id=<?= $row['id'] ?>">
+                            <button name="type" value="Recommended" class="btn btn-success btn-sm w-100">
+                                Recommend
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <form method="POST" action="recommend.php?id=<?= $row['id'] ?>">
+                            <button name="type" value="Not Recommended" class="btn btn-danger btn-sm w-100">
+                                Reject
+                            </button>
+                        </form>
+                    </div>
+                </div>
                 <?php } ?>
-            <?php } else { ?>
-                <span class="badge bg-secondary">
-                    Not Attached
-                </span>
-            <?php } ?>
+
+                <p class="text-muted small mt-4 mb-0">
+                    Submitted: <?= date("d M Y, h:i A", strtotime($row['created_at'])) ?>
+                </p>
+
+            </div>
         </div>
 
-        <!-- Action Buttons -->
-        <?php if($row['status']=="Pending" || $row['status']=="Draft"){ ?>
-            <div class="row g-2 mt-3">
-                <div class="col-12 col-md-4">
-                    <form method="POST" action="recommend.php?id=<?= $row['id'] ?>">
-                        <button name="type" value="Recommended"
-                            class="btn btn-success btn-sm w-100">
-                            Recommend
-                        </button>
-                    </form>
-                </div>
+        <?php } ?>
+        <?php } else { ?>
 
-                <div class="col-12 col-md-4">
-                    <form method="POST" action="recommend.php?id=<?= $row['id'] ?>">
-                        <button name="type" value="Not Recommended"
-                            class="btn btn-danger btn-sm w-100">
-                            Reject
-                        </button>
-                    </form>
-                </div>
-            </div>
+        <div class="alert alert-info text-center shadow-sm">
+            No forwarded applications found.
+        </div>
+
         <?php } ?>
 
-        <p class="text-muted small mt-4 mb-0">
-            Submitted: <?= date("d M Y, h:i A", strtotime($row['created_at'])) ?>
-        </p>
-
     </div>
-</div>
-
-<?php } ?>
-<?php } else { ?>
-
-<div class="alert alert-info text-center shadow-sm">
-    No forwarded applications found.
-</div>
-
-<?php } ?>
-
-</div>
 
 </body>
 

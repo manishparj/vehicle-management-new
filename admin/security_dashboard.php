@@ -1247,13 +1247,15 @@ function getButtonConfig($status) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Security Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="security.css">
+    <link rel="stylesheet" href="security.css">
 </head>
+
 <body>
     <?php include('../header.php'); ?>
 
@@ -1285,296 +1287,335 @@ function getButtonConfig($status) {
 
             <div class="applications-grid">
                 <?php if ($res->num_rows > 0): ?>
-                    <?php while ($row = $res->fetch_assoc()): 
+                <?php while ($row = $res->fetch_assoc()): 
                         $btnConfig = getButtonConfig($row['status']);
                     ?>
-                        <div class="application-card">
-                            <!-- Card Header -->
-                            <div class="card-header">
-                                <div class="app-id">#<?= htmlspecialchars($row['id']) ?></div>
-                                <span class="status-badge <?= getStatusBadgeClass($row['status']) ?>">
-                                    <?= getStatusDisplayText($row['status']) ?>
-                                </span>
+                <div class="application-card">
+                    <!-- Card Header -->
+                    <div class="card-header">
+                        <div class="app-id">#<?= htmlspecialchars($row['id']) ?></div>
+                        <span class="status-badge <?= getStatusBadgeClass($row['status']) ?>">
+                            <?= getStatusDisplayText($row['status']) ?>
+                        </span>
+                    </div>
+
+                    <div class="card-body">
+                        <!-- Applicant Section -->
+                        <div class="info-section">
+                            <div class="section-title">
+                                <i class="bi bi-person-badge"></i>
+                                <span>Applicant</span>
                             </div>
-
-                            <div class="card-body">
-                                <!-- Applicant Section -->
-                                <div class="info-section">
-                                    <div class="section-title">
-                                        <i class="bi bi-person-badge"></i>
-                                        <span>Applicant</span>
-                                    </div>
-                                    <div class="info-grid">
-                                        <div class="info-item">
-                                            <span class="info-label">Name:</span>
-                                            <span class="info-value"><?= htmlspecialchars($row['applicant_name']) ?></span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="info-label">Email:</span>
-                                            <span class="info-value text-truncate"><?= htmlspecialchars($row['email']) ?></span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="info-label">Mobile:</span>
-                                            <span class="info-value"><?= htmlspecialchars($row['mobile']) ?></span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="info-label">Staff Type:</span>
-                                            <span class="info-value"><?= htmlspecialchars($row['staff_type']) ?></span>
-                                        </div>
-                                    </div>
+                            <div class="info-grid">
+                                <!-- Booking For -->
+                                <div class="info-item">
+                                    <span class="info-label">Booking For:</span>
+                                    <span class="info-value">
+                                        <?= htmlspecialchars($row['booking_for']) ?>
+                                    </span>
                                 </div>
 
-                                <!-- Journey Section -->
-                                <div class="info-section">
-                                    <div class="section-title">
-                                        <i class="bi bi-map"></i>
-                                        <span>Journey</span>
-                                    </div>
-                                    <div class="info-grid">
-                                        <div class="info-item">
-                                            <span class="info-label">From:</span>
-                                            <span class="info-value"><?= date("d M Y H:i", strtotime($row['datetime_from'])) ?></span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="info-label">To:</span>
-                                            <span class="info-value"><?= date("d M Y H:i", strtotime($row['datetime_to'])) ?></span>
-                                        </div>
-                                        <div class="info-item full-width">
-                                            <span class="info-label">Place:</span>
-                                            <span class="info-value"><?= htmlspecialchars($row['place_of_visit']) ?></span>
-                                        </div>
-                                        <div class="info-item full-width">
-                                            <span class="info-label">Purpose:</span>
-                                            <span class="info-value"><?= htmlspecialchars($row['purpose']) ?></span>
-                                        </div>
-                                        <?php if (!empty($row['remark'])): ?>
-                                        <div class="info-item full-width">
-                                            <span class="info-label">Remark:</span>
-                                            <span class="info-value"><?= htmlspecialchars($row['remark']) ?></span>
-                                        </div>
-                                        <?php endif; ?>
-                                    </div>
+                                <?php if($row['booking_for'] == "Someone" && !empty($row['other_person_name'])){ ?>
+
+                                <!-- Other Person -->
+                                <div class="info-item">
+                                    <span class="info-label">Person Name:</span>
+                                    <span class="info-value">
+                                        <?= htmlspecialchars($row['other_person_name']) ?>
+                                    </span>
                                 </div>
 
-                                <!-- Driver & Vehicle Section -->
-                                <div class="info-section">
-                                    <div class="section-title">
-                                        <i class="bi bi-truck"></i>
-                                        <span>Vehicle & Driver</span>
-                                    </div>
-                                    <div class="info-grid">
-                                        <div class="info-item">
-                                            <span class="info-label">Driver:</span>
-                                            <span class="info-value"><?= htmlspecialchars($row['driver_name']) ?></span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="info-label">Contact:</span>
-                                            <span class="info-value"><?= htmlspecialchars($row['driver_mobile']) ?></span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="info-label">Vehicle:</span>
-                                            <span class="info-value"><?= htmlspecialchars($row['vehicle_name']) ?></span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="info-label">Type:</span>
-                                            <span class="info-value"><?= htmlspecialchars($row['vehicle_type']) ?></span>
-                                        </div>
-                                        <div class="info-item full-width">
-                                            <span class="info-label">Reg No:</span>
-                                            <span class="info-value vehicle-no"><?= htmlspecialchars($row['vehicle_no']) ?></span>
-                                        </div>
-                                    </div>
+                                <!-- Applicant -->
+                                <div class="info-item">
+                                    <span class="info-label">Applicant Name:</span>
+                                    <span class="info-value">
+                                        <?= htmlspecialchars($row['applicant_name']) ?>
+                                    </span>
                                 </div>
 
-                                <!-- Co-Travelers Section -->
-                                <?php if ($row['cotraveler1'] || $row['cotraveler2'] || $row['cotraveler3'] || $row['cotraveler4']): ?>
-                                <div class="info-section">
-                                    <div class="section-title">
-                                        <i class="bi bi-people"></i>
-                                        <span>Co-Travelers</span>
-                                    </div>
-                                    <div class="travelers-list">
-                                        <?php for ($i = 1; $i <= 4; $i++): ?>
-                                            <?php if (!empty($row['cotraveler' . $i])): ?>
-                                                <div class="traveler-item">
-                                                    <i class="bi bi-person"></i>
-                                                    <?= htmlspecialchars($row['cotraveler' . $i]) ?>
-                                                </div>
-                                            <?php endif; ?>
-                                        <?php endfor; ?>
-                                    </div>
+                                <?php } else { ?>
+
+                                <!-- Applicant -->
+                                <div class="info-item">
+                                    <span class="info-label">Name:</span>
+                                    <span class="info-value">
+                                        <?= htmlspecialchars($row['applicant_name']) ?>
+                                    </span>
+                                </div>
+
+                                <?php } ?>
+                                <div class="info-item">
+                                    <span class="info-label">Email:</span>
+                                    <span class="info-value text-truncate"><?= htmlspecialchars($row['email']) ?></span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Mobile:</span>
+                                    <span class="info-value"><?= htmlspecialchars($row['mobile']) ?></span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Staff Type:</span>
+                                    <span class="info-value"><?= htmlspecialchars($row['staff_type']) ?></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Journey Section -->
+                        <div class="info-section">
+                            <div class="section-title">
+                                <i class="bi bi-map"></i>
+                                <span>Journey</span>
+                            </div>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <span class="info-label">From:</span>
+                                    <span
+                                        class="info-value"><?= date("d M Y H:i", strtotime($row['datetime_from'])) ?></span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">To:</span>
+                                    <span
+                                        class="info-value"><?= date("d M Y H:i", strtotime($row['datetime_to'])) ?></span>
+                                </div>
+                                <div class="info-item full-width">
+                                    <span class="info-label">Place:</span>
+                                    <span class="info-value"><?= htmlspecialchars($row['place_of_visit']) ?></span>
+                                </div>
+                                <div class="info-item full-width">
+                                    <span class="info-label">Purpose:</span>
+                                    <span class="info-value"><?= htmlspecialchars($row['purpose']) ?></span>
+                                </div>
+                                <?php if (!empty($row['remark'])): ?>
+                                <div class="info-item full-width">
+                                    <span class="info-label">Remark:</span>
+                                    <span class="info-value"><?= htmlspecialchars($row['remark']) ?></span>
                                 </div>
                                 <?php endif; ?>
-
-                                <!-- Approval Section -->
-                                <div class="info-section">
-                                    <div class="section-title">
-                                        <i class="bi bi-check-circle"></i>
-                                        <span>Approval</span>
-                                    </div>
-                                    <div class="info-grid">
-                                        <div class="info-item full-width">
-                                            <span class="info-label">Forwarded To:</span>
-                                            <span class="info-value"><?= htmlspecialchars($row['forwarded_admin_name']) ?></span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="info-label">Tour Order:</span>
-                                            <span class="info-value">
-                                                <?= $row['tour_approved'] ? '✓ Attached' : '✗ Not Attached' ?>
-                                            </span>
-                                        </div>
-                                        <?php if ($row['tour_order_pdf']): ?>
-                                        <div class="info-item full-width">
-                                            <a href="../uploads/<?= htmlspecialchars($row['tour_order_pdf']) ?>" 
-                                               target="_blank" class="btn-view-pdf">
-                                                <i class="bi bi-file-pdf"></i> View Tour Order
-                                            </a>
-                                        </div>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-
-                                <!-- Security Movement Section -->
-                                <div class="info-section">
-                                    <div class="section-title">
-                                        <i class="bi bi-shield-lock"></i>
-                                        <span>Security Details</span>
-                                    </div>
-                                    <div class="security-grid">
-                                        <div class="security-item">
-                                            <span class="security-label">Out:</span>
-                                            <span class="security-value">
-                                                <?= $row['out_datetime'] ? date('d M H:i', strtotime($row['out_datetime'])) : '--' ?>
-                                            </span>
-                                        </div>
-                                        <div class="security-item">
-                                            <span class="security-label">KM Out:</span>
-                                            <span class="security-value"><?= $row['km_out'] ?: '--' ?></span>
-                                        </div>
-                                        <div class="security-item">
-                                            <span class="security-label">In:</span>
-                                            <span class="security-value">
-                                                <?= $row['in_datetime'] ? date('d M H:i', strtotime($row['in_datetime'])) : '--' ?>
-                                            </span>
-                                        </div>
-                                        <div class="security-item">
-                                            <span class="security-label">KM In:</span>
-                                            <span class="security-value"><?= $row['km_in'] ?: '--' ?></span>
-                                        </div>
-                                        <div class="security-item">
-                                            <span class="security-label">Total KM:</span>
-                                            <span class="security-value"><?= $row['total_km'] ?: '--' ?></span>
-                                        </div>
-                                        <div class="security-item">
-                                            <span class="security-label">Hours:</span>
-                                            <span class="security-value"><?= $row['total_hours'] ?: '--' ?></span>
-                                        </div>
-                                        <div class="security-item full-width">
-                                            <span class="security-label">Guard:</span>
-                                            <span class="security-value"><?= htmlspecialchars($row['security_guard_name'] ?: '--') ?></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Created At -->
-                                <div class="created-at">
-                                    <i class="bi bi-clock"></i>
-                                    <?= date('d M Y H:i', strtotime($row['created_at'])) ?>
-                                </div>
-
-                                <!-- Action Button -->
-                                <button class="action-btn <?= $btnConfig['class'] ?>"
-                                        data-id="<?= htmlspecialchars($row['id']) ?>"
-                                        data-status="<?= htmlspecialchars($row['status']) ?>"
-                                        <?= !$btnConfig['disabled'] ? 'data-bs-toggle="modal" data-bs-target="#modal' . $row['id'] . '"' : '' ?>
-                                        <?= $btnConfig['disabled'] ? 'disabled' : '' ?>>
-                                    <i class="bi <?= getButtonIcon($row['status']) ?>"></i>
-                                    <span><?= htmlspecialchars($btnConfig['text']) ?></span>
-                                </button>
                             </div>
                         </div>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="modal<?= $row['id'] ?>" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <form method="POST">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">
-                                                <i class="bi bi-<?= $row['status'] == 'Approved' ? 'play' : 'flag' ?>-circle"></i>
-                                                <?= $row['status'] == 'Approved' ? 'Start Journey' : 'Complete Journey' ?>
-                                            </h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                        </div>
-
-                                        <div class="modal-body">
-                                            <input type="hidden" name="app_id" value="<?= htmlspecialchars($row['id']) ?>">
-
-                                            <?php if ($row['status'] == 'Approved'): ?>
-                                                <!-- Out Journey Fields -->
-                                                <div class="form-group">
-                                                    <label>Out Date & Time</label>
-                                                    <input type="datetime-local" name="out_datetime" class="form-control" required>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label>KM Out</label>
-                                                    <input type="number" name="km_out" class="form-control" required>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label>Security Guard Name</label>
-                                                    <input type="text" name="guard_out" class="form-control" required>
-                                                </div>
-                                                
-                                                <input type="hidden" name="journey_status" value="Departure">
-
-                                            <?php elseif ($row['status'] == 'Departure'): ?>
-                                                <!-- Return Journey Fields -->
-                                                <div class="form-group">
-                                                    <label>In Date & Time</label>
-                                                    <input type="datetime-local" name="in_datetime" class="form-control" required>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label>KM In</label>
-                                                    <input type="number" name="km_in" class="form-control" required>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label>Security Guard (Return)</label>
-                                                    <input type="text" name="guard_in" class="form-control" required>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label>Journey Status</label>
-                                                    <select name="journey_status" class="form-control" required>
-                                                        <option value="Completed">Completed - Successful</option>
-                                                        <option value="Cancelled">Cancelled - Not Completed</option>
-                                                    </select>
-                                                </div>
-                                            <?php endif; ?>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">
-                                                <i class="bi bi-x-circle"></i> Cancel
-                                            </button>
-                                            <button type="submit" name="mark_departure" class="btn-modal-submit">
-                                                <i class="bi bi-check-circle"></i> 
-                                                <?= $row['status'] == 'Approved' ? 'Start Journey' : 'Complete' ?>
-                                            </button>
-                                        </div>
-                                    </form>
+                        <!-- Driver & Vehicle Section -->
+                        <div class="info-section">
+                            <div class="section-title">
+                                <i class="bi bi-truck"></i>
+                                <span>Vehicle & Driver</span>
+                            </div>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <span class="info-label">Driver:</span>
+                                    <span class="info-value"><?= htmlspecialchars($row['driver_name']) ?></span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Contact:</span>
+                                    <span class="info-value"><?= htmlspecialchars($row['driver_mobile']) ?></span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Vehicle:</span>
+                                    <span class="info-value"><?= htmlspecialchars($row['vehicle_name']) ?></span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Type:</span>
+                                    <span class="info-value"><?= htmlspecialchars($row['vehicle_type']) ?></span>
+                                </div>
+                                <div class="info-item full-width">
+                                    <span class="info-label">Reg No:</span>
+                                    <span
+                                        class="info-value vehicle-no"><?= htmlspecialchars($row['vehicle_no']) ?></span>
                                 </div>
                             </div>
                         </div>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <div class="no-applications">
-                        <i class="bi bi-inbox"></i>
-                        <p>No applications found</p>
+
+                        <!-- Co-Travelers Section -->
+                        <?php if ($row['cotraveler1'] || $row['cotraveler2'] || $row['cotraveler3'] || $row['cotraveler4']): ?>
+                        <div class="info-section">
+                            <div class="section-title">
+                                <i class="bi bi-people"></i>
+                                <span>Co-Travelers</span>
+                            </div>
+                            <div class="travelers-list">
+                                <?php for ($i = 1; $i <= 4; $i++): ?>
+                                <?php if (!empty($row['cotraveler' . $i])): ?>
+                                <div class="traveler-item">
+                                    <i class="bi bi-person"></i>
+                                    <?= htmlspecialchars($row['cotraveler' . $i]) ?>
+                                </div>
+                                <?php endif; ?>
+                                <?php endfor; ?>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+                        <!-- Approval Section -->
+                        <div class="info-section">
+                            <div class="section-title">
+                                <i class="bi bi-check-circle"></i>
+                                <span>Approval</span>
+                            </div>
+                            <div class="info-grid">
+                                <div class="info-item full-width">
+                                    <span class="info-label">Forwarded To:</span>
+                                    <span
+                                        class="info-value"><?= htmlspecialchars($row['forwarded_admin_name']) ?></span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Tour Order:</span>
+                                    <span class="info-value">
+                                        <?= $row['tour_approved'] ? '✓ Attached' : '✗ Not Attached' ?>
+                                    </span>
+                                </div>
+                                <?php if ($row['tour_order_pdf']): ?>
+                                <div class="info-item full-width">
+                                    <a href="../uploads/<?= htmlspecialchars($row['tour_order_pdf']) ?>" target="_blank"
+                                        class="btn-view-pdf">
+                                        <i class="bi bi-file-pdf"></i> View Tour Order
+                                    </a>
+                                </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <!-- Security Movement Section -->
+                        <div class="info-section">
+                            <div class="section-title">
+                                <i class="bi bi-shield-lock"></i>
+                                <span>Security Details</span>
+                            </div>
+                            <div class="security-grid">
+                                <div class="security-item">
+                                    <span class="security-label">Out:</span>
+                                    <span class="security-value">
+                                        <?= $row['out_datetime'] ? date('d M H:i', strtotime($row['out_datetime'])) : '--' ?>
+                                    </span>
+                                </div>
+                                <div class="security-item">
+                                    <span class="security-label">KM Out:</span>
+                                    <span class="security-value"><?= $row['km_out'] ?: '--' ?></span>
+                                </div>
+                                <div class="security-item">
+                                    <span class="security-label">In:</span>
+                                    <span class="security-value">
+                                        <?= $row['in_datetime'] ? date('d M H:i', strtotime($row['in_datetime'])) : '--' ?>
+                                    </span>
+                                </div>
+                                <div class="security-item">
+                                    <span class="security-label">KM In:</span>
+                                    <span class="security-value"><?= $row['km_in'] ?: '--' ?></span>
+                                </div>
+                                <div class="security-item">
+                                    <span class="security-label">Total KM:</span>
+                                    <span class="security-value"><?= $row['total_km'] ?: '--' ?></span>
+                                </div>
+                                <div class="security-item">
+                                    <span class="security-label">Hours:</span>
+                                    <span class="security-value"><?= $row['total_hours'] ?: '--' ?></span>
+                                </div>
+                                <div class="security-item full-width">
+                                    <span class="security-label">Guard:</span>
+                                    <span
+                                        class="security-value"><?= htmlspecialchars($row['security_guard_name'] ?: '--') ?></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Created At -->
+                        <div class="created-at">
+                            <i class="bi bi-clock"></i>
+                            <?= date('d M Y H:i', strtotime($row['created_at'])) ?>
+                        </div>
+
+                        <!-- Action Button -->
+                        <button class="action-btn <?= $btnConfig['class'] ?>"
+                            data-id="<?= htmlspecialchars($row['id']) ?>"
+                            data-status="<?= htmlspecialchars($row['status']) ?>"
+                            <?= !$btnConfig['disabled'] ? 'data-bs-toggle="modal" data-bs-target="#modal' . $row['id'] . '"' : '' ?>
+                            <?= $btnConfig['disabled'] ? 'disabled' : '' ?>>
+                            <i class="bi <?= getButtonIcon($row['status']) ?>"></i>
+                            <span><?= htmlspecialchars($btnConfig['text']) ?></span>
+                        </button>
                     </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="modal<?= $row['id'] ?>" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <form method="POST">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        <i
+                                            class="bi bi-<?= $row['status'] == 'Approved' ? 'play' : 'flag' ?>-circle"></i>
+                                        <?= $row['status'] == 'Approved' ? 'Start Journey' : 'Complete Journey' ?>
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <input type="hidden" name="app_id" value="<?= htmlspecialchars($row['id']) ?>">
+
+                                    <?php if ($row['status'] == 'Approved'): ?>
+                                    <!-- Out Journey Fields -->
+                                    <div class="form-group">
+                                        <label>Out Date & Time</label>
+                                        <input type="datetime-local" name="out_datetime" class="form-control" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>KM Out</label>
+                                        <input type="number" name="km_out" class="form-control" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Security Guard Name</label>
+                                        <input type="text" name="guard_out" class="form-control" required>
+                                    </div>
+
+                                    <input type="hidden" name="journey_status" value="Departure">
+
+                                    <?php elseif ($row['status'] == 'Departure'): ?>
+                                    <!-- Return Journey Fields -->
+                                    <div class="form-group">
+                                        <label>In Date & Time</label>
+                                        <input type="datetime-local" name="in_datetime" class="form-control" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>KM In</label>
+                                        <input type="number" name="km_in" class="form-control" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Security Guard (Return)</label>
+                                        <input type="text" name="guard_in" class="form-control" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Journey Status</label>
+                                        <select name="journey_status" class="form-control" required>
+                                            <option value="Completed">Completed - Successful</option>
+                                            <option value="Cancelled">Cancelled - Not Completed</option>
+                                        </select>
+                                    </div>
+                                    <?php endif; ?>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">
+                                        <i class="bi bi-x-circle"></i> Cancel
+                                    </button>
+                                    <button type="submit" name="mark_departure" class="btn-modal-submit">
+                                        <i class="bi bi-check-circle"></i>
+                                        <?= $row['status'] == 'Approved' ? 'Start Journey' : 'Complete' ?>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <?php endwhile; ?>
+                <?php else: ?>
+                <div class="no-applications">
+                    <i class="bi bi-inbox"></i>
+                    <p>No applications found</p>
+                </div>
                 <?php endif; ?>
             </div>
         </div>
@@ -1582,4 +1623,5 @@ function getButtonConfig($status) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

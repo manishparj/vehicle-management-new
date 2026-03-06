@@ -12,6 +12,8 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 // Collect form data safely
+$booking_for = $_POST['booking_for'];
+$other_person_name = $_POST['other_person_name'] ?? '';
 $staff_type       = $_POST['staff_type'];
 $applicant_name   = $_POST['applicant_name'];
 $vehicle_required = $_POST['vehicle_required'];
@@ -69,29 +71,31 @@ if ($tour_approved == 1 && isset($_FILES['tour_order_pdf']) && $_FILES['tour_ord
 
 // ================= INSERT DATA (PREPARED STATEMENT) =================
 $stmt = $conn->prepare("INSERT INTO vehicle_applications
-(staff_type, applicant_name, vehicle_required, datetime_from, datetime_to, place_of_visit, purpose,
+(booking_for, other_person_name, staff_type, applicant_name, vehicle_required, datetime_from, datetime_to, place_of_visit, purpose,
 cotraveler1, cotraveler2, cotraveler3, cotraveler4,
 mobile, email, forwarded_to, tour_approved, tour_order_pdf)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 $stmt->bind_param(
-    "sssssssssssssiis",
-    $staff_type,
-    $applicant_name,
-    $vehicle_required,
-    $datetime_from,
-    $datetime_to,
-    $place_of_visit,
-    $purpose,
-    $cotraveler1,
-    $cotraveler2,
-    $cotraveler3,
-    $cotraveler4,
-    $mobile,
-    $email,
-    $forwarded_to,
-    $tour_approved,
-    $tour_order_pdf
+"sssssssssssssssiss",
+$booking_for,
+$other_person_name,
+$staff_type,
+$applicant_name,
+$vehicle_required,
+$datetime_from,
+$datetime_to,
+$place_of_visit,
+$purpose,
+$cotraveler1,
+$cotraveler2,
+$cotraveler3,
+$cotraveler4,
+$mobile,
+$email,
+$forwarded_to,
+$tour_approved,
+$tour_order_pdf
 );
 
 $email_status = "";

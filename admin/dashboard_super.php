@@ -282,30 +282,61 @@ if(!$res){
         
         <td data-label="ID"><?= $i++ ?></td>
 
-        <!-- Applicant Column (unchanged) -->
-        <td data-label="Applicant" data-name="<?= htmlspecialchars($row['applicant_name']) ?>"
-            data-mobile="<?= htmlspecialchars($row['mobile']) ?>"
-            data-email="<?= htmlspecialchars($row['email']) ?>">
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2">
-                <div>
-                    <div class="fw-semibold">
-                        <i class="bi bi-person-fill text-primary"></i>
-                        <?= $row['applicant_name'] ?>
-                    </div>
-                    <div>
-                        <?php
-                        $staffType = $row['staff_type'];
-                        $staffBadge = ($staffType == "Permanent") ? "primary" : "warning text-dark";
-                        echo "<span class='badge bg-$staffBadge px-3 py-2'>$staffType</span>";
-                        ?>
-                    </div>
-                    <div class="small text-muted mt-1">
-                        <i class="bi bi-phone"></i> <?= $row['mobile'] ?><br>
-                        <i class="bi bi-envelope"></i> <?= $row['email'] ?><br>
-                    </div>
-                </div>
+       <!-- Applicant Column -->
+<td data-label="Applicant" 
+    data-name="<?= htmlspecialchars($row['applicant_name']) ?>"
+    data-mobile="<?= htmlspecialchars($row['mobile']) ?>"
+    data-email="<?= htmlspecialchars($row['email']) ?>">
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2">
+        <div>
+
+            <!-- Booking For -->
+            <div class="small mb-1">
+                <strong>Booking For:</strong>
+                <span class="badge bg-secondary">
+                    <?= htmlspecialchars($row['booking_for']) ?>
+                </span>
             </div>
-        </td>
+
+            <?php if($row['booking_for'] == "Someone" && !empty($row['other_person_name'])){ ?>
+                <div class="fw-semibold">
+                    <i class="bi bi-person-badge text-success"></i>
+                    <?= htmlspecialchars($row['other_person_name']) ?>
+                </div>
+
+                <div class="small text-muted">
+                    <i class="bi bi-person-fill"></i>
+                    Applicant: <?= htmlspecialchars($row['applicant_name']) ?>
+                </div>
+
+            <?php } else { ?>
+
+                <div class="fw-semibold">
+                    <i class="bi bi-person-fill text-primary"></i>
+                    <?= htmlspecialchars($row['applicant_name']) ?>
+                </div>
+
+            <?php } ?>
+
+            <!-- Staff Type -->
+            <div class="mt-1">
+                <?php
+                $staffType = $row['staff_type'];
+                $staffBadge = ($staffType == "Permanent") ? "primary" : "warning text-dark";
+                echo "<span class='badge bg-$staffBadge px-3 py-2'>$staffType</span>";
+                ?>
+            </div>
+
+            <!-- Contact -->
+            <div class="small text-muted mt-1">
+                <i class="bi bi-phone"></i> <?= htmlspecialchars($row['mobile']) ?><br>
+                <i class="bi bi-envelope"></i> <?= htmlspecialchars($row['email']) ?>
+            </div>
+
+        </div>
+    </div>
+</td>
 
         <!-- Journey Column (unchanged) -->
         <td data-label="Tour Details" data-tour="<?= $row['tour_approved'] == 1 ? 'Attached' : 'N.A' ?>"

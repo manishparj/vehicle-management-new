@@ -1,4 +1,4 @@
-<?php include("../config/db.php"); ?>
+<?php include("./config/db.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,7 +62,7 @@ button.btn-primary {
 </style>
 </head>
 <body>
-<?php include('../header.php'); ?>
+<?php include('./header.php'); ?>
 
 <div class="container mt-5">
 <div class="card shadow p-4">
@@ -128,10 +128,18 @@ echo "<span class='badge badge-status bg-$badgeClass'>$status</span>";
 <div class="col-md-6">
 <h6 class="section-title"><i class="bi bi-person-circle"></i> Applicant Details</h6>
 <p>
-<b>Name:</b> <?= $row['applicant_name'] ?><br>
-<b>Mobile:</b> <?= $row['mobile'] ?><br>
-<b>Email:</b> <?= $row['email'] ?><br>
-<b>Purpose:</b> <?= $row['purpose'] ?>
+<b>Booking For:</b> <?= htmlspecialchars($row['booking_for']) ?><br>
+
+<?php if($row['booking_for'] == "Someone" && !empty($row['other_person_name'])){ ?>
+<b>Person Name:</b> <?= htmlspecialchars($row['other_person_name']) ?><br>
+<b>Applicant Name:</b> <?= htmlspecialchars($row['applicant_name']) ?><br>
+<?php } else { ?>
+<b>Name:</b> <?= htmlspecialchars($row['applicant_name']) ?><br>
+<?php } ?>
+
+<b>Mobile:</b> <?= htmlspecialchars($row['mobile']) ?><br>
+<b>Email:</b> <?= htmlspecialchars($row['email']) ?><br>
+<b>Purpose:</b> <?= htmlspecialchars($row['purpose']) ?>
 </p>
 
 <h6 class="section-title"><i class="bi bi-people-fill"></i> Co-Travelers</h6>
