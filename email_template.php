@@ -266,7 +266,7 @@
             </div>
             
             <div style="text-align: center;">
-                <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/admin/login.php" class="action-button">
+            <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/vehicle_app/admin/login.php" class="action-button">
                     🔐 Login to Review & Take Action
                 </a>
             </div>

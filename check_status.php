@@ -10,56 +10,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
-body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #4e73df, #1cc88a);
-    min-height: 100vh;
-    padding-bottom: 40px;
-}
 
-.card {
-    border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-}
-
-.card-header {
-    font-weight: 600;
-    font-size: 1.1rem;
-    border-radius: 20px 20px 0 0;
-}
-
-.section-title {
-    font-weight: 600;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    color: #4e73df;
-}
-
-input, button {
-    border-radius: 10px;
-}
-
-input.form-control {
-    height: 45px;
-}
-
-button.btn-primary {
-    font-weight: 600;
-}
-
-.badge-status {
-    font-size: 0.9rem;
-    padding: 5px 10px;
-    border-radius: 12px;
-}
-
-@media (max-width: 768px){
-    .card-columns {
-        flex-direction: column;
-    }
-}
-</style>
 </head>
 <body>
 <?php include('./header.php'); ?>
@@ -136,6 +87,7 @@ echo "<span class='badge badge-status bg-$badgeClass'>$status</span>";
 <?php } else { ?>
 <b>Name:</b> <?= htmlspecialchars($row['applicant_name']) ?><br>
 <?php } ?>
+<b>Staff Type:</b> <?= htmlspecialchars($row['staff_type']) ?><br>
 
 <b>Mobile:</b> <?= htmlspecialchars($row['mobile']) ?><br>
 <b>Email:</b> <?= htmlspecialchars($row['email']) ?><br>
@@ -146,7 +98,7 @@ echo "<span class='badge badge-status bg-$badgeClass'>$status</span>";
 <ul>
 <?php
 $hasCoTravelers = false;
-for($i=1;$i<=4;$i++){
+for($i=1;$i<=6;$i++){
 if(!empty($row["cotraveler$i"])){
 $hasCoTravelers = true;
 echo "<li>".$row["cotraveler$i"]."</li>";
@@ -170,8 +122,8 @@ if(!$hasCoTravelers){ echo "<li class='text-muted'>No Co-Travelers</li>"; }
 <h6 class="section-title"><i class="bi bi-person-badge-fill"></i> Forwarded To</h6>
 <p><?= $row['forwarded_admin_name'] ?> (<?= $row['designation'] ?>)</p>
 
-<h6 class="section-title"><i class="bi bi-truck"></i> Assignment Details</h6>
-<?php if(in_array($row['status'], ['Approved','Completed','Cancelled'])){ ?>
+<h6 class="section-title"><i class="bi bi-truck"></i> Vehicle & Driver Details</h6>
+<?php if(in_array($row['status'], ['Approved','Completed','Cancelled', 'Started', 'Pending', 'In Progress', 'Departure'])){ ?>
 <p>
 <b>Driver Assigned:</b> <?= $row['driver_name'] ? $row['driver_name']." (".$row['driver_mob'].")" : "Not Assigned Yet" ?><br>
 <b>Vehicle Assigned:</b> <?= $row['vehicle_name'] ? $row['vehicle_type']." - ".$row['vehicle_name']." (".$row['vehicle_no'].")" : "Not Assigned Yet" ?>

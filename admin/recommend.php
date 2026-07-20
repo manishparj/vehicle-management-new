@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("../config/db.php");
 include("../config/email_config.php"); // Include email configuration
 
@@ -17,7 +18,7 @@ if(!isset($_SESSION['user'])){
 
 $id = $_GET['id'];
 $type = $_POST['type'];
-$remark = $_POST['remark'];
+$remark = $_POST['remark'] ?? '';
 
 // First, get the application details before updating
 $app_query = $conn->query("
@@ -42,8 +43,8 @@ $conn->query("
 if($type == 'Recommended' && $application) {
     
     // Super admin email (you can also fetch this from database)
-    $super_admin_email = 'icmrdigicare@gmail.com'; // Change this to actual super admin email
-    $super_admin_name = 'Manish Sharma';
+    $super_admin_email = 'bishnoi.bs@icmr.gov.in'; // Change this to actual super admin email
+    $super_admin_name = 'Sh. Sunil Bishnoi';
     
     // Get current user who recommended
     $current_user = $_SESSION['user']['name'] ?? 'Admin User';
@@ -54,7 +55,9 @@ if($type == 'Recommended' && $application) {
         $application['cotraveler1'] ?? null,
         $application['cotraveler2'] ?? null,
         $application['cotraveler3'] ?? null,
-        $application['cotraveler4'] ?? null
+        $application['cotraveler4'] ?? null,
+        $application['cotraveler5'] ?? null,
+        $application['cotraveler6'] ?? null,
     ]);
     
     // Format dates

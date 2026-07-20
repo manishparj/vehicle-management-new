@@ -5,27 +5,42 @@ include("../config/db.php");
 $error = "";
 
 if(isset($_POST['login'])){
-    $email = $_POST['email'];
-    $pass = md5($_POST['password']);
 
-    $res = $conn->query("SELECT * FROM users WHERE email='$email' AND password='$pass'");
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    // get user by email
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
+    $stmt->bind_param("s",$email);
+    $stmt->execute();
+    $res = $stmt->get_result();
 
     if($res->num_rows > 0){
+
         $row = $res->fetch_assoc();
-        $_SESSION['user'] = $row;
 
-        if($row['role'] == "forwarded_admin"){
-            header("location: dashboard_forwarded.php");
-        }
-        elseif($row['role'] == "security_admin"){
-            header("location: security_dashboard.php");
-        }
-        else{
-            header("location: dashboard_super.php");
+        // verify password
+        if(password_verify($password, $row['password'])){
+
+            $_SESSION['user'] = $row;
+
+            if($row['role'] == "forwarded_admin"){
+                header("Location: dashboard_forwarded.php");
+            }
+            elseif($row['role'] == "security_admin"){
+                header("Location: security_dashboard.php");
+            }
+            else{
+                header("Location: dashboard_super.php");
+            }
+
+            exit();
+
+        }else{
+            $error = "Invalid Email or Password!";
         }
 
-        exit();
-    } else {
+    }else{
         $error = "Invalid Email or Password!";
     }
 }

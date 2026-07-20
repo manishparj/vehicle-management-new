@@ -1,5 +1,5 @@
 <?php
-$base_url = "http://192.168.17.207/vehicle_app/";
+$base_url = "https://niirncd.org/vehicle_app/";
 ?>
 
 <!-- Google Font -->
@@ -76,7 +76,7 @@ body {
           <a class="nav-link active" href="<?php echo $base_url; ?>index.php">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo $base_url; ?>/check_status.php">Check Status</a>
+          <a class="nav-link" href="<?php echo $base_url; ?>check_status.php">Check Status</a>
         </li>
         <li class="nav-item">
           <a class="nav-link btn btn-outline-info px-3 rounded-pill ms-lg-3" 

@@ -1,0 +1,114 @@
+/* GLOBAL */
+body{
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(135deg,#4e73df,#1cc88a);
+    min-height:100vh;
+    margin:0;
+    padding-bottom:40px;
+}
+
+/* CARD */
+.main-card{
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+    background:#fff;
+}
+
+/* HEADER TITLE */
+.page-title{
+    font-weight:600;
+    color:#4e73df;
+}
+
+/* FORM */
+.status-form input{
+    height:45px;
+    border-radius:10px;
+}
+
+.status-form button{
+    border-radius:10px;
+    font-weight:600;
+}
+
+/* APPLICATION CARD */
+.application-card{
+    border-radius:15px;
+    border:1px solid #e3e6f0;
+    transition:all .3s ease;
+}
+
+.application-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 6px 15px rgba(0,0,0,0.1);
+}
+
+/* CARD HEADER */
+.application-header{
+    border-radius:15px 15px 0 0;
+    font-weight:600;
+}
+
+/* SECTION TITLES */
+.section-title{
+    font-weight:600;
+    margin-top:10px;
+    margin-bottom:5px;
+    color:#4e73df;
+    border-bottom:1px solid #eee;
+    padding-bottom:3px;
+}
+
+/* BADGE STATUS */
+.badge-status{
+    font-size:.85rem;
+    padding:6px 12px;
+    border-radius:20px;
+}
+
+/* LIST */
+ul{
+    padding-left:18px;
+}
+
+/* MOBILE OPTIMIZATION */
+@media (max-width:991px){
+
+    .application-body{
+        padding:15px;
+    }
+
+    .section-title{
+        font-size:0.95rem;
+    }
+
+}
+
+/* SMALL DEVICES */
+@media (max-width:576px){
+
+    .page-title{
+        font-size:1.2rem;
+    }
+
+    .status-form input{
+        margin-bottom:10px;
+    }
+
+    .application-header{
+        font-size:.9rem;
+        flex-direction:column;
+        align-items:flex-start;
+        gap:5px;
+    }
+
+}
+
+/* TABLET */
+@media (max-width:768px){
+
+    .application-card{
+        margin-bottom:20px;
+    }
+
+}

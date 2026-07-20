@@ -1,4 +1,6 @@
 <?php
+session_start(); // Start session at the very beginning
+
 include("./config/db.php");
 include("./config/email_config.php");
 
@@ -18,6 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $staff_type        = $_POST['staff_type'] ?? '';
     $applicant_name    = $_POST['applicant_name'] ?? '';
     $vehicle_required  = $_POST['vehicle_required'] ?? '';
+    $source_type = $_POST['source_type'] ?? '';
+    $custom_source = $_POST['custom_source'] ?? ''; 
     $datetime_from     = $_POST['datetime_from'] ?? '';
     $datetime_to       = $_POST['datetime_to'] ?? '';
     $place_of_visit    = $_POST['place_of_visit'] ?? '';
@@ -26,9 +30,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cotraveler2       = $_POST['cotraveler2'] ?? '';
     $cotraveler3       = $_POST['cotraveler3'] ?? '';
     $cotraveler4       = $_POST['cotraveler4'] ?? '';
+    $cotraveler5       = $_POST['cotraveler5'] ?? '';
+    $cotraveler6       = $_POST['cotraveler6'] ?? '';
     $mobile            = $_POST['mobile'] ?? '';
     $email             = $_POST['email'] ?? '';
     $forwarded_to      = $_POST['forwarded_to'] ?? '';
+    
+    // ================= EMAIL VERIFICATION CHECK =================
+    // Check if email is verified in session
+    if (!isset($_SESSION['email_verified']) || $_SESSION['email_verified'] !== true) {
+        die("Email not verified. Please verify your email with OTP before submitting.");
+    }
+    
+    // Check if email matches the verified email
+    if (!isset($_SESSION['verified_email']) || $_SESSION['verified_email'] !== $email) {
+        die("Email mismatch. Please verify the correct email address.");
+    }
+}
+
+if($source_type == "ICMR"){
+    $source = "ICMR-NIIRNCD Jodhpur";
+} else {
+    $source = $custom_source;
 }
 
 // Boolean value (0 or 1)
@@ -72,32 +95,40 @@ if ($tour_approved == 1 && isset($_FILES['tour_order_pdf']) && $_FILES['tour_ord
 }
 
 // ================= INSERT DATA (PREPARED STATEMENT) =================
-$stmt = $conn->prepare("INSERT INTO vehicle_applications
-(booking_for, other_person_name, staff_type, applicant_name, vehicle_required, datetime_from, datetime_to, place_of_visit, purpose,
-cotraveler1, cotraveler2, cotraveler3, cotraveler4,
-mobile, email, forwarded_to, tour_approved, tour_order_pdf)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+$email_verified = 1; // Set the verification status
 
+$stmt = $conn->prepare("INSERT INTO vehicle_applications
+(booking_for, other_person_name, staff_type, applicant_name, vehicle_required, source, datetime_from, datetime_to, place_of_visit, purpose,
+cotraveler1, cotraveler2, cotraveler3, cotraveler4, cotraveler5, cotraveler6,
+mobile, email, email_verified, forwarded_to, tour_approved, tour_order_pdf)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+// The bind_param string should have 22 characters matching the 22 placeholders
+// Types: s=string, i=integer
 $stmt->bind_param(
-"sssssssssssssssiss",
-$booking_for,
-$other_person_name,
-$staff_type,
-$applicant_name,
-$vehicle_required,
-$datetime_from,
-$datetime_to,
-$place_of_visit,
-$purpose,
-$cotraveler1,
-$cotraveler2,
-$cotraveler3,
-$cotraveler4,
-$mobile,
-$email,
-$forwarded_to,
-$tour_approved,
-$tour_order_pdf
+    "sssssssssssssssssssiss", // 19 's' + 1 'i' + 2 's' = 22 characters
+    $booking_for,           // s
+    $other_person_name,     // s
+    $staff_type,           // s
+    $applicant_name,       // s
+    $vehicle_required,     // s
+    $source,               // s
+    $datetime_from,        // s
+    $datetime_to,          // s
+    $place_of_visit,       // s
+    $purpose,              // s
+    $cotraveler1,          // s
+    $cotraveler2,          // s
+    $cotraveler3,          // s
+    $cotraveler4,          // s
+    $cotraveler5,          // s
+    $cotraveler6,          // s
+    $mobile,               // s
+    $email,                // s
+    $email_verified,       // i (integer - 0 or 1)
+    $forwarded_to,         // s (could be integer but using string is fine)
+    $tour_approved,        // i (integer - 0 or 1)
+    $tour_order_pdf        // s (could be NULL)
 );
 
 $email_status = "";
@@ -106,6 +137,10 @@ $application_saved = false;
 if ($stmt->execute()) {
     $application_saved = true;
     $application_id = $stmt->insert_id;
+    
+    // Clear email verification session after successful submission
+    unset($_SESSION['email_verified']);
+    unset($_SESSION['verified_email']);
     
     // ================= GET FORWARDED USER DETAILS =================
     $forwarded_query = "SELECT name, email, designation FROM users WHERE id = ?";
@@ -147,7 +182,7 @@ if ($stmt->execute()) {
             $mail->Subject = "🚗 Vehicle Application #{$application_id} - Action Required: {$applicant_name}";
             
             // Build email body
-            $co_travelers_list = array_filter([$cotraveler1, $cotraveler2, $cotraveler3, $cotraveler4]);
+            $co_travelers_list = array_filter([$cotraveler1, $cotraveler2, $cotraveler3, $cotraveler4, $cotraveler5, $cotraveler6]);
             $formatted_from = date("d/m/Y H:i", strtotime($datetime_from));
             $formatted_to = date("d/m/Y H:i", strtotime($datetime_to));
             

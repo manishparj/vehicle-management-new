@@ -147,6 +147,7 @@ $res = $conn->query("
                                 <?= date("d M Y, h:i A", strtotime($row['datetime_from'])) ?></p>
                             <p class="mb-1"><strong>To:</strong>
                                 <?= date("d M Y, h:i A", strtotime($row['datetime_to'])) ?></p>
+                            <p class="mb-1"><strong>Source:</strong> <?= !empty($row['source']) ? htmlspecialchars($row['source']) : 'N/A' ?></p>
                             <p class="mb-1"><strong>Place:</strong> <?= $row['place_of_visit'] ?></p>
                             <p class="mb-0"><strong>Purpose:</strong> <?= $row['purpose'] ?></p>
                         </div>
@@ -165,7 +166,7 @@ $res = $conn->query("
                     <div class="row g-2">
                         <?php
                 $has=false;
-                for($i=1;$i<=4;$i++){
+                for($i=1;$i<=6;$i++){
                     if(!empty($row["cotraveler$i"])){
                         $has=true;
                         echo "<div class='col-12 col-sm-6 col-lg-3'>

@@ -1,13 +1,17 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+ini_set('error_log', 'php_errors.log');
 session_start();
 include("../config/db.php");
 include("../config/email_config.php");
 require_once("../vendor/phpmailer/src/PHPMailer.php");
-    require_once("../vendor/phpmailer/src/SMTP.php");
-    require_once("../vendor/phpmailer/src/Exception.php");
+require_once("../vendor/phpmailer/src/SMTP.php");
+require_once("../vendor/phpmailer/src/Exception.php");
     
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 // Check authentication
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] != 'security_admin') {
@@ -36,69 +40,107 @@ if (isset($_POST['mark_departure'])) {
     // Get super admin email from database
     $super_admin_query = $conn->query("SELECT email, name FROM users WHERE role = 'super_admin' LIMIT 1");
     $super_admin = $super_admin_query->fetch_assoc();
-    $super_admin_email = $super_admin['email'] ?? 'icmrdigicare@gmail.com';
+    $super_admin_email = $super_admin['email'] ?? 'bishnoi.bs@icmr.gov.in';
     $super_admin_name = $super_admin['name'] ?? 'Super Admin';
 
     if ($row['status'] == 'Approved') {
-        // Journey starting: save OUT details
-        $out_datetime = $_POST['out_datetime'];
-        $km_out = $_POST['km_out'];
-        $guard_out = $_POST['guard_out'];
-
-        $conn->query("UPDATE vehicle_applications SET
+        // START JOURNEY - Update with departure details
+        $out_datetime = $conn->real_escape_string($_POST['out_datetime']);
+        $km_out = $conn->real_escape_string($_POST['km_out']);
+        $guard_out = $conn->real_escape_string($_POST['guard_out']);
+        
+        $update_query = "UPDATE vehicle_applications SET
             out_datetime='$out_datetime',
             km_out='$km_out',
             security_guard_name='$guard_out',
             status='Departure'
-            WHERE id='$id'
-        ");
+            WHERE id='$id'";
         
-        // Send Journey Start Email
+        if ($conn->query($update_query)) {
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
+        } else {
+            die("SQL Error in Start Journey: " . $conn->error);
+        }
         sendJourneyStartEmail($row, $out_datetime, $km_out, $guard_out, $super_admin_email, $super_admin_name);
         
-    } elseif ($row['status'] == 'Departure') {
+    } elseif($row['status'] == 'Departure') {
         // Journey ending: save IN details
-        $in_datetime = $_POST['in_datetime'];
-        $km_in = $_POST['km_in'];
-        $guard_in = $_POST['guard_in'];
-        $status = $_POST['journey_status']; // Completed / Cancelled
-
-        // Calculate total KM
-        $total_km = ($row['km_out'] && $km_in) ? $km_in - $row['km_out'] : NULL;
-
-        // Calculate total hours in HH:MM format
-        $total_hours = NULL;
-        $journey_duration = '';
-        if ($row['out_datetime'] && $in_datetime) {
-            $start = new DateTime($row['out_datetime']);
-            $end = new DateTime($in_datetime);
-            $diff = $start->diff($end);
-            $hours = ($diff->days * 24) + $diff->h;
-            $minutes = $diff->i;
-            $total_hours = sprintf("%02d:%02d", $hours, $minutes);
-            $journey_duration = "$hours hours $minutes minutes";
-        }
-
-        // Append return guard
-        $guard_names = $row['security_guard_name'];
-        if ($guard_in) {
-            $guard_names .= " (Out), $guard_in (In)";
-        }
-
-        $conn->query("UPDATE vehicle_applications SET
-            in_datetime='$in_datetime',
-            km_in='$km_in',
-            total_km=" . ($total_km !== NULL ? "'$total_km'" : "NULL") . ",
-            total_hours=" . ($total_hours !== NULL ? "'$total_hours'" : "NULL") . ",
-            security_guard_name='$guard_names',
-            status='$status'
-            WHERE id='$id'
-        ");
+      // COMPLETE JOURNEY - Update with return details
+        $in_datetime = $conn->real_escape_string($_POST['in_datetime']);
+        $km_in = $conn->real_escape_string($_POST['km_in']);
+        $guard_in = $conn->real_escape_string($_POST['guard_in']);
+        $status = $conn->real_escape_string($_POST['journey_status']); // 'Completed'
+    
         
-        // Send Journey End Email
+        // Validate required fields
+        if (empty($in_datetime) || empty($km_in) || empty($guard_in)) {
+            die("Error: All return journey fields are required");
+        }
+        
+        // Calculate total KM
+        $total_km = null;
+        if (!empty($row['km_out']) && !empty($km_in)) {
+            $total_km = $km_in - $row['km_out'];
+            $total_km = max(0, $total_km); // Ensure non-negative
+        }
+        
+        // Calculate total hours
+        $total_hours = null;
+        $journey_duration = '';
+
+         if (!empty($row['out_datetime']) && !empty($in_datetime)) {
+            try {
+                $start = new DateTime($row['out_datetime']);
+                $end = new DateTime($in_datetime);
+                $diff = $start->diff($end);
+                
+                $hours = $diff->h;
+                $minutes = $diff->i;
+                $total_hours = sprintf("%02d:%02d", $hours, $minutes);
+                $journey_duration = "$hours hours $minutes minutes";
+            } catch (Exception $e) {
+                // Handle date parsing error
+                error_log("Date parsing error: " . $e->getMessage());
+            }
+        }
+    
+        // Append return guard - FIXED: Using $guard_in variable
+         // Format guard names
+        $guard_names = $row['security_guard_name'] ?: '';
+        if (!empty($guard_in)) {
+            $guard_names = $guard_names . " (Out), " . $guard_in . " (In)";
+        } else {
+            $guard_names = $guard_names . " (Out)";
+        }
+    
+        // Escape all values to prevent SQL injection
+        $guard_names_esc = $conn->real_escape_string($guard_names);
+          
+         // Build update query
+        $sql = "UPDATE vehicle_applications SET
+                in_datetime='$in_datetime',
+                km_in='$km_in',
+                total_km='$total_km',
+                total_hours='$total_hours',
+                security_guard_name='$guard_names_esc',
+                status='$status'
+                WHERE id='$id'";
+        
+        if ($conn->query($sql)) {
+            // Journey completed successfully
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
+        } else {
+            die("SQL Error in Complete Journey: " . $conn->error);
+        }
+        // Send Journey End Email (commented out as in your code)
         sendJourneyEndEmail($row, $in_datetime, $km_in, $guard_in, $total_km, $journey_duration, $status, $super_admin_email, $super_admin_name);
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
     }
 }
+
 
 // Function to send Journey Start Email
 // Function to send Journey Start Email with ALL details
@@ -129,7 +171,7 @@ function sendJourneyStartEmail($row, $out_datetime, $km_out, $guard_out, $super_
         
         // Get co-travelers
         $co_travelers = array();
-        for ($i = 1; $i <= 4; $i++) {
+        for ($i = 1; $i <= 6; $i++) {
             if (!empty($row['cotraveler' . $i])) {
                 $co_travelers[] = $row['cotraveler' . $i];
             }
@@ -626,7 +668,7 @@ function sendJourneyEndEmail($row, $in_datetime, $km_in, $guard_in, $total_km, $
         
         // Get co-travelers
         $co_travelers = array();
-        for ($i = 1; $i <= 4; $i++) {
+        for ($i = 1; $i <= 6; $i++) {
             if (!empty($row['cotraveler' . $i])) {
                 $co_travelers[] = $row['cotraveler' . $i];
             }
@@ -1174,9 +1216,13 @@ $res = $conn->query("
     LEFT JOIN users u ON va.forwarded_to = u.id
     LEFT JOIN drivers d ON va.driver_id = d.id
     LEFT JOIN vehicles v ON va.vehicle_id = v.id
-    WHERE va.status IN ('Approved', 'Departure', 'Completed', 'Cancelled')
+    WHERE va.status IN ('Approved', 'Departure', 'Completed')
     ORDER BY va.created_at DESC
 ");
+
+if (!$res) {
+    die("Query Failed: " . $conn->error);
+}
 
 // Status helper functions
 function getStatusBadgeClass($status) {
@@ -1377,7 +1423,13 @@ function getButtonConfig($status) {
                                         class="info-value"><?= date("d M Y H:i", strtotime($row['datetime_to'])) ?></span>
                                 </div>
                                 <div class="info-item full-width">
-                                    <span class="info-label">Place:</span>
+                                    <span class="info-label">Source:</span>
+                                    <span class="info-value">
+                                        <?= !empty($row['source']) ? htmlspecialchars($row['source']) : 'N/A' ?>
+                                    </span>
+                                </div>
+                                <div class="info-item full-width">
+                                    <span class="info-label">Place:/Destination:</span>
                                     <span class="info-value"><?= htmlspecialchars($row['place_of_visit']) ?></span>
                                 </div>
                                 <div class="info-item full-width">
@@ -1402,37 +1454,36 @@ function getButtonConfig($status) {
                             <div class="info-grid">
                                 <div class="info-item">
                                     <span class="info-label">Driver:</span>
-                                    <span class="info-value"><?= htmlspecialchars($row['driver_name']) ?></span>
+                                    <span class="info-value"><?= htmlspecialchars($row['driver_name'] ?? 'Not Assigned') ?></span>
                                 </div>
                                 <div class="info-item">
                                     <span class="info-label">Contact:</span>
-                                    <span class="info-value"><?= htmlspecialchars($row['driver_mobile']) ?></span>
+                                    <span class="info-value"><?= htmlspecialchars($row['driver_mobile'] ?? 'N/A') ?></span>
                                 </div>
                                 <div class="info-item">
                                     <span class="info-label">Vehicle:</span>
-                                    <span class="info-value"><?= htmlspecialchars($row['vehicle_name']) ?></span>
+                                    <span class="info-value"><?= htmlspecialchars($row['vehicle_name'] ?? 'Not Assigned') ?></span>
                                 </div>
                                 <div class="info-item">
                                     <span class="info-label">Type:</span>
-                                    <span class="info-value"><?= htmlspecialchars($row['vehicle_type']) ?></span>
+                                    <span class="info-value"><?= htmlspecialchars($row['vehicle_type'] ?? 'N/A') ?></span>
                                 </div>
                                 <div class="info-item full-width">
                                     <span class="info-label">Reg No:</span>
-                                    <span
-                                        class="info-value vehicle-no"><?= htmlspecialchars($row['vehicle_no']) ?></span>
+                                    <span class="info-value vehicle-no"><?= htmlspecialchars($row['vehicle_no'] ?? 'N/A') ?></span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Co-Travelers Section -->
-                        <?php if ($row['cotraveler1'] || $row['cotraveler2'] || $row['cotraveler3'] || $row['cotraveler4']): ?>
+                        <?php if ($row['cotraveler1'] || $row['cotraveler2'] || $row['cotraveler3'] || $row['cotraveler4'] || $row['cotraveler5'] || $row['cotraveler6']): ?>
                         <div class="info-section">
                             <div class="section-title">
                                 <i class="bi bi-people"></i>
                                 <span>Co-Travelers</span>
                             </div>
                             <div class="travelers-list">
-                                <?php for ($i = 1; $i <= 4; $i++): ?>
+                                <?php for ($i = 1; $i <= 6; $i++): ?>
                                 <?php if (!empty($row['cotraveler' . $i])): ?>
                                 <div class="traveler-item">
                                     <i class="bi bi-person"></i>
@@ -1481,7 +1532,7 @@ function getButtonConfig($status) {
                             </div>
                             <div class="security-grid">
                                 <div class="security-item">
-                                    <span class="security-label">Out:</span>
+                                    <span class="security-label">Out Date Time:</span>
                                     <span class="security-value">
                                         <?= $row['out_datetime'] ? date('d M H:i', strtotime($row['out_datetime'])) : '--' ?>
                                     </span>
@@ -1491,7 +1542,7 @@ function getButtonConfig($status) {
                                     <span class="security-value"><?= $row['km_out'] ?: '--' ?></span>
                                 </div>
                                 <div class="security-item">
-                                    <span class="security-label">In:</span>
+                                    <span class="security-label">In Date Time:</span>
                                     <span class="security-value">
                                         <?= $row['in_datetime'] ? date('d M H:i', strtotime($row['in_datetime'])) : '--' ?>
                                     </span>
@@ -1505,11 +1556,11 @@ function getButtonConfig($status) {
                                     <span class="security-value"><?= $row['total_km'] ?: '--' ?></span>
                                 </div>
                                 <div class="security-item">
-                                    <span class="security-label">Hours:</span>
+                                    <span class="security-label">Total Hours:</span>
                                     <span class="security-value"><?= $row['total_hours'] ?: '--' ?></span>
                                 </div>
                                 <div class="security-item full-width">
-                                    <span class="security-label">Guard:</span>
+                                    <span class="security-label">Guard Name:</span>
                                     <span
                                         class="security-value"><?= htmlspecialchars($row['security_guard_name'] ?: '--') ?></span>
                                 </div>
@@ -1591,7 +1642,7 @@ function getButtonConfig($status) {
                                         <label>Journey Status</label>
                                         <select name="journey_status" class="form-control" required>
                                             <option value="Completed">Completed - Successful</option>
-                                            <option value="Cancelled">Cancelled - Not Completed</option>
+                                            <!-- <option value="Cancelled">Cancelled - Not Completed</option> -->
                                         </select>
                                     </div>
                                     <?php endif; ?>
