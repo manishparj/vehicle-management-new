@@ -140,3 +140,419 @@ Stack trace:
 [09-Jun-2026 15:44:19 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
 [09-Jun-2026 15:44:19 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
 [09-Jun-2026 15:44:19 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[17-Aug-2026 10:17:45 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[17-Aug-2026 10:17:45 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[17-Aug-2026 10:17:45 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[17-Aug-2026 10:17:45 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[17-Aug-2026 10:17:45 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[17-Aug-2026 10:17:45 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[09-Sep-2026 10:34:39 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[09-Sep-2026 10:34:39 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[09-Sep-2026 10:34:39 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[09-Sep-2026 10:34:39 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[09-Sep-2026 10:34:39 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[09-Sep-2026 10:34:39 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:20:33 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:20:33 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:20:33 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:20:33 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:20:33 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:20:33 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:20:34 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:20:34 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:20:34 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:20:34 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:20:34 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:20:34 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:20:36 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:20:36 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:20:36 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:20:36 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:20:36 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:20:36 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:20:38 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:20:38 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:20:38 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:20:38 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:20:38 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:20:38 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:20:48 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:20:48 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:20:48 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:20:48 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:20:48 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:20:48 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:20:50 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:20:50 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:20:50 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:20:50 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:20:50 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:20:50 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:20:51 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:20:51 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:20:51 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:20:51 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:20:51 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:20:51 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:20:55 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:20:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:20:55 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:20:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:20:55 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:20:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:20:55 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:20:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:20:55 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:20:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:20:55 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:20:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:21:08 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:21:08 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:21:08 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:21:08 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:21:08 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:21:08 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:21:13 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:21:13 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 10:21:13 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:21:13 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 10:21:13 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 10:21:13 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 11:35:11 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 11:35:11 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 11:35:11 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 11:35:11 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 11:35:11 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 11:35:11 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 11:35:13 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 11:35:13 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 11:35:13 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 11:35:13 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 11:35:13 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 11:35:13 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 11:35:23 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 11:35:23 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 11:35:23 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 11:35:23 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 11:35:23 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 11:35:23 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 11:35:27 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 11:35:27 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 11:35:27 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 11:35:27 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 11:35:27 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 11:35:27 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 11:35:30 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 11:35:30 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 11:35:30 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 11:35:30 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 11:35:30 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 11:35:30 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[15-Sep-2026 11:35:31 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[16-Sep-2026 16:30:37 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[16-Sep-2026 16:30:37 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[16-Sep-2026 16:30:37 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[16-Sep-2026 16:30:37 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[16-Sep-2026 16:30:37 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[16-Sep-2026 16:30:37 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[18-Sep-2026 09:54:58 Asia/Kolkata] Journey Start Email sent successfully for application #679
+[18-Sep-2026 10:56:43 Asia/Kolkata] Journey End Email sent successfully for application #671
+[18-Sep-2026 13:16:24 Asia/Kolkata] Journey End Email sent successfully for application #679
+[18-Sep-2026 14:44:08 Asia/Kolkata] Journey Start Email sent successfully for application #680
+[18-Sep-2026 14:44:09 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[18-Sep-2026 14:44:09 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[18-Sep-2026 14:44:09 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[18-Sep-2026 14:44:09 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[18-Sep-2026 14:44:09 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[18-Sep-2026 14:44:09 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[18-Sep-2026 14:57:12 Asia/Kolkata] Journey Start Email sent successfully for application #681
+[18-Sep-2026 15:20:30 Asia/Kolkata] Journey End Email sent successfully for application #680
+[18-Sep-2026 16:03:22 Asia/Kolkata] Journey End Email sent successfully for application #681
+[21-Sep-2026 09:53:31 Asia/Kolkata] Journey Start Email sent successfully for application #685
+[21-Sep-2026 09:53:31 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[21-Sep-2026 09:53:31 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[21-Sep-2026 09:53:31 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[21-Sep-2026 09:53:31 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[21-Sep-2026 09:53:31 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[21-Sep-2026 09:53:31 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[21-Sep-2026 09:57:53 Asia/Kolkata] Journey Start Email sent successfully for application #684
+[21-Sep-2026 09:57:53 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[21-Sep-2026 09:57:53 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[21-Sep-2026 09:57:53 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[21-Sep-2026 09:57:53 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[21-Sep-2026 09:57:53 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[21-Sep-2026 09:57:53 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[22-Sep-2026 15:30:34 Asia/Kolkata] Journey Start Email sent successfully for application #694
+[22-Sep-2026 15:30:34 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[22-Sep-2026 15:30:34 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[22-Sep-2026 15:30:34 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[22-Sep-2026 15:30:34 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[22-Sep-2026 15:30:34 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[22-Sep-2026 15:30:34 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[22-Sep-2026 15:30:34 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[22-Sep-2026 15:30:34 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[22-Sep-2026 15:30:34 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[22-Sep-2026 15:30:34 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[22-Sep-2026 15:30:34 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[22-Sep-2026 15:30:34 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[22-Sep-2026 15:40:32 Asia/Kolkata] Journey End Email sent successfully for application #694
+[23-Sep-2026 13:09:56 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[23-Sep-2026 13:09:56 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[23-Sep-2026 13:09:56 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[23-Sep-2026 13:09:56 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[23-Sep-2026 13:09:56 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[23-Sep-2026 13:09:56 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[23-Sep-2026 13:10:01 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[23-Sep-2026 13:10:01 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[23-Sep-2026 13:10:01 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[23-Sep-2026 13:10:01 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[23-Sep-2026 13:10:01 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[23-Sep-2026 13:10:01 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[23-Sep-2026 13:10:05 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[23-Sep-2026 13:10:05 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[23-Sep-2026 13:10:05 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[23-Sep-2026 13:10:05 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[23-Sep-2026 13:10:05 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[23-Sep-2026 13:10:05 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[23-Sep-2026 13:10:19 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[23-Sep-2026 13:10:19 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[23-Sep-2026 13:10:19 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[23-Sep-2026 13:10:19 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[23-Sep-2026 13:10:19 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[23-Sep-2026 13:10:19 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[24-Sep-2026 10:25:58 Asia/Kolkata] Journey Start Email sent successfully for application #706
+[24-Sep-2026 10:26:10 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[24-Sep-2026 10:26:10 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 70
+[24-Sep-2026 10:26:10 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[24-Sep-2026 10:26:10 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 71
+[24-Sep-2026 10:26:10 Asia/Kolkata] PHP Warning:  Undefined array key "guard_in" in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[24-Sep-2026 10:26:10 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\security_dashboard.php on line 72
+[24-Sep-2026 14:55:09 Asia/Kolkata] Journey Start Email sent successfully for application #708
+[24-Sep-2026 18:43:18 Asia/Kolkata] Journey End Email sent successfully for application #708
+[26-Sep-2026 16:04:52 Asia/Kolkata] Journey End Email sent successfully for application #684
+[28-Sep-2026 09:35:07 Asia/Kolkata] Journey End Email sent successfully for application #683
+[28-Sep-2026 10:52:24 Asia/Kolkata] Journey Start Email sent successfully for application #715
+[28-Sep-2026 10:52:24 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[28-Sep-2026 10:52:24 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[28-Sep-2026 10:52:24 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[28-Sep-2026 10:52:24 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[28-Sep-2026 10:52:24 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[28-Sep-2026 10:52:24 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[28-Sep-2026 10:53:05 Asia/Kolkata] Journey End Email sent successfully for application #715
+[28-Sep-2026 11:00:54 Asia/Kolkata] Journey Start Email sent successfully for application #714
+[28-Sep-2026 11:22:00 Asia/Kolkata] Journey Start Email sent successfully for application #716
+[28-Sep-2026 11:22:40 Asia/Kolkata] Journey End Email sent successfully for application #716
+[28-Sep-2026 12:30:29 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[28-Sep-2026 12:30:29 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[28-Sep-2026 12:30:29 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[28-Sep-2026 12:30:29 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[28-Sep-2026 12:30:29 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[28-Sep-2026 12:30:29 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[28-Sep-2026 12:32:06 Asia/Kolkata] Journey End Email sent successfully for application #720
+[28-Sep-2026 12:46:33 Asia/Kolkata] Journey End Email sent successfully for application #714
+[28-Sep-2026 12:51:09 Asia/Kolkata] Journey End Email sent successfully for application #719
+[28-Sep-2026 14:53:05 Asia/Kolkata] Journey Start Email sent successfully for application #718
+[28-Sep-2026 14:53:05 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[28-Sep-2026 14:53:05 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[28-Sep-2026 14:53:05 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[28-Sep-2026 14:53:05 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[28-Sep-2026 14:53:05 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[28-Sep-2026 14:53:05 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[28-Sep-2026 15:44:30 Asia/Kolkata] Journey Start Email sent successfully for application #721
+[28-Sep-2026 16:40:59 Asia/Kolkata] Journey Start Email sent successfully for application #722
+[28-Sep-2026 16:44:04 Asia/Kolkata] Journey End Email sent successfully for application #718
+[28-Sep-2026 17:39:51 Asia/Kolkata] Journey End Email sent successfully for application #722
+[29-Sep-2026 11:55:30 Asia/Kolkata] Journey Start Email sent successfully for application #726
+[29-Sep-2026 12:10:56 Asia/Kolkata] Journey Start Email sent successfully for application #723
+[29-Sep-2026 13:08:37 Asia/Kolkata] Journey End Email sent successfully for application #726
+[29-Sep-2026 13:13:39 Asia/Kolkata] Journey Start Email sent successfully for application #727
+[29-Sep-2026 13:26:09 Asia/Kolkata] Journey End Email sent successfully for application #723
+[29-Sep-2026 14:41:28 Asia/Kolkata] Journey Start Email sent successfully for application #728
+[29-Sep-2026 17:36:42 Asia/Kolkata] Journey End Email sent successfully for application #727
+[30-Sep-2026 09:16:33 Asia/Kolkata] Journey Start Email sent successfully for application #729
+[30-Sep-2026 09:17:16 Asia/Kolkata] Journey End Email sent successfully for application #729
+[30-Sep-2026 10:34:57 Asia/Kolkata] Journey Start Email sent successfully for application #730
+[30-Sep-2026 12:05:04 Asia/Kolkata] Journey End Email sent successfully for application #730
+[01-Oct-2026 10:45:53 Asia/Kolkata] Journey Start Email sent successfully for application #731
+[01-Oct-2026 10:45:53 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[01-Oct-2026 10:45:53 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[01-Oct-2026 10:45:53 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[01-Oct-2026 10:45:53 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[01-Oct-2026 10:45:53 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[01-Oct-2026 10:45:53 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[01-Oct-2026 11:46:27 Asia/Kolkata] Journey Start Email sent successfully for application #733
+[01-Oct-2026 11:46:27 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[01-Oct-2026 11:46:27 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[01-Oct-2026 11:46:27 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[01-Oct-2026 11:46:27 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[01-Oct-2026 11:46:27 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[01-Oct-2026 11:46:27 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[01-Oct-2026 11:46:27 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[01-Oct-2026 11:46:27 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[01-Oct-2026 11:46:27 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[01-Oct-2026 11:46:27 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[01-Oct-2026 11:46:27 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[01-Oct-2026 11:46:27 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[01-Oct-2026 14:39:55 Asia/Kolkata] Journey Start Email sent successfully for application #732
+[01-Oct-2026 14:39:55 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[01-Oct-2026 14:39:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[01-Oct-2026 14:39:55 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[01-Oct-2026 14:39:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[01-Oct-2026 14:39:55 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[01-Oct-2026 14:39:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[01-Oct-2026 15:20:37 Asia/Kolkata] Journey Start Email sent successfully for application #734
+[01-Oct-2026 15:37:13 Asia/Kolkata] Journey End Email sent successfully for application #733
+[01-Oct-2026 16:01:35 Asia/Kolkata] Journey End Email sent successfully for application #734
+[01-Oct-2026 17:05:31 Asia/Kolkata] Journey End Email sent successfully for application #732
+[05-Oct-2026 08:49:11 Asia/Kolkata] Journey Start Email sent successfully for application #736
+[05-Oct-2026 08:49:11 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[05-Oct-2026 08:49:11 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[05-Oct-2026 08:49:11 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[05-Oct-2026 08:49:11 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[05-Oct-2026 08:49:11 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[05-Oct-2026 08:49:11 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[05-Oct-2026 09:20:55 Asia/Kolkata] Journey Start Email sent successfully for application #735
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[05-Oct-2026 09:20:55 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[05-Oct-2026 09:20:56 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[05-Oct-2026 09:20:56 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[05-Oct-2026 09:20:56 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[05-Oct-2026 09:20:56 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[05-Oct-2026 09:20:56 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[05-Oct-2026 09:20:56 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[05-Oct-2026 12:11:32 Asia/Kolkata] Journey Start Email sent successfully for application #737
+[05-Oct-2026 12:11:32 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[05-Oct-2026 12:11:32 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[05-Oct-2026 12:11:32 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[05-Oct-2026 12:11:32 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[05-Oct-2026 12:11:32 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[05-Oct-2026 12:11:32 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[05-Oct-2026 12:11:40 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[05-Oct-2026 12:11:40 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[05-Oct-2026 12:11:40 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[05-Oct-2026 12:11:40 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[05-Oct-2026 12:11:40 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[05-Oct-2026 12:11:40 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[05-Oct-2026 16:12:17 Asia/Kolkata] Journey End Email sent successfully for application #737
+[06-Oct-2026 10:46:14 Asia/Kolkata] Journey Start Email sent successfully for application #739
+[06-Oct-2026 13:00:34 Asia/Kolkata] Journey End Email sent successfully for application #739
+[06-Oct-2026 17:05:37 Asia/Kolkata] Journey Start Email sent successfully for application #741
+[06-Oct-2026 17:15:55 Asia/Kolkata] Journey End Email sent successfully for application #741
+[07-Oct-2026 11:10:11 Asia/Kolkata] Journey Start Email sent successfully for application #743
+[07-Oct-2026 11:10:11 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[07-Oct-2026 11:10:11 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[07-Oct-2026 11:10:11 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[07-Oct-2026 11:10:11 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[07-Oct-2026 11:10:11 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[07-Oct-2026 11:10:11 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[07-Oct-2026 12:00:24 Asia/Kolkata] Journey End Email sent successfully for application #743
+[07-Oct-2026 12:38:48 Asia/Kolkata] Journey Start Email sent successfully for application #744
+[07-Oct-2026 13:25:24 Asia/Kolkata] Journey Start Email sent successfully for application #742
+[07-Oct-2026 13:25:24 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[07-Oct-2026 13:25:24 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[07-Oct-2026 13:25:24 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[07-Oct-2026 13:25:24 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[07-Oct-2026 13:25:24 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[07-Oct-2026 13:25:24 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[07-Oct-2026 13:51:19 Asia/Kolkata] Journey End Email sent successfully for application #744
+[07-Oct-2026 14:41:21 Asia/Kolkata] Journey Start Email sent successfully for application #745
+[07-Oct-2026 14:45:02 Asia/Kolkata] Journey End Email sent successfully for application #742
+[07-Oct-2026 15:04:00 Asia/Kolkata] Journey End Email sent successfully for application #745
+[08-Oct-2026 11:26:06 Asia/Kolkata] Journey Start Email sent successfully for application #749
+[08-Oct-2026 11:26:30 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[08-Oct-2026 11:26:30 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[08-Oct-2026 11:26:30 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[08-Oct-2026 11:26:30 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[08-Oct-2026 11:26:30 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[08-Oct-2026 11:26:30 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[08-Oct-2026 12:52:18 Asia/Kolkata] Journey Start Email sent successfully for application #751
+[08-Oct-2026 12:52:18 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[08-Oct-2026 12:52:18 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[08-Oct-2026 12:52:18 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[08-Oct-2026 12:52:18 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[08-Oct-2026 12:52:18 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[08-Oct-2026 12:52:18 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[08-Oct-2026 13:37:09 Asia/Kolkata] Journey Start Email sent successfully for application #746
+[08-Oct-2026 13:50:43 Asia/Kolkata] Journey End Email sent successfully for application #749
+[08-Oct-2026 14:20:50 Asia/Kolkata] Journey Start Email sent successfully for application #750
+[08-Oct-2026 16:20:04 Asia/Kolkata] Journey End Email sent successfully for application #750
+[08-Oct-2026 16:33:25 Asia/Kolkata] Journey Start Email sent successfully for application #752
+[08-Oct-2026 17:39:48 Asia/Kolkata] Journey End Email sent successfully for application #752
+[09-Oct-2026 12:08:55 Asia/Kolkata] Journey Start Email sent successfully for application #753
+[09-Oct-2026 12:34:55 Asia/Kolkata] Journey End Email sent successfully for application #753
+[09-Oct-2026 16:44:20 Asia/Kolkata] Journey Start Email sent successfully for application #754
+[09-Oct-2026 17:06:32 Asia/Kolkata] Journey End Email sent successfully for application #754
+[09-Oct-2026 20:56:44 Asia/Kolkata] Journey End Email sent successfully for application #746
+[12-Oct-2026 10:41:37 Asia/Kolkata] Journey Start Email sent successfully for application #755
+[12-Oct-2026 12:16:54 Asia/Kolkata] Journey End Email sent successfully for application #755
+[12-Oct-2026 14:09:11 Asia/Kolkata] Journey End Email sent successfully for application #751
+[12-Oct-2026 15:55:32 Asia/Kolkata] Journey Start Email sent successfully for application #756
+[12-Oct-2026 15:55:32 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[12-Oct-2026 15:55:32 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[12-Oct-2026 15:55:32 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[12-Oct-2026 15:55:32 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[12-Oct-2026 15:55:32 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[12-Oct-2026 15:55:32 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[12-Oct-2026 17:13:54 Asia/Kolkata] Journey End Email sent successfully for application #756
+[13-Oct-2026 11:30:42 Asia/Kolkata] Journey Start Email sent successfully for application #757
+[13-Oct-2026 11:30:43 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[13-Oct-2026 11:30:43 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[13-Oct-2026 11:30:43 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[13-Oct-2026 11:30:43 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[13-Oct-2026 11:30:43 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[13-Oct-2026 11:30:43 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[13-Oct-2026 12:42:39 Asia/Kolkata] Journey End Email sent successfully for application #757
+[13-Oct-2026 15:51:55 Asia/Kolkata] Journey Start Email sent successfully for application #758
+[13-Oct-2026 16:35:46 Asia/Kolkata] Journey End Email sent successfully for application #758
+[14-Oct-2026 14:51:00 Asia/Kolkata] Journey Start Email sent successfully for application #759
+[14-Oct-2026 15:06:11 Asia/Kolkata] Journey Start Email sent successfully for application #760
+[14-Oct-2026 15:50:31 Asia/Kolkata] Journey End Email sent successfully for application #759
+[14-Oct-2026 16:24:26 Asia/Kolkata] Journey End Email sent successfully for application #760
+[15-Oct-2026 12:22:42 Asia/Kolkata] Journey Start Email sent successfully for application #761
+[15-Oct-2026 13:19:38 Asia/Kolkata] Journey End Email sent successfully for application #761
+[16-Oct-2026 11:00:23 Asia/Kolkata] Journey Start Email sent successfully for application #762

@@ -13,84 +13,164 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// ================= METHOD GUARD =================
+// Everything below this line must only ever run for a genuine POST.
+// (Previously, GET requests fell through the old if-block and still
+// reached the INSERT statement with every field empty.)
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    exit('Invalid request method.');
+}
 
-    $booking_for       = $_POST['booking_for'] ?? '';
-    $other_person_name = $_POST['other_person_name'] ?? '';
-    $staff_type        = $_POST['staff_type'] ?? '';
-    $applicant_name    = $_POST['applicant_name'] ?? '';
-    $vehicle_required  = $_POST['vehicle_required'] ?? '';
-    $source_type = $_POST['source_type'] ?? '';
-    $custom_source = $_POST['custom_source'] ?? ''; 
-    $datetime_from     = $_POST['datetime_from'] ?? '';
-    $datetime_to       = $_POST['datetime_to'] ?? '';
-    $place_of_visit    = $_POST['place_of_visit'] ?? '';
-    $purpose           = $_POST['purpose'] ?? '';
-    $cotraveler1       = $_POST['cotraveler1'] ?? '';
-    $cotraveler2       = $_POST['cotraveler2'] ?? '';
-    $cotraveler3       = $_POST['cotraveler3'] ?? '';
-    $cotraveler4       = $_POST['cotraveler4'] ?? '';
-    $cotraveler5       = $_POST['cotraveler5'] ?? '';
-    $cotraveler6       = $_POST['cotraveler6'] ?? '';
-    $mobile            = $_POST['mobile'] ?? '';
-    $email             = $_POST['email'] ?? '';
-    $forwarded_to      = $_POST['forwarded_to'] ?? '';
-    
-    // ================= EMAIL VERIFICATION CHECK =================
-    // Check if email is verified in session
-    if (!isset($_SESSION['email_verified']) || $_SESSION['email_verified'] !== true) {
-        die("Email not verified. Please verify your email with OTP before submitting.");
-    }
-    
-    // Check if email matches the verified email
-    if (!isset($_SESSION['verified_email']) || $_SESSION['verified_email'] !== $email) {
-        die("Email mismatch. Please verify the correct email address.");
+// ================= COLLECT + SANITIZE INPUT =================
+$booking_for       = trim($_POST['booking_for'] ?? '');
+$other_person_name = trim($_POST['other_person_name'] ?? '');
+$staff_type        = trim($_POST['staff_type'] ?? '');
+$applicant_name    = trim($_POST['applicant_name'] ?? '');
+$vehicle_required  = trim($_POST['vehicle_required'] ?? '');
+$source_type       = trim($_POST['source_type'] ?? '');
+$custom_source     = trim($_POST['custom_source'] ?? '');
+$datetime_from     = trim($_POST['datetime_from'] ?? '');
+$datetime_to       = trim($_POST['datetime_to'] ?? '');
+$place_of_visit    = trim($_POST['place_of_visit'] ?? '');
+$purpose           = trim($_POST['purpose'] ?? '');
+$cotraveler1       = trim($_POST['cotraveler1'] ?? '');
+$cotraveler2       = trim($_POST['cotraveler2'] ?? '');
+$cotraveler3       = trim($_POST['cotraveler3'] ?? '');
+$cotraveler4       = trim($_POST['cotraveler4'] ?? '');
+$cotraveler5       = trim($_POST['cotraveler5'] ?? '');
+$cotraveler6       = trim($_POST['cotraveler6'] ?? '');
+$mobile            = trim($_POST['mobile'] ?? '');
+$email             = trim($_POST['email'] ?? '');
+$forwarded_to      = trim($_POST['forwarded_to'] ?? '');
+
+// ================= REQUIRED-FIELD VALIDATION (SERVER SIDE) =================
+// The old script relied entirely on the HTML "required" attribute, which is
+// client-side only and does nothing to stop a direct POST (curl/Postman/bots)
+// or a stale/replayed form submission. This is what let blank rows through.
+$errors = [];
+
+if ($booking_for === '')      $errors[] = 'Booking For is required.';
+if ($staff_type === '')       $errors[] = 'Staff Type is required.';
+if ($applicant_name === '')   $errors[] = 'Applicant Name is required.';
+if ($vehicle_required === '') $errors[] = 'Vehicle Required is required.';
+if ($source_type === '')      $errors[] = 'Source is required.';
+if ($datetime_from === '')    $errors[] = 'From Date & Time is required.';
+if ($datetime_to === '')      $errors[] = 'To Date & Time is required.';
+if ($mobile === '')           $errors[] = 'Mobile Number is required.';
+if ($email === '')            $errors[] = 'Email Address is required.';
+if ($forwarded_to === '')     $errors[] = 'Forward To is required.';
+
+if ($booking_for === 'Someone' && $other_person_name === '') {
+    $errors[] = "Other Person's Name is required when booking for someone else.";
+}
+
+if ($source_type === 'Other' && $custom_source === '') {
+    $errors[] = 'Source Place is required when source is "Other".';
+}
+
+if (!empty($mobile) && !preg_match('/^[6-9]\d{9}$/', $mobile)) {
+    $errors[] = 'Please enter a valid 10-digit mobile number.';
+}
+
+if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $errors[] = 'Please enter a valid email address.';
+}
+
+if (!empty($forwarded_to) && !ctype_digit((string) $forwarded_to)) {
+    $errors[] = 'Invalid "Forward To" selection.';
+}
+
+// Basic sanity check on date ordering, if both are valid dates
+if (!empty($datetime_from) && !empty($datetime_to)) {
+    $tsFrom = strtotime($datetime_from);
+    $tsTo   = strtotime($datetime_to);
+    if ($tsFrom === false || $tsTo === false) {
+        $errors[] = 'Invalid date/time format.';
+    } elseif ($tsTo <= $tsFrom) {
+        $errors[] = '"To Date & Time" must be after "From Date & Time".';
     }
 }
 
-if($source_type == "ICMR"){
-    $source = "ICMR-NIIRNCD Jodhpur";
+$tour_approved = (isset($_POST['tour_approved']) && $_POST['tour_approved'] == "1") ? 1 : 0;
+
+if ($tour_approved === 1 && (!isset($_FILES['tour_order_pdf']) || $_FILES['tour_order_pdf']['error'] === UPLOAD_ERR_NO_FILE)) {
+    $errors[] = 'Tour Order PDF is required when the tour has been marked as approved.';
+}
+
+if (!empty($errors)) {
+    http_response_code(422);
+    exit('Submission rejected:<br>' . implode('<br>', array_map('htmlspecialchars', $errors)));
+}
+
+// ================= EMAIL VERIFICATION CHECK =================
+// Check if email is verified in session
+if (!isset($_SESSION['email_verified']) || $_SESSION['email_verified'] !== true) {
+    exit("Email not verified. Please verify your email with OTP before submitting.");
+}
+
+// Check if email matches the verified email
+if (!isset($_SESSION['verified_email']) || $_SESSION['verified_email'] !== $email) {
+    exit("Email mismatch. Please verify the correct email address.");
+}
+
+// Verification must be recent — a session that was OTP-verified a long time
+// ago (e.g. an old browser tab, or a stale/replayed submission) should not
+// be able to authorize a brand-new, unrelated submission indefinitely.
+$VERIFICATION_TTL_SECONDS = 900; // 15 minutes
+if (!isset($_SESSION['verified_at']) || (time() - $_SESSION['verified_at']) > $VERIFICATION_TTL_SECONDS) {
+    unset($_SESSION['email_verified'], $_SESSION['verified_email'], $_SESSION['verified_at']);
+    exit("Your email verification has expired. Please verify your email again before submitting.");
+}
+
+// ================= RESOLVE SOURCE =================
+if ($source_type === "ICMR") {
+    $source = "ICMR-NIHR Jodhpur";
 } else {
     $source = $custom_source;
 }
 
-// Boolean value (0 or 1)
-$tour_approved = (isset($_POST['tour_approved']) && $_POST['tour_approved'] == "1") ? 1 : 0;
-
-$tour_order_pdf = NULL;
-$uploaded_file_path = NULL;
+$tour_order_pdf      = NULL;
+$uploaded_file_path  = NULL;
 
 // ================= FILE UPLOAD =================
-if ($tour_approved == 1 && isset($_FILES['tour_order_pdf']) && $_FILES['tour_order_pdf']['error'] == 0) {
+if ($tour_approved === 1 && isset($_FILES['tour_order_pdf']) && $_FILES['tour_order_pdf']['error'] === 0) {
 
     $uploadDir = "./uploads/tour_orders/";
 
     if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
+        mkdir($uploadDir, 0755, true);
     }
 
     $fileTmp  = $_FILES['tour_order_pdf']['tmp_name'];
-    $fileName = time() . "_" . basename($_FILES['tour_order_pdf']['name']);
-    $fileExt  = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+    $origName = basename($_FILES['tour_order_pdf']['name']);
+    $fileExt  = strtolower(pathinfo($origName, PATHINFO_EXTENSION));
 
-    // Allow only PDF
-    if ($fileExt === "pdf") {
+    // Allow only PDF by extension AND real MIME type (extension alone can be spoofed)
+    $finfo    = finfo_open(FILEINFO_MIME_TYPE);
+    $mimeType = finfo_file($finfo, $fileTmp);
+    finfo_close($finfo);
+
+    if ($fileExt === "pdf" && $mimeType === 'application/pdf') {
 
         // Limit file size (2MB)
         if ($_FILES['tour_order_pdf']['size'] <= 2 * 1024 * 1024) {
 
-            $targetFile = $uploadDir . $fileName;
+            $safeName   = time() . "_" . preg_replace('/[^A-Za-z0-9._-]/', '_', $origName);
+            $targetFile = $uploadDir . $safeName;
 
             if (move_uploaded_file($fileTmp, $targetFile)) {
-                $tour_order_pdf = $fileName;
+                $tour_order_pdf     = $safeName;
                 $uploaded_file_path = $targetFile;
+            } else {
+                exit("Failed to save the uploaded file. Please try again.");
             }
         } else {
-            die("File too large. Max 2MB allowed.");
+            exit("File too large. Max 2MB allowed.");
         }
 
     } else {
-        die("Only PDF files allowed.");
+        exit("Only PDF files are allowed.");
     }
 }
 
@@ -103,122 +183,123 @@ cotraveler1, cotraveler2, cotraveler3, cotraveler4, cotraveler5, cotraveler6,
 mobile, email, email_verified, forwarded_to, tour_approved, tour_order_pdf)
 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-// The bind_param string should have 22 characters matching the 22 placeholders
-// Types: s=string, i=integer
+if (!$stmt) {
+    error_log("submit_application.php prepare() failed: " . $conn->error);
+    exit("A server error occurred. Please try again later.");
+}
+
+// The bind_param string has 22 characters matching the 22 placeholders
 $stmt->bind_param(
     "sssssssssssssssssssiss", // 19 's' + 1 'i' + 2 's' = 22 characters
     $booking_for,           // s
     $other_person_name,     // s
-    $staff_type,           // s
-    $applicant_name,       // s
-    $vehicle_required,     // s
-    $source,               // s
-    $datetime_from,        // s
-    $datetime_to,          // s
-    $place_of_visit,       // s
-    $purpose,              // s
-    $cotraveler1,          // s
-    $cotraveler2,          // s
-    $cotraveler3,          // s
-    $cotraveler4,          // s
-    $cotraveler5,          // s
-    $cotraveler6,          // s
-    $mobile,               // s
-    $email,                // s
-    $email_verified,       // i (integer - 0 or 1)
-    $forwarded_to,         // s (could be integer but using string is fine)
-    $tour_approved,        // i (integer - 0 or 1)
-    $tour_order_pdf        // s (could be NULL)
+    $staff_type,            // s
+    $applicant_name,        // s
+    $vehicle_required,      // s
+    $source,                // s
+    $datetime_from,         // s
+    $datetime_to,           // s
+    $place_of_visit,        // s
+    $purpose,                // s
+    $cotraveler1,            // s
+    $cotraveler2,            // s
+    $cotraveler3,            // s
+    $cotraveler4,            // s
+    $cotraveler5,            // s
+    $cotraveler6,            // s
+    $mobile,                 // s
+    $email,                  // s
+    $email_verified,         // i (integer - 0 or 1)
+    $forwarded_to,           // s (could be integer but using string is fine)
+    $tour_approved,          // i (integer - 0 or 1)
+    $tour_order_pdf          // s (could be NULL)
 );
 
-$email_status = "";
-$application_saved = false;
+$email_status       = "";
+$application_saved  = false;
 
 if ($stmt->execute()) {
     $application_saved = true;
-    $application_id = $stmt->insert_id;
-    
-    // Clear email verification session after successful submission
+    $application_id    = $stmt->insert_id;
+
+    // Clear email verification session state now that it has been consumed
     unset($_SESSION['email_verified']);
     unset($_SESSION['verified_email']);
-    
+    unset($_SESSION['verified_at']);
+
     // ================= GET FORWARDED USER DETAILS =================
     $forwarded_query = "SELECT name, email, designation FROM users WHERE id = ?";
-    $forwarded_stmt = $conn->prepare($forwarded_query);
+    $forwarded_stmt  = $conn->prepare($forwarded_query);
     $forwarded_stmt->bind_param("i", $forwarded_to);
     $forwarded_stmt->execute();
     $forwarded_result = $forwarded_stmt->get_result();
-    $forwarded_data = $forwarded_result->fetch_assoc();
-    
+    $forwarded_data   = $forwarded_result->fetch_assoc();
+
     if ($forwarded_data) {
-        $forwarded_email = $forwarded_data['email'];
-        $forwarded_name = $forwarded_data['name'];
+        $forwarded_email       = $forwarded_data['email'];
+        $forwarded_name        = $forwarded_data['name'];
         $forwarded_designation = $forwarded_data['designation'];
-        
+
         // ================= SEND EMAIL =================
         $mail = new PHPMailer(true);
-        
+
         try {
-            // Enable verbose debug output (remove in production)
-            // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
-            
             // Server settings
             $mail->isSMTP();
             $mail->Host       = SMTP_HOST;
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'vehiclemgmtncd@gmail.com';
-            $mail->Password   = 'segn gjke yxoy rabz';
+            $mail->Username   = SMTP_USERNAME;
+            $mail->Password   = SMTP_PASSWORD;
             $mail->SMTPSecure = SMTP_ENCRYPTION;
             $mail->Port       = SMTP_PORT;
             $mail->CharSet    = 'UTF-8';
-            
+
             // Recipients
             $mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
             $mail->addAddress($forwarded_email, $forwarded_name);
             $mail->addReplyTo(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
-            
+
             // Content
             $mail->isHTML(true);
-            $mail->Subject = "🚗 Vehicle Application #{$application_id} - Action Required: {$applicant_name}";
-            
+            $mail->Subject = "Vehicle Application #{$application_id} - Action Required: {$applicant_name}";
+
             // Build email body
             $co_travelers_list = array_filter([$cotraveler1, $cotraveler2, $cotraveler3, $cotraveler4, $cotraveler5, $cotraveler6]);
             $formatted_from = date("d/m/Y H:i", strtotime($datetime_from));
-            $formatted_to = date("d/m/Y H:i", strtotime($datetime_to));
-            
+            $formatted_to   = date("d/m/Y H:i", strtotime($datetime_to));
+
             ob_start();
             include 'email_template.php';
             $mail->Body = ob_get_clean();
-            
+
             // Plain text alternative
             $mail->AltBody = strip_tags(str_replace(['<br>', '</p>'], ["\n", "\n\n"], $mail->Body));
-            
+
             // Send email
             if ($mail->send()) {
-                $email_status = "✅ Email notification sent successfully to {$forwarded_name}.";
+                $email_status = "Email notification sent successfully to {$forwarded_name}.";
             } else {
-                $email_status = "⚠️ Email could not be sent. Please check your email settings.";
+                $email_status = "Email could not be sent. Please check your email settings.";
             }
-            
+
         } catch (Exception $e) {
-            $email_status = "❌ Email Error: " . $mail->ErrorInfo;
-            // Log error for debugging
+            $email_status = "Email could not be sent due to a server error.";
             error_log("Email sending failed: " . $mail->ErrorInfo);
         }
     } else {
-        $email_status = "⚠️ Warning: Forwarded user not found in database.";
+        $email_status = "Warning: Forwarded user not found in database.";
     }
-    
+
     $forwarded_stmt->close();
-    
+
 } else {
     $error_message = $stmt->error;
+    error_log("submit_application.php insert failed: " . $stmt->error);
 }
 
 $stmt->close();
 $conn->close();
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -305,21 +386,21 @@ $conn->close();
                         <i class="bi bi-check-lg"></i>
                     </div>
                     <h2 class="text-white mb-2">Application Submitted!</h2>
-                    <p class="text-white mb-0">Application ID: #<?= $application_id ?></p>
+                    <p class="text-white mb-0">Application ID: #<?= (int) $application_id ?></p>
                 </div>
                 <div class="status-body">
                     <div class="text-center mb-4">
                         <i class="bi bi-envelope-check text-success" style="font-size: 48px;"></i>
                         <h5 class="mt-3">Email Status</h5>
                     </div>
-                    
+
                     <div class="email-details">
-                        <?php if (strpos($email_status, '✅') !== false): ?>
+                        <?php if (strpos($email_status, 'successfully') !== false): ?>
                             <div class="alert alert-success mb-0">
                                 <i class="bi bi-check-circle-fill me-2"></i>
                                 <?= htmlspecialchars($email_status) ?>
                             </div>
-                        <?php elseif (strpos($email_status, '⚠️') !== false): ?>
+                        <?php elseif (strpos($email_status, 'Warning') !== false || strpos($email_status, 'could not be sent') !== false): ?>
                             <div class="alert alert-warning mb-0">
                                 <i class="bi bi-exclamation-triangle-fill me-2"></i>
                                 <?= htmlspecialchars($email_status) ?>
@@ -348,7 +429,7 @@ $conn->close();
                 <div class="status-body">
                     <div class="alert alert-danger">
                         <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                        <?= htmlspecialchars($error_message ?? 'Unknown error occurred') ?>
+                        <?= htmlspecialchars('An error occurred while saving your application. Please try again.') ?>
                     </div>
                     <div class="text-center mt-4">
                         <a href="index.php" class="btn-home">
@@ -359,7 +440,7 @@ $conn->close();
             <?php endif; ?>
         </div>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1224,6 +1224,19 @@ if (!$res) {
     die("Query Failed: " . $conn->error);
 }
 
+// Fetch all rows once so we can build filter option lists (e.g. vehicle numbers)
+// and still loop through the data again to render the cards.
+$applications = $res->fetch_all(MYSQLI_ASSOC);
+
+// Build a unique, sorted list of vehicle numbers for the "Vehicle No" filter dropdown
+$vehicle_list = [];
+foreach ($applications as $app) {
+    if (!empty($app['vehicle_no']) && !in_array($app['vehicle_no'], $vehicle_list, true)) {
+        $vehicle_list[] = $app['vehicle_no'];
+    }
+}
+sort($vehicle_list);
+
 // Status helper functions
 function getStatusBadgeClass($status) {
     $badgeClasses = [
@@ -1242,6 +1255,7 @@ function getStatusBadgeClass($status) {
     return $badgeClasses[$status] ?? 'bg-secondary';
 }
 
+// English display text (unchanged logic)
 function getStatusDisplayText($status) {
     $displayText = [
         'Approved'    => 'Pending Start',
@@ -1257,6 +1271,24 @@ function getStatusDisplayText($status) {
         'Draft'       => 'Draft'
     ];
     return $displayText[$status] ?? $status;
+}
+
+// Hindi translation for the same status labels
+function getStatusDisplayTextHi($status) {
+    $displayTextHi = [
+        'Approved'    => 'प्रारंभ लंबित',
+        'Pending'     => 'जारी',
+        'In Progress' => 'प्रगति में',
+        'Started'     => 'शुरू',
+        'Departure'   => 'प्रगति में',
+        'Completed'   => 'पूर्ण',
+        'Cancelled'   => 'रद्द',
+        'Rejected'    => 'अस्वीकृत',
+        'Expired'     => 'समाप्त',
+        'On Hold'     => 'होल्ड पर',
+        'Draft'       => 'ड्राफ्ट'
+    ];
+    return $displayTextHi[$status] ?? $status;
 }
 
 function getButtonIcon($status) {
@@ -1280,12 +1312,14 @@ function getButtonConfig($status) {
         return [
             'class' => 'btn btn-secondary disabled',
             'text' => $status,
+            'text_hi' => getStatusDisplayTextHi($status),
             'disabled' => true
         ];
     } else {
         return [
             'class' => $status == 'Approved' ? 'btn btn-success' : 'btn btn-warning',
             'text' => $status == 'Approved' ? 'Start Journey' : 'End Journey',
+            'text_hi' => $status == 'Approved' ? 'यात्रा शुरू करें' : 'यात्रा समाप्त करें',
             'disabled' => false
         ];
     }
@@ -1296,10 +1330,303 @@ function getButtonConfig($status) {
 
 <head>
     <title>Security Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="security.css">
+    <style>
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        img, svg {
+            max-width: 100%;
+        }
+        .filters-bar {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .filter-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 4px;
+        }
+        .filter-label .hi {
+            font-weight: 500;
+            color: #94a3b8;
+        }
+        .filters-bar .form-control,
+        .filters-bar .form-select {
+            font-size: 14px;
+        }
+        .results-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: #64748b;
+        }
+        .reset-filters-btn {
+            font-size: 13px;
+            color: #2563eb;
+            background: none;
+            border: none;
+            text-decoration: underline;
+            cursor: pointer;
+            padding: 0;
+        }
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+        }
+        .no-results i {
+            font-size: 40px;
+            color: #cbd5e1;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .pagination-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin: 24px 0 10px;
+        }
+        .page-btn {
+            min-width: 36px;
+            height: 36px;
+            padding: 0 10px;
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            color: #334155;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .page-btn:hover:not(:disabled) {
+            background: #f1f5f9;
+        }
+        .page-btn.active {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .page-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .btn-accordion-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+            cursor: pointer;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        .btn-accordion-toggle:hover {
+            background: #e2e8f0;
+        }
+        .btn-accordion-toggle .hi {
+            font-weight: 500;
+            color: #64748b;
+            font-size: 12px;
+            margin-left: 4px;
+        }
+        .btn-accordion-toggle .toggle-icon {
+            transition: transform 0.2s ease;
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+        .btn-accordion-toggle[aria-expanded="true"] .toggle-icon {
+            transform: rotate(180deg);
+        }
+        .accordion-body-content {
+            padding: 2px 0 4px;
+        }
+        .label-hi {
+            display: block;
+            font-size: 11px;
+            font-weight: 400;
+            color: #94a3b8;
+            line-height: 1.3;
+        }
+        .section-title .hi,
+        .info-section .section-title .hi {
+            font-weight: 500;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        .status-hi {
+            display: block;
+            font-size: 10px;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+        .btn-hi {
+            display: block;
+            font-size: 11px;
+            font-weight: 500;
+            opacity: 0.9;
+            line-height: 1.2;
+        }
+
+        /* ===================== MOBILE RESPONSIVE ===================== */
+        @media (max-width: 991.98px) {
+            .dashboard-container { padding: 0; }
+            .applications-grid {
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .container-fluid {
+                padding-left: 12px !important;
+                padding-right: 12px !important;
+            }
+            .dashboard-title {
+                font-size: 16px !important;
+                gap: 6px;
+            }
+            .dashboard-title span {
+                white-space: normal;
+            }
+            .page-title {
+                font-size: 17px !important;
+                margin-bottom: 12px;
+            }
+            .filters-bar {
+                padding: 12px !important;
+            }
+            .filters-bar .row.g-3 > div {
+                margin-bottom: 2px;
+            }
+            .results-meta {
+                font-size: 12px;
+            }
+            .applications-grid {
+                grid-template-columns: 1fr !important;
+                gap: 14px !important;
+            }
+            .application-card {
+                border-radius: 14px !important;
+            }
+            .card-header {
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+            .info-grid,
+            .security-grid {
+                grid-template-columns: 1fr !important;
+            }
+            .info-item.full-width,
+            .security-item.full-width {
+                grid-column: auto !important;
+            }
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .btn-accordion-toggle {
+                font-size: 13px;
+                padding: 10px 12px;
+                flex-wrap: wrap;
+            }
+            .modal-dialog {
+                margin: 10px !important;
+            }
+            .modal-body {
+                padding: 14px !important;
+            }
+            .modal-footer {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            .modal-footer button {
+                flex: 1 1 auto;
+                justify-content: center;
+            }
+            .pagination-bar {
+                gap: 4px;
+            }
+            .page-btn {
+                min-width: 32px;
+                height: 32px;
+                font-size: 12px;
+                padding: 0 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-title {
+                font-size: 14px !important;
+            }
+            .btn-logout span {
+                display: none;
+            }
+            .page-title {
+                font-size: 15px !important;
+            }
+            .filter-label {
+                font-size: 11px;
+            }
+            .filters-bar .form-control,
+            .filters-bar .form-select {
+                font-size: 13px;
+                padding: 8px 10px;
+            }
+            .app-id {
+                font-size: 14px !important;
+            }
+            .status-badge {
+                font-size: 11px !important;
+                padding: 3px 8px !important;
+            }
+            .section-title {
+                font-size: 13px !important;
+            }
+            .info-label, .security-label {
+                font-size: 12px !important;
+            }
+            .info-value, .security-value {
+                font-size: 12px !important;
+            }
+            .created-at {
+                font-size: 11px !important;
+            }
+            .label-hi, .section-title .hi {
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .filters-bar .row.g-3 {
+                row-gap: 10px !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -1313,13 +1640,13 @@ function getButtonConfig($status) {
                     <div class="col-8 col-sm-9">
                         <div class="dashboard-title">
                             <i class="bi bi-speedometer2"></i>
-                            <span>Vehicle Management</span>
+                            <span>Vehicle Management <span class="hi">/ वाहन प्रबंधन</span></span>
                         </div>
                     </div>
                     <div class="col-4 col-sm-3 text-end">
                         <a href="logout.php" class="btn-logout">
                             <i class="bi bi-box-arrow-right"></i>
-                            <span class="d-none d-sm-inline">Logout</span>
+                            <span class="d-none d-sm-inline">Logout / लॉग आउट</span>
                         </a>
                     </div>
                 </div>
@@ -1328,351 +1655,598 @@ function getButtonConfig($status) {
 
         <div class="container-fluid px-3 py-3">
             <h3 class="page-title">
-                <i class="bi bi-shield-check"></i> Vehicle Applications
+                <i class="bi bi-shield-check"></i> Vehicle Applications <span class="hi" style="font-size:14px; font-weight:500; color:#94a3b8;">/ वाहन आवेदन</span>
             </h3>
 
-            <div class="applications-grid">
-                <?php if ($res->num_rows > 0): ?>
-                <?php while ($row = $res->fetch_assoc()): 
-                        $btnConfig = getButtonConfig($row['status']);
-                    ?>
-                <div class="application-card">
-                    <!-- Card Header -->
-                    <div class="card-header">
-                        <div class="app-id">#<?= htmlspecialchars($row['id']) ?></div>
-                        <span class="status-badge <?= getStatusBadgeClass($row['status']) ?>">
-                            <?= getStatusDisplayText($row['status']) ?>
-                        </span>
+            <!-- Filters / Search / Sort -->
+            <div class="filters-bar">
+                <div class="row g-3 align-items-end">
+                    <div class="col-12 col-md-4">
+                        <label class="filter-label" for="searchInput">
+                            Search <span class="hi">/ खोजें</span>
+                        </label>
+                        <input type="text" id="searchInput" class="form-control"
+                            placeholder="Name, mobile, vehicle no, place... / नाम, मोबाइल, वाहन नंबर, स्थान...">
                     </div>
 
-                    <div class="card-body">
-                        <!-- Applicant Section -->
-                        <div class="info-section">
-                            <div class="section-title">
-                                <i class="bi bi-person-badge"></i>
-                                <span>Applicant</span>
-                            </div>
-                            <div class="info-grid">
-                                <!-- Booking For -->
-                                <div class="info-item">
-                                    <span class="info-label">Booking For:</span>
-                                    <span class="info-value">
-                                        <?= htmlspecialchars($row['booking_for']) ?>
-                                    </span>
-                                </div>
+                    <div class="col-6 col-sm-6 col-md-2">
+                        <label class="filter-label" for="dateFilter">
+                            Date <span class="hi">/ दिनांक</span>
+                        </label>
+                        <select id="dateFilter" class="form-select">
+                            <option value="today">Today / आज</option>
+                            <option value="yesterday">Yesterday / कल</option>
+                            <option value="week">This Week / इस सप्ताह</option>
+                            <option value="month">This Month / इस महीने</option>
+                            <option value="all" selected>All Time / सभी समय</option>
+                        </select>
+                    </div>
 
-                                <?php if($row['booking_for'] == "Someone" && !empty($row['other_person_name'])){ ?>
+                    <div class="col-6 col-sm-6 col-md-2">
+                        <label class="filter-label" for="statusFilter">
+                            Status <span class="hi">/ स्थिति</span>
+                        </label>
+                        <select id="statusFilter" class="form-select">
+                            <option value="all">All / सभी</option>
+                            <option value="Approved">Approved / स्वीकृत</option>
+                            <option value="Departure">Departure / प्रस्थान (यात्रा जारी)</option>
+                            <option value="Completed">Completed / पूर्ण</option>
+                        </select>
+                    </div>
 
-                                <!-- Other Person -->
-                                <div class="info-item">
-                                    <span class="info-label">Person Name:</span>
-                                    <span class="info-value">
-                                        <?= htmlspecialchars($row['other_person_name']) ?>
-                                    </span>
-                                </div>
+                    <div class="col-6 col-sm-6 col-md-2">
+                        <label class="filter-label" for="vehicleFilter">
+                            Vehicle No <span class="hi">/ वाहन नंबर</span>
+                        </label>
+                        <select id="vehicleFilter" class="form-select">
+                            <option value="all">All / सभी</option>
+                            <?php foreach ($vehicle_list as $vno): ?>
+                            <option value="<?= htmlspecialchars($vno) ?>"><?= htmlspecialchars($vno) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
 
-                                <!-- Applicant -->
-                                <div class="info-item">
-                                    <span class="info-label">Applicant Name:</span>
-                                    <span class="info-value">
-                                        <?= htmlspecialchars($row['applicant_name']) ?>
-                                    </span>
-                                </div>
+                    <div class="col-6 col-sm-6 col-md-2">
+                        <label class="filter-label" for="sortSelect">
+                            Sort By <span class="hi">/ क्रमबद्ध करें</span>
+                        </label>
+                        <select id="sortSelect" class="form-select">
+                            <option value="date_desc">Newest First / नवीनतम पहले</option>
+                            <option value="date_asc">Oldest First / पुराने पहले</option>
+                            <option value="status">Status / स्थिति अनुसार</option>
+                            <option value="vehicle">Vehicle No / वाहन नंबर अनुसार</option>
+                            <option value="name">Applicant Name / नाम अनुसार</option>
+                        </select>
+                    </div>
 
-                                <?php } else { ?>
-
-                                <!-- Applicant -->
-                                <div class="info-item">
-                                    <span class="info-label">Name:</span>
-                                    <span class="info-value">
-                                        <?= htmlspecialchars($row['applicant_name']) ?>
-                                    </span>
-                                </div>
-
-                                <?php } ?>
-                                <div class="info-item">
-                                    <span class="info-label">Email:</span>
-                                    <span class="info-value text-truncate"><?= htmlspecialchars($row['email']) ?></span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Mobile:</span>
-                                    <span class="info-value"><?= htmlspecialchars($row['mobile']) ?></span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Staff Type:</span>
-                                    <span class="info-value"><?= htmlspecialchars($row['staff_type']) ?></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Journey Section -->
-                        <div class="info-section">
-                            <div class="section-title">
-                                <i class="bi bi-map"></i>
-                                <span>Journey</span>
-                            </div>
-                            <div class="info-grid">
-                                <div class="info-item">
-                                    <span class="info-label">From:</span>
-                                    <span
-                                        class="info-value"><?= date("d M Y H:i", strtotime($row['datetime_from'])) ?></span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">To:</span>
-                                    <span
-                                        class="info-value"><?= date("d M Y H:i", strtotime($row['datetime_to'])) ?></span>
-                                </div>
-                                <div class="info-item full-width">
-                                    <span class="info-label">Source:</span>
-                                    <span class="info-value">
-                                        <?= !empty($row['source']) ? htmlspecialchars($row['source']) : 'N/A' ?>
-                                    </span>
-                                </div>
-                                <div class="info-item full-width">
-                                    <span class="info-label">Place:/Destination:</span>
-                                    <span class="info-value"><?= htmlspecialchars($row['place_of_visit']) ?></span>
-                                </div>
-                                <div class="info-item full-width">
-                                    <span class="info-label">Purpose:</span>
-                                    <span class="info-value"><?= htmlspecialchars($row['purpose']) ?></span>
-                                </div>
-                                <?php if (!empty($row['remark'])): ?>
-                                <div class="info-item full-width">
-                                    <span class="info-label">Remark:</span>
-                                    <span class="info-value"><?= htmlspecialchars($row['remark']) ?></span>
-                                </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-
-                        <!-- Driver & Vehicle Section -->
-                        <div class="info-section">
-                            <div class="section-title">
-                                <i class="bi bi-truck"></i>
-                                <span>Vehicle & Driver</span>
-                            </div>
-                            <div class="info-grid">
-                                <div class="info-item">
-                                    <span class="info-label">Driver:</span>
-                                    <span class="info-value"><?= htmlspecialchars($row['driver_name'] ?? 'Not Assigned') ?></span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Contact:</span>
-                                    <span class="info-value"><?= htmlspecialchars($row['driver_mobile'] ?? 'N/A') ?></span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Vehicle:</span>
-                                    <span class="info-value"><?= htmlspecialchars($row['vehicle_name'] ?? 'Not Assigned') ?></span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Type:</span>
-                                    <span class="info-value"><?= htmlspecialchars($row['vehicle_type'] ?? 'N/A') ?></span>
-                                </div>
-                                <div class="info-item full-width">
-                                    <span class="info-label">Reg No:</span>
-                                    <span class="info-value vehicle-no"><?= htmlspecialchars($row['vehicle_no'] ?? 'N/A') ?></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Co-Travelers Section -->
-                        <?php if ($row['cotraveler1'] || $row['cotraveler2'] || $row['cotraveler3'] || $row['cotraveler4'] || $row['cotraveler5'] || $row['cotraveler6']): ?>
-                        <div class="info-section">
-                            <div class="section-title">
-                                <i class="bi bi-people"></i>
-                                <span>Co-Travelers</span>
-                            </div>
-                            <div class="travelers-list">
-                                <?php for ($i = 1; $i <= 6; $i++): ?>
-                                <?php if (!empty($row['cotraveler' . $i])): ?>
-                                <div class="traveler-item">
-                                    <i class="bi bi-person"></i>
-                                    <?= htmlspecialchars($row['cotraveler' . $i]) ?>
-                                </div>
-                                <?php endif; ?>
-                                <?php endfor; ?>
-                            </div>
-                        </div>
-                        <?php endif; ?>
-
-                        <!-- Approval Section -->
-                        <div class="info-section">
-                            <div class="section-title">
-                                <i class="bi bi-check-circle"></i>
-                                <span>Approval</span>
-                            </div>
-                            <div class="info-grid">
-                                <div class="info-item full-width">
-                                    <span class="info-label">Forwarded To:</span>
-                                    <span
-                                        class="info-value"><?= htmlspecialchars($row['forwarded_admin_name']) ?></span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Tour Order:</span>
-                                    <span class="info-value">
-                                        <?= $row['tour_approved'] ? '✓ Attached' : '✗ Not Attached' ?>
-                                    </span>
-                                </div>
-                                <?php if ($row['tour_order_pdf']): ?>
-                                <div class="info-item full-width">
-                                    <a href="../uploads/tour_orders/<?= htmlspecialchars($row['tour_order_pdf']) ?>" target="_blank"
-                                        class="btn-view-pdf">
-                                        <i class="bi bi-file-pdf"></i> View Tour Order
-                                    </a>
-                                </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-
-                        <!-- Security Movement Section -->
-                        <div class="info-section">
-                            <div class="section-title">
-                                <i class="bi bi-shield-lock"></i>
-                                <span>Security Details</span>
-                            </div>
-                            <div class="security-grid">
-                                <div class="security-item">
-                                    <span class="security-label">Out Date Time:</span>
-                                    <span class="security-value">
-                                        <?= $row['out_datetime'] ? date('d M H:i', strtotime($row['out_datetime'])) : '--' ?>
-                                    </span>
-                                </div>
-                                <div class="security-item">
-                                    <span class="security-label">KM Out:</span>
-                                    <span class="security-value"><?= $row['km_out'] ?: '--' ?></span>
-                                </div>
-                                <div class="security-item">
-                                    <span class="security-label">In Date Time:</span>
-                                    <span class="security-value">
-                                        <?= $row['in_datetime'] ? date('d M H:i', strtotime($row['in_datetime'])) : '--' ?>
-                                    </span>
-                                </div>
-                                <div class="security-item">
-                                    <span class="security-label">KM In:</span>
-                                    <span class="security-value"><?= $row['km_in'] ?: '--' ?></span>
-                                </div>
-                                <div class="security-item">
-                                    <span class="security-label">Total KM:</span>
-                                    <span class="security-value"><?= $row['total_km'] ?: '--' ?></span>
-                                </div>
-                                <div class="security-item">
-                                    <span class="security-label">Total Hours:</span>
-                                    <span class="security-value"><?= $row['total_hours'] ?: '--' ?></span>
-                                </div>
-                                <div class="security-item full-width">
-                                    <span class="security-label">Guard Name:</span>
-                                    <span
-                                        class="security-value"><?= htmlspecialchars($row['security_guard_name'] ?: '--') ?></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Created At -->
-                        <div class="created-at">
-                            <i class="bi bi-clock"></i>
-                            <?= date('d M Y H:i', strtotime($row['created_at'])) ?>
-                        </div>
-
-                        <!-- Action Button -->
-                        <button class="action-btn <?= $btnConfig['class'] ?>"
-                            data-id="<?= htmlspecialchars($row['id']) ?>"
-                            data-status="<?= htmlspecialchars($row['status']) ?>"
-                            <?= !$btnConfig['disabled'] ? 'data-bs-toggle="modal" data-bs-target="#modal' . $row['id'] . '"' : '' ?>
-                            <?= $btnConfig['disabled'] ? 'disabled' : '' ?>>
-                            <i class="bi <?= getButtonIcon($row['status']) ?>"></i>
-                            <span><?= htmlspecialchars($btnConfig['text']) ?></span>
-                        </button>
+                    <div class="col-6 col-sm-6 col-md-2">
+                        <label class="filter-label" for="perPageSelect">
+                            Per Page <span class="hi">/ प्रति पृष्ठ</span>
+                        </label>
+                        <select id="perPageSelect" class="form-select">
+                            <option value="6">6</option>
+                            <option value="9" selected>9</option>
+                            <option value="12">12</option>
+                            <option value="24">24</option>
+                        </select>
                     </div>
                 </div>
+            </div>
 
-                <!-- Modal -->
-                <div class="modal fade" id="modal<?= $row['id'] ?>" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <form method="POST">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">
-                                        <i
-                                            class="bi bi-<?= $row['status'] == 'Approved' ? 'play' : 'flag' ?>-circle"></i>
-                                        <?= $row['status'] == 'Approved' ? 'Start Journey' : 'Complete Journey' ?>
-                                    </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
+            <div class="results-meta">
+                <span id="resultCount">0 applications found / आवेदन मिले</span>
+                <button type="button" class="reset-filters-btn" id="resetFiltersBtn">
+                    Reset Filters / फ़िल्टर रीसेट करें
+                </button>
+            </div>
 
-                                <div class="modal-body">
-                                    <input type="hidden" name="app_id" value="<?= htmlspecialchars($row['id']) ?>">
+            <div class="applications-grid" id="applicationsGrid">
+                <?php if (count($applications) > 0): ?>
+                <?php foreach ($applications as $row):
+                        $btnConfig = getButtonConfig($row['status']);
+                        $search_blob = strtolower(implode(' ', [
+                            $row['applicant_name'] ?? '',
+                            $row['mobile'] ?? '',
+                            $row['place_of_visit'] ?? '',
+                            $row['vehicle_no'] ?? '',
+                            $row['vehicle_name'] ?? '',
+                            $row['driver_name'] ?? '',
+                            $row['id'] ?? '',
+                        ]));
 
-                                    <?php if ($row['status'] == 'Approved'): ?>
-                                    <!-- Out Journey Fields -->
-                                    <div class="form-group">
-                                        <label>Out Date & Time</label>
-                                        <input type="datetime-local" name="out_datetime" class="form-control" required>
+                        // Date used for the "Date" filter (Today/Yesterday/Week/Month):
+                        // pulled from Security Details (out_datetime = departure, falling back
+                        // to in_datetime = return) instead of the application submission date.
+                        // Only falls back to created_at when neither security timestamp exists yet.
+                        $filter_datetime_source = $row['out_datetime'] ?: ($row['in_datetime'] ?: $row['created_at']);
+                    ?>
+                <div class="app-item"
+                    data-status="<?= htmlspecialchars($row['status']) ?>"
+                    data-vehicle="<?= htmlspecialchars($row['vehicle_no'] ?? '') ?>"
+                    data-name="<?= htmlspecialchars(strtolower($row['applicant_name'] ?? '')) ?>"
+                    data-created="<?= (int) strtotime($filter_datetime_source) ?>"
+                    data-date="<?= htmlspecialchars(date('Y-m-d', strtotime($filter_datetime_source))) ?>"
+                    data-search="<?= htmlspecialchars($search_blob) ?>">
+
+                    <div class="application-card">
+                        <!-- Card Header -->
+                        <div class="card-header">
+                            <div class="app-id">#<?= htmlspecialchars($row['id']) ?></div>
+                            <span class="status-badge <?= getStatusBadgeClass($row['status']) ?>">
+                                <?= getStatusDisplayText($row['status']) ?>
+                                <span class="status-hi">/ <?= getStatusDisplayTextHi($row['status']) ?></span>
+                            </span>
+                        </div>
+
+                        <div class="card-body">
+                            <!-- Merged Applicant + Journey + Co-Travelers Accordion -->
+                            <button class="btn-accordion-toggle" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#details<?= $row['id'] ?>" aria-expanded="false"
+                                aria-controls="details<?= $row['id'] ?>">
+                                <span>
+                                    <i class="bi bi-person-lines-fill"></i>
+                                    Applicant, Journey & Co-Travelers
+                                    <span class="hi">/ आवेदक, यात्रा और सह-यात्री विवरण</span>
+                                </span>
+                                <i class="bi bi-chevron-down toggle-icon"></i>
+                            </button>
+
+                            <div class="collapse" id="details<?= $row['id'] ?>">
+                                <div class="accordion-body-content">
+
+                                    <!-- Applicant Section -->
+                                    <div class="info-section">
+                                        <div class="section-title">
+                                            <i class="bi bi-person-badge"></i>
+                                            <span>Applicant <span class="hi">/ आवेदक</span></span>
+                                        </div>
+                                        <div class="info-grid">
+
+                                            <?php if($row['booking_for'] == "Someone" && !empty($row['other_person_name'])){ ?>
+
+                                            <!-- Other Person -->
+                                            <div class="info-item">
+                                                <span class="info-label">Person Name: <span class="label-hi">व्यक्ति का नाम</span></span>
+                                                <span class="info-value">
+                                                    <?= htmlspecialchars($row['other_person_name']) ?>
+                                                </span>
+                                            </div>
+
+                                            <!-- Applicant -->
+                                            <div class="info-item">
+                                                <span class="info-label">Applicant Name: <span class="label-hi">आवेदक का नाम</span></span>
+                                                <span class="info-value">
+                                                    <?= htmlspecialchars($row['applicant_name']) ?>
+                                                </span>
+                                            </div>
+
+                                            <?php } else { ?>
+
+                                            <!-- Applicant -->
+                                            <div class="info-item">
+                                                <span class="info-label">Name: <span class="label-hi">नाम</span></span>
+                                                <span class="info-value">
+                                                    <?= htmlspecialchars($row['applicant_name']) ?>
+                                                </span>
+                                            </div>
+
+                                            <?php } ?>
+                                            <div class="info-item">
+                                                <span class="info-label">Mobile: <span class="label-hi">मोबाइल</span></span>
+                                                <span class="info-value"><?= htmlspecialchars($row['mobile']) ?></span>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label>KM Out</label>
-                                        <input type="number" name="km_out" class="form-control" required>
+                                    <!-- Journey Section -->
+                                    <div class="info-section">
+                                        <div class="section-title">
+                                            <i class="bi bi-map"></i>
+                                            <span>Journey <span class="hi">/ यात्रा</span></span>
+                                        </div>
+                                        <div class="info-grid">
+                                            <div class="info-item">
+                                                <span class="info-label">From: <span class="label-hi">से</span></span>
+                                                <span
+                                                    class="info-value"><?= date("d M Y H:i", strtotime($row['datetime_from'])) ?></span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">To: <span class="label-hi">तक</span></span>
+                                                <span
+                                                    class="info-value"><?= date("d M Y H:i", strtotime($row['datetime_to'])) ?></span>
+                                            </div>
+                                            <div class="info-item full-width">
+                                                <span class="info-label">Source: <span class="label-hi">स्रोत</span></span>
+                                                <span class="info-value">
+                                                    <?= !empty($row['source']) ? htmlspecialchars($row['source']) : 'N/A' ?>
+                                                </span>
+                                            </div>
+                                            <div class="info-item full-width">
+                                                <span class="info-label">Place/Destination: <span class="label-hi">स्थान/गंतव्य</span></span>
+                                                <span class="info-value"><?= htmlspecialchars($row['place_of_visit']) ?></span>
+                                            </div>
+                                            <?php if (!empty($row['remark'])): ?>
+                                            <div class="info-item full-width">
+                                                <span class="info-label">Remark: <span class="label-hi">टिप्पणी</span></span>
+                                                <span class="info-value"><?= htmlspecialchars($row['remark']) ?></span>
+                                            </div>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label>Security Guard Name</label>
-                                        <input type="text" name="guard_out" class="form-control" required>
-                                    </div>
-
-                                    <input type="hidden" name="journey_status" value="Departure">
-
-                                    <?php elseif ($row['status'] == 'Departure'): ?>
-                                    <!-- Return Journey Fields -->
-                                    <div class="form-group">
-                                        <label>In Date & Time</label>
-                                        <input type="datetime-local" name="in_datetime" class="form-control" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label>KM In</label>
-                                        <input type="number" name="km_in" class="form-control" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label>Security Guard (Return)</label>
-                                        <input type="text" name="guard_in" class="form-control" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label>Journey Status</label>
-                                        <select name="journey_status" class="form-control" required>
-                                            <option value="Completed">Completed - Successful</option>
-                                            <!-- <option value="Cancelled">Cancelled - Not Completed</option> -->
-                                        </select>
+                                    <!-- Co-Travelers Section -->
+                                    <?php if ($row['cotraveler1'] || $row['cotraveler2'] || $row['cotraveler3'] || $row['cotraveler4'] || $row['cotraveler5'] || $row['cotraveler6']): ?>
+                                    <div class="info-section">
+                                        <div class="section-title">
+                                            <i class="bi bi-people"></i>
+                                            <span>Co-Travelers <span class="hi">/ सह-यात्री</span></span>
+                                        </div>
+                                        <div class="travelers-list">
+                                            <?php for ($i = 1; $i <= 6; $i++): ?>
+                                            <?php if (!empty($row['cotraveler' . $i])): ?>
+                                            <div class="traveler-item">
+                                                <i class="bi bi-person"></i>
+                                                <?= htmlspecialchars($row['cotraveler' . $i]) ?>
+                                            </div>
+                                            <?php endif; ?>
+                                            <?php endfor; ?>
+                                        </div>
                                     </div>
                                     <?php endif; ?>
-                                </div>
 
-                                <div class="modal-footer">
-                                    <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">
-                                        <i class="bi bi-x-circle"></i> Cancel
-                                    </button>
-                                    <button type="submit" name="mark_departure" class="btn-modal-submit">
-                                        <i class="bi bi-check-circle"></i>
-                                        <?= $row['status'] == 'Approved' ? 'Start Journey' : 'Complete' ?>
-                                    </button>
                                 </div>
-                            </form>
+                            </div>
+
+                            <!-- Driver & Vehicle Section -->
+                            <div class="info-section">
+                                <div class="section-title">
+                                    <i class="bi bi-truck"></i>
+                                    <span>Vehicle & Driver <span class="hi">/ वाहन और चालक</span></span>
+                                </div>
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <span class="info-label">Driver: <span class="label-hi">चालक</span></span>
+                                        <span class="info-value"><?= htmlspecialchars($row['driver_name'] ?? 'Not Assigned') ?></span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Contact: <span class="label-hi">संपर्क</span></span>
+                                        <span class="info-value"><?= htmlspecialchars($row['driver_mobile'] ?? 'N/A') ?></span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Vehicle: <span class="label-hi">वाहन</span></span>
+                                        <span class="info-value"><?= htmlspecialchars($row['vehicle_name'] ?? 'Not Assigned') ?></span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Type: <span class="label-hi">प्रकार</span></span>
+                                        <span class="info-value"><?= htmlspecialchars($row['vehicle_type'] ?? 'N/A') ?></span>
+                                    </div>
+                                    <div class="info-item full-width">
+                                        <span class="info-label">Reg No: <span class="label-hi">पंजीकरण संख्या</span></span>
+                                        <span class="info-value vehicle-no"><?= htmlspecialchars($row['vehicle_no'] ?? 'N/A') ?></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Security Movement Section -->
+                            <div class="info-section">
+                                <div class="section-title">
+                                    <i class="bi bi-shield-lock"></i>
+                                    <span>Security Details <span class="hi">/ सुरक्षा विवरण</span></span>
+                                </div>
+                                <div class="security-grid">
+                                    <div class="security-item">
+                                        <span class="security-label">Out Date Time: <span class="label-hi">बाहर जाने का दिनांक समय</span></span>
+                                        <span class="security-value">
+                                            <?= $row['out_datetime'] ? date('d M H:i', strtotime($row['out_datetime'])) : '--' ?>
+                                        </span>
+                                    </div>
+                                    <div class="security-item">
+                                        <span class="security-label">KM Out: <span class="label-hi">किमी (बाहर)</span></span>
+                                        <span class="security-value"><?= $row['km_out'] ?: '--' ?></span>
+                                    </div>
+                                    <div class="security-item">
+                                        <span class="security-label">In Date Time: <span class="label-hi">वापसी दिनांक समय</span></span>
+                                        <span class="security-value">
+                                            <?= $row['in_datetime'] ? date('d M H:i', strtotime($row['in_datetime'])) : '--' ?>
+                                        </span>
+                                    </div>
+                                    <div class="security-item">
+                                        <span class="security-label">KM In: <span class="label-hi">किमी (अंदर)</span></span>
+                                        <span class="security-value"><?= $row['km_in'] ?: '--' ?></span>
+                                    </div>
+                                    <div class="security-item">
+                                        <span class="security-label">Total KM: <span class="label-hi">कुल किमी</span></span>
+                                        <span class="security-value"><?= $row['total_km'] ?: '--' ?></span>
+                                    </div>
+                                    <div class="security-item">
+                                        <span class="security-label">Total Hours: <span class="label-hi">कुल घंटे</span></span>
+                                        <span class="security-value"><?= $row['total_hours'] ?: '--' ?></span>
+                                    </div>
+                                    <div class="security-item full-width">
+                                        <span class="security-label">Guard Name: <span class="label-hi">गार्ड का नाम</span></span>
+                                        <span
+                                            class="security-value"><?= htmlspecialchars($row['security_guard_name'] ?: '--') ?></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Created At -->
+                            <div class="created-at">
+                                <i class="bi bi-clock"></i>
+                                <?= date('d M Y H:i', strtotime($row['created_at'])) ?>
+                            </div>
+
+                            <!-- Action Button -->
+                            <button class="action-btn <?= $btnConfig['class'] ?>"
+                                data-id="<?= htmlspecialchars($row['id']) ?>"
+                                data-status="<?= htmlspecialchars($row['status']) ?>"
+                                <?= !$btnConfig['disabled'] ? 'data-bs-toggle="modal" data-bs-target="#modal' . $row['id'] . '"' : '' ?>
+                                <?= $btnConfig['disabled'] ? 'disabled' : '' ?>>
+                                <i class="bi <?= getButtonIcon($row['status']) ?>"></i>
+                                <span>
+                                    <?= htmlspecialchars($btnConfig['text']) ?>
+                                    <span class="btn-hi">/ <?= htmlspecialchars($btnConfig['text_hi']) ?></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="modal<?= $row['id'] ?>" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <form method="POST">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">
+                                            <i
+                                                class="bi bi-<?= $row['status'] == 'Approved' ? 'play' : 'flag' ?>-circle"></i>
+                                            <?= $row['status'] == 'Approved' ? 'Start Journey / यात्रा शुरू करें' : 'Complete Journey / यात्रा पूर्ण करें' ?>
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <input type="hidden" name="app_id" value="<?= htmlspecialchars($row['id']) ?>">
+
+                                        <?php if ($row['status'] == 'Approved'): ?>
+                                        <!-- Out Journey Fields -->
+                                        <div class="form-group">
+                                            <label>Out Date & Time <span class="label-hi">/ बाहर जाने की तारीख और समय</span></label>
+                                            <input type="datetime-local" name="out_datetime" class="form-control" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>KM Out <span class="label-hi">/ किमी आउट</span></label>
+                                            <input type="number" name="km_out" class="form-control" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Security Guard Name <span class="label-hi">/ सुरक्षा गार्ड का नाम</span></label>
+                                            <input type="text" name="guard_out" class="form-control" required>
+                                        </div>
+
+                                        <input type="hidden" name="journey_status" value="Departure">
+
+                                        <?php elseif ($row['status'] == 'Departure'): ?>
+                                        <!-- Return Journey Fields -->
+                                        <div class="form-group">
+                                            <label>In Date & Time <span class="label-hi">/ अंदर आने की तारीख और समय</span></label>
+                                            <input type="datetime-local" name="in_datetime" class="form-control" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>KM In <span class="label-hi">/ किमी इन</span></label>
+                                            <input type="number" name="km_in" class="form-control" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Security Guard (Return) <span class="label-hi">/ सुरक्षा गार्ड (वापसी)</span></label>
+                                            <input type="text" name="guard_in" class="form-control" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Journey Status <span class="label-hi">/ यात्रा स्थिति</span></label>
+                                            <select name="journey_status" class="form-control" required>
+                                                <option value="Completed">Completed - Successful / पूर्ण - सफल</option>
+                                                <!-- <option value="Cancelled">Cancelled - Not Completed</option> -->
+                                            </select>
+                                        </div>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">
+                                            <i class="bi bi-x-circle"></i> Cancel / रद्द करें
+                                        </button>
+                                        <button type="submit" name="mark_departure" class="btn-modal-submit">
+                                            <i class="bi bi-check-circle"></i>
+                                            <?= $row['status'] == 'Approved' ? 'Start Journey / यात्रा शुरू करें' : 'Complete / पूर्ण करें' ?>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <?php endwhile; ?>
+                <?php endforeach; ?>
                 <?php else: ?>
                 <div class="no-applications">
                     <i class="bi bi-inbox"></i>
-                    <p>No applications found</p>
+                    <p>No applications found / कोई आवेदन नहीं मिला</p>
                 </div>
                 <?php endif; ?>
             </div>
+
+            <!-- No results after filtering (client-side) -->
+            <div class="no-results" id="noResultsMsg">
+                <i class="bi bi-search"></i>
+                <p>No matching applications / कोई मिलान आवेदन नहीं मिला</p>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-bar" id="pagination"></div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var grid = document.getElementById('applicationsGrid');
+        var items = Array.prototype.slice.call(grid.querySelectorAll('.app-item'));
+
+        var searchInput = document.getElementById('searchInput');
+        var dateFilter = document.getElementById('dateFilter');
+        var statusFilter = document.getElementById('statusFilter');
+        var vehicleFilter = document.getElementById('vehicleFilter');
+        var sortSelect = document.getElementById('sortSelect');
+        var perPageSelect = document.getElementById('perPageSelect');
+        var paginationEl = document.getElementById('pagination');
+        var resultCount = document.getElementById('resultCount');
+        var noResultsMsg = document.getElementById('noResultsMsg');
+        var resetBtn = document.getElementById('resetFiltersBtn');
+
+        var currentPage = 1;
+
+        if (items.length === 0) {
+            paginationEl.style.display = 'none';
+            return;
+        }
+
+        function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+
+        function toDateStr(d) {
+            return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+        }
+
+        function matchesDate(item, value) {
+            if (value === 'all') return true;
+
+            var now = new Date();
+
+            if (value === 'today') {
+                return item.dataset.date === toDateStr(now);
+            }
+            if (value === 'yesterday') {
+                var y = new Date(now);
+                y.setDate(y.getDate() - 1);
+                return item.dataset.date === toDateStr(y);
+            }
+            if (value === 'week') {
+                var start = new Date(now);
+                var day = start.getDay(); // 0 = Sun ... 6 = Sat
+                var diffToMonday = (day === 0 ? 6 : day - 1);
+                start.setDate(start.getDate() - diffToMonday);
+                start.setHours(0, 0, 0, 0);
+                var itemTime = parseInt(item.dataset.created, 10) * 1000;
+                return itemTime >= start.getTime();
+            }
+            if (value === 'month') {
+                var monthStart = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+                var itemTime2 = parseInt(item.dataset.created, 10) * 1000;
+                return itemTime2 >= monthStart;
+            }
+            return true;
+        }
+
+        function getFiltered() {
+            var q = searchInput.value.trim().toLowerCase();
+            var status = statusFilter.value;
+            var vehicle = vehicleFilter.value;
+            var dateVal = dateFilter.value;
+
+            return items.filter(function (item) {
+                var matchesSearch = !q || item.dataset.search.indexOf(q) !== -1;
+                var matchesStatus = status === 'all' || item.dataset.status === status;
+                var matchesVehicle = vehicle === 'all' || item.dataset.vehicle === vehicle;
+                return matchesSearch && matchesStatus && matchesVehicle && matchesDate(item, dateVal);
+            });
+        }
+
+        function getSorted(list) {
+            var sortBy = sortSelect.value;
+            var sorted = list.slice();
+
+            if (sortBy === 'date_desc') {
+                sorted.sort(function (a, b) { return b.dataset.created - a.dataset.created; });
+            } else if (sortBy === 'date_asc') {
+                sorted.sort(function (a, b) { return a.dataset.created - b.dataset.created; });
+            } else if (sortBy === 'status') {
+                sorted.sort(function (a, b) { return a.dataset.status.localeCompare(b.dataset.status); });
+            } else if (sortBy === 'vehicle') {
+                sorted.sort(function (a, b) { return (a.dataset.vehicle || '').localeCompare(b.dataset.vehicle || ''); });
+            } else if (sortBy === 'name') {
+                sorted.sort(function (a, b) { return a.dataset.name.localeCompare(b.dataset.name); });
+            }
+            return sorted;
+        }
+
+        function renderPagination(totalPages) {
+            paginationEl.innerHTML = '';
+            if (totalPages <= 1) return;
+
+            function createBtn(label, page, disabled, active) {
+                var btn = document.createElement('button');
+                btn.type = 'button';
+                btn.textContent = label;
+                btn.className = 'page-btn' + (active ? ' active' : '');
+                btn.disabled = disabled;
+                btn.addEventListener('click', function () {
+                    currentPage = page;
+                    render();
+                    window.scrollTo({ top: grid.offsetTop - 20, behavior: 'smooth' });
+                });
+                return btn;
+            }
+
+            paginationEl.appendChild(createBtn('«', currentPage - 1, currentPage === 1, false));
+            for (var p = 1; p <= totalPages; p++) {
+                paginationEl.appendChild(createBtn(String(p), p, false, p === currentPage));
+            }
+            paginationEl.appendChild(createBtn('»', currentPage + 1, currentPage === totalPages, false));
+        }
+
+        function render() {
+            items.forEach(function (i) { i.style.display = 'none'; });
+
+            var filtered = getSorted(getFiltered());
+            var perPage = parseInt(perPageSelect.value, 10);
+            var totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            var start = (currentPage - 1) * perPage;
+            var pageItems = filtered.slice(start, start + perPage);
+
+            pageItems.forEach(function (i) {
+                grid.appendChild(i);
+                i.style.display = '';
+            });
+
+            resultCount.textContent = filtered.length + ' applications found / आवेदन मिले';
+            noResultsMsg.style.display = filtered.length === 0 ? 'block' : 'none';
+
+            renderPagination(totalPages);
+        }
+
+        searchInput.addEventListener('input', function () { currentPage = 1; render(); });
+        [dateFilter, statusFilter, vehicleFilter, sortSelect, perPageSelect].forEach(function (el) {
+            el.addEventListener('change', function () { currentPage = 1; render(); });
+        });
+
+        resetBtn.addEventListener('click', function () {
+            searchInput.value = '';
+            dateFilter.value = 'today';
+            statusFilter.value = 'all';
+            vehicleFilter.value = 'all';
+            sortSelect.value = 'date_desc';
+            perPageSelect.value = '9';
+            currentPage = 1;
+            render();
+        });
+
+        render();
+    });
+    </script>
 </body>
 
 </html>
