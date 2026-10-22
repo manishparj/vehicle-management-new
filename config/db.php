@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "Dniirncd@#$1984";
-$dbname = "vehicle_management";
+$password = "";
+$dbname = "new_vehicle";
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);

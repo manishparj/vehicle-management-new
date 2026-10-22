@@ -581,3 +581,12 @@ Stack trace:
 [21-Oct-2026 15:48:58 Asia/Kolkata] Journey Start Email sent successfully for application #774
 [21-Oct-2026 16:11:51 Asia/Kolkata] Journey End Email sent successfully for application #773
 [21-Oct-2026 16:45:10 Asia/Kolkata] Journey End Email sent successfully for application #774
+[22-Oct-2026 10:40:32 Asia/Kolkata] Journey Start Email sent successfully for application #776
+[22-Oct-2026 10:53:54 Asia/Kolkata] Journey Start Email sent successfully for application #777
+[22-Oct-2026 10:53:54 Asia/Kolkata] PHP Warning:  Undefined array key "in_datetime" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[22-Oct-2026 10:53:54 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 112
+[22-Oct-2026 10:53:54 Asia/Kolkata] PHP Warning:  Undefined array key "km_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[22-Oct-2026 10:53:54 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 113
+[22-Oct-2026 10:53:54 Asia/Kolkata] PHP Warning:  Undefined array key "driver_in" in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[22-Oct-2026 10:53:54 Asia/Kolkata] PHP Deprecated:  mysqli::real_escape_string(): Passing null to parameter #1 ($string) of type string is deprecated in C:\inetpub\wwwroot\vehicle_app\admin\driver_dashboard.php on line 114
+[22-Oct-2026 12:55:25 Asia/Kolkata] Journey End Email sent successfully for application #777
